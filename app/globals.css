@@ -2,15 +2,12 @@
 
 :root {
   --bg: #050608;
-  --panel: #0b0d10;
-  --panel-2: #101216;
-  --white: #f4f4f4;
-  --muted: #858890;
-  --dim: #4b4e55;
+  --white: #f3f3f3;
+  --muted: #777a80;
+  --dim: #45484e;
   --red: #e10600;
-  --red-bright: #ff1910;
+  --red-bright: #ff1b12;
   --blue: #258cff;
-  --line: rgba(255, 255, 255, 0.11);
 }
 
 * {
@@ -46,49 +43,41 @@ button {
   position: relative;
   width: 100vw;
   height: 100dvh;
-  min-height: 430px;
   overflow: hidden;
   background:
     radial-gradient(
       ellipse at 50% 48%,
-      rgba(255, 255, 255, 0.035) 0%,
+      rgba(255, 255, 255, 0.035),
       transparent 38%
     ),
     radial-gradient(
-      ellipse at 7% 90%,
+      ellipse at 0% 100%,
       rgba(225, 6, 0, 0.12),
       transparent 28%
     ),
     radial-gradient(
-      ellipse at 94% 0%,
-      rgba(225, 6, 0, 0.09),
+      ellipse at 100% 0%,
+      rgba(225, 6, 0, 0.1),
       transparent 25%
     ),
     #050608;
 }
 
-/* --------------------------------
-   CARBON FIBER BACKGROUND
--------------------------------- */
+/* BACKGROUND */
 
 .carbon-overlay {
   position: absolute;
   inset: 0;
-  opacity: 0.38;
+  opacity: 0.32;
   pointer-events: none;
-  background-image:
-    linear-gradient(
+  background:
+    repeating-linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.025) 25%,
-      transparent 25%
-    ),
-    linear-gradient(
-      315deg,
-      rgba(255, 255, 255, 0.018) 25%,
-      transparent 25%
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 2px,
+      transparent 2px,
+      transparent 7px
     );
-  background-size: 7px 7px;
-  mix-blend-mode: screen;
 }
 
 .carbon-overlay::after {
@@ -97,11 +86,11 @@ button {
   inset: 0;
   background:
     repeating-linear-gradient(
-      90deg,
+      45deg,
       transparent 0,
-      transparent 48px,
-      rgba(255, 255, 255, 0.012) 49px,
-      transparent 50px
+      transparent 46px,
+      rgba(255, 255, 255, 0.012) 47px,
+      transparent 49px
     );
 }
 
@@ -110,166 +99,165 @@ button {
   width: 35vw;
   height: 35vw;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
-  pointer-events: none;
+  filter: blur(90px);
+  opacity: 0.1;
   background: var(--red);
+  pointer-events: none;
 }
 
 .red-glow-left {
   left: -25vw;
-  bottom: -25vw;
+  bottom: -27vw;
 }
 
 .red-glow-right {
   right: -25vw;
-  top: -25vw;
+  top: -27vw;
 }
 
 .racing-line-bg {
   position: absolute;
-  width: 40vw;
+  width: 35vw;
   height: 1px;
-  right: 8%;
-  top: 12%;
+  right: 10%;
+  top: 15%;
   transform: rotate(-42deg);
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(225, 6, 0, 0.8),
+    rgba(225, 6, 0, 0.7),
     transparent
   );
-  opacity: 0.5;
 }
 
-/* --------------------------------
-   HEADER
--------------------------------- */
+/* HEADER */
 
 .race-header {
   position: absolute;
   left: 3.2vw;
   right: 3.2vw;
-  top: 3.1vh;
-  height: 9vh;
-  min-height: 54px;
+  top: 3.8vh;
+  height: 8vh;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  z-index: 10;
+  z-index: 20;
 }
 
 .f1-brand {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
 }
+
+/* F1 MARK */
 
 .f1-mark {
   position: relative;
-  width: 116px;
-  height: 55px;
+  width: 105px;
+  height: 43px;
   display: flex;
   align-items: center;
-  justify-content: center;
   color: var(--red);
-  font-family: "Orbitron", sans-serif;
-  font-size: 42px;
-  font-weight: 800;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
   font-style: italic;
-  letter-spacing: -7px;
-  transform: skew(-8deg);
+  transform: skewX(-12deg);
 }
 
 .f1-mark::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 9px;
-  width: 106px;
-  height: 28px;
+  top: 12px;
+  width: 91px;
+  height: 25px;
   background: var(--red);
   clip-path: polygon(
     0 100%,
-    15% 0,
+    12% 0,
+    30% 0,
+    23% 42%,
+    88% 42%,
     100% 0,
-    86% 100%,
-    61% 100%,
-    72% 20%,
-    34% 20%,
-    22% 100%
+    100% 100%,
+    18% 100%
   );
-  opacity: 0.98;
 }
 
-.f1-mark {
-  text-shadow: 0 0 20px rgba(225, 6, 0, 0.25);
+.f1-mark::after {
+  content: "";
+  position: absolute;
+  left: 25px;
+  top: 12px;
+  width: 65px;
+  height: 11px;
+  background: var(--bg);
+  clip-path: polygon(
+    0 100%,
+    8% 0,
+    100% 0,
+    88% 100%
+  );
+}
+
+.f1-mark-f,
+.f1-mark-one {
+  display: none;
 }
 
 .brand-tagline {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  color: #777a81;
-  font-size: 11px;
-  line-height: 1.2;
+  gap: 3px;
+  color: #74777d;
+  font-size: 9px;
+  line-height: 1.35;
   letter-spacing: 4px;
 }
 
 .driven {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  color: #6e7178;
-  font-size: 9px;
+  color: #6e7177;
+  font-size: 8px;
   line-height: 1.45;
   letter-spacing: 3px;
-  text-align: left;
-  padding-top: 2px;
 }
 
 .driven::after {
   content: "◆◆";
-  margin-top: -2px;
   align-self: flex-end;
+  margin-top: 2px;
   color: var(--red);
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: -4px;
 }
 
-/* --------------------------------
-   LEFT PANEL
--------------------------------- */
+/* LEFT */
 
 .left-panel {
   position: absolute;
   left: 3.2vw;
   top: 19vh;
-  bottom: 7vh;
-  width: 25vw;
-  min-width: 250px;
-  z-index: 5;
-}
-
-.date-block {
-  position: relative;
-  z-index: 2;
+  bottom: 6vh;
+  width: 27vw;
+  z-index: 8;
 }
 
 .big-day {
   font-family: "Orbitron", sans-serif;
-  font-size: clamp(24px, 2.55vw, 46px);
+  font-size: clamp(24px, 3.1vw, 48px);
   line-height: 1;
   font-weight: 500;
-  letter-spacing: 1px;
+  letter-spacing: 0;
 }
 
 .red-date {
-  margin-top: 8px;
+  margin-top: 7px;
   color: var(--red);
   font-family: "Orbitron", sans-serif;
-  font-size: clamp(14px, 1.2vw, 22px);
-  font-weight: 500;
+  font-size: clamp(13px, 1.25vw, 21px);
   letter-spacing: 1px;
 }
 
@@ -279,26 +267,26 @@ button {
   left: 0;
   display: flex;
   flex-direction: column;
-  color: #777a80;
-  font-size: 9px;
+  color: #73767c;
+  font-size: 8px;
   line-height: 2.05;
   letter-spacing: 4px;
 }
 
 .track-decoration {
   position: absolute;
-  top: 14vh;
   left: 9vw;
-  width: 13vw;
+  top: 14vh;
+  width: 14vw;
   height: 8vw;
-  opacity: 0.38;
+  opacity: 0.35;
   transform: rotate(-8deg);
 }
 
 .track-line {
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-left-color: transparent;
   border-radius: 60% 40% 50% 70%;
   transform: rotate(18deg) skewX(-15deg);
@@ -307,33 +295,30 @@ button {
 .track-line::before {
   content: "";
   position: absolute;
-  inset: 13px -20px 18px 30px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  inset: 14px -20px 18px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 60% 40% 50% 70%;
 }
 
-/* --------------------------------
-   WEATHER
--------------------------------- */
+/* WEATHER */
 
 .weather {
   position: absolute;
   left: 0;
-  bottom: 1vh;
+  bottom: 5vh;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 15px;
 }
 
 .weather-icon {
-  width: 72px;
-  height: 72px;
+  width: 62px;
+  height: 62px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: sans-serif;
-  font-size: 55px;
-  filter: drop-shadow(0 0 8px rgba(255, 190, 40, 0.2));
+  font-size: 47px;
 }
 
 .weather-content {
@@ -343,36 +328,35 @@ button {
 
 .weather-temp {
   font-family: "Orbitron", sans-serif;
-  font-size: clamp(29px, 3vw, 52px);
+  font-size: clamp(28px, 3vw, 45px);
   line-height: 0.95;
   font-weight: 600;
 }
 
 .weather-condition {
   margin-top: 5px;
-  font-family: "Roboto Mono", monospace;
-  font-size: 14px;
-  color: #e4e4e4;
+  color: #e5e5e5;
+  font-size: 12px;
 }
 
 .weather-location {
-  margin-top: 11px;
-  color: #8a8d93;
-  font-size: 9px;
+  margin-top: 9px;
+  color: #888b91;
+  font-size: 8px;
   letter-spacing: 1px;
 }
 
 .location-pin {
-  color: #9b9da2;
+  color: #aaa;
   margin-right: 5px;
-  font-size: 15px;
+  font-size: 9px;
 }
 
 .weather-range {
   display: flex;
   gap: 18px;
-  margin-top: 10px;
-  font-size: 12px;
+  margin-top: 8px;
+  font-size: 10px;
 }
 
 .weather-high {
@@ -385,43 +369,40 @@ button {
 
 .weather-loading {
   color: #777a80;
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 2px;
 }
 
-/* --------------------------------
-   CLOCK SECTION
--------------------------------- */
+/* CLOCK */
 
 .clock-section {
   position: absolute;
   left: 50%;
-  top: 49%;
-  width: min(43vw, 76vh);
+  top: 48%;
+  width: min(44vw, 75vh);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
-  z-index: 4;
+  z-index: 5;
 }
 
 .clock-outer-ring {
   position: absolute;
   inset: 0;
-  padding: 8px;
+  padding: 7px;
   border-radius: 50%;
   background:
     linear-gradient(
       135deg,
-      #565961,
-      #17191d 24%,
-      #050608 50%,
-      #555860 76%,
-      #15171a
+      #53565d,
+      #17191d 25%,
+      #08090b 50%,
+      #4d5056 75%,
+      #121417
     );
   box-shadow:
     0 0 0 2px #08090b,
-    0 0 0 4px rgba(255, 255, 255, 0.05),
-    0 0 28px rgba(0, 0, 0, 0.8),
-    0 0 35px rgba(225, 6, 0, 0.09);
+    0 0 0 4px rgba(255, 255, 255, 0.045),
+    0 0 30px rgba(0, 0, 0, 0.85);
 }
 
 .clock {
@@ -431,23 +412,18 @@ button {
   border-radius: 50%;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(255, 255, 255, 0.025),
-      transparent 58%
-    ),
     repeating-linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.018) 0,
       rgba(255, 255, 255, 0.018) 2px,
       transparent 2px,
-      transparent 6px
+      transparent 7px
     ),
-    #0a0c0f;
+    #090b0e;
   border: 2px solid #292c31;
   box-shadow:
-    inset 0 0 0 3px #090a0c,
-    inset 0 0 30px rgba(0, 0, 0, 0.8);
+    inset 0 0 0 3px #08090b,
+    inset 0 0 35px rgba(0, 0, 0, 0.85);
 }
 
 .clock::before {
@@ -455,10 +431,9 @@ button {
   position: absolute;
   inset: 4.5%;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(225, 6, 0, 0.55);
   box-shadow:
-    inset 0 0 0 1px rgba(225, 6, 0, 0.4),
-    0 0 0 1px rgba(225, 6, 0, 0.12);
+    0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .clock::after {
@@ -469,9 +444,7 @@ button {
   border: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
-/* --------------------------------
-   CLOCK TICKS
--------------------------------- */
+/* TICKS */
 
 .clock-tick {
   position: absolute;
@@ -489,40 +462,36 @@ button {
   top: 0;
   left: 50%;
   width: 1px;
-  height: 6px;
+  height: 5px;
   transform: translateX(-50%);
-  background: #8b8e94;
+  background: #777a80;
 }
 
 .clock-tick.major::after {
   width: 2px;
-  height: 12px;
+  height: 11px;
   background: #eeeeee;
 }
 
-/* --------------------------------
-   CLOCK NUMBERS
--------------------------------- */
+/* NUMBERS */
 
 .clock-number {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #f1f1f1;
   font-family: "Roboto Mono", monospace;
-  font-size: clamp(15px, 1.8vw, 30px);
+  font-size: clamp(15px, 1.75vw, 28px);
   font-weight: 400;
-  color: #f2f2f2;
+  line-height: 1;
   z-index: 3;
 }
 
-/* --------------------------------
-   CLOCK HANDS
--------------------------------- */
+/* HANDS */
 
 .hand {
   position: absolute;
@@ -530,20 +499,20 @@ button {
   bottom: 50%;
   transform-origin: 50% 100%;
   border-radius: 10px;
-  z-index: 7;
+  z-index: 8;
 }
 
 .hour-hand {
-  width: 6px;
+  width: 5px;
   height: 25%;
-  background: #f0f0f0;
+  background: #f1f1f1;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.15);
 }
 
 .minute-hand {
   width: 5px;
   height: 34%;
-  background: #f0f0f0;
+  background: #f1f1f1;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.15);
 }
 
@@ -551,20 +520,22 @@ button {
   width: 2px;
   height: 39%;
   background: var(--red-bright);
-  box-shadow: 0 0 7px rgba(225, 6, 0, 0.4);
+  box-shadow: 0 0 8px rgba(225, 6, 0, 0.5);
 }
+
+/* CENTER */
 
 .clock-center {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 22px;
-  height: 22px;
+  width: 23px;
+  height: 23px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: #101216;
+  background: #0d0f12;
   border: 3px solid var(--red);
-  z-index: 10;
+  z-index: 12;
 }
 
 .clock-center-dot {
@@ -575,12 +546,10 @@ button {
   height: 6px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: #f4f4f4;
+  background: white;
 }
 
-/* --------------------------------
-   CLOCK LOGO
--------------------------------- */
+/* CENTER F1 */
 
 .clock-logo {
   position: absolute;
@@ -592,136 +561,124 @@ button {
 }
 
 .mini-f1 {
+  position: relative;
+  width: 70px;
+  height: 30px;
+  margin: auto;
+}
+
+.mini-f1::before {
+  content: "F1";
+  position: absolute;
+  inset: 0;
   color: var(--red);
-  font-family: "Orbitron", sans-serif;
-  font-size: clamp(25px, 3vw, 48px);
+  font-family: Arial, sans-serif;
+  font-size: 31px;
+  font-weight: 900;
   font-style: italic;
-  font-weight: 800;
   letter-spacing: -5px;
-  line-height: 1;
 }
 
 .clock-logo-text {
-  margin-top: 5px;
+  margin-top: 3px;
   color: #6f7278;
-  font-size: 7px;
-  line-height: 1.6;
+  font-size: 6px;
+  line-height: 1.5;
   letter-spacing: 2px;
 }
 
-/* --------------------------------
-   DIGITAL CLOCK
--------------------------------- */
+/* DIGITAL */
 
 .digital-clock {
   position: absolute;
   left: 50%;
   top: 64%;
   transform: translateX(-50%);
+  z-index: 9;
   white-space: nowrap;
-  z-index: 8;
+  color: #eeeeee;
   font-family: "Roboto Mono", monospace;
-  font-size: clamp(17px, 2vw, 31px);
+  font-size: clamp(15px, 1.75vw, 27px);
   font-weight: 400;
   letter-spacing: -1px;
-  color: #eeeeee;
 }
 
-/* --------------------------------
-   CLOCK BOTTOM LABEL
--------------------------------- */
+/* CLOCK CAPTION */
 
 .clock-bottom {
   position: absolute;
   left: 50%;
-  bottom: -8.5vh;
+  bottom: -7vh;
   transform: translateX(-50%);
+  width: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  width: 360px;
-  color: #777a80;
-  font-size: 8px;
+  gap: 13px;
+  color: #70737a;
+  font-size: 7px;
   letter-spacing: 4px;
   white-space: nowrap;
 }
 
+.bottom-line {
+  width: 45px;
+  height: 1px;
+  background: #555960;
+}
+
 .clock-bottom strong {
   position: absolute;
-  top: 18px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   color: var(--red);
   font-family: "Orbitron", sans-serif;
-  font-size: 11px;
+  font-size: 9px;
   letter-spacing: 3px;
   font-weight: 500;
 }
 
-.bottom-line {
-  width: 50px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #555960
-  );
-}
-
-.bottom-line:last-child {
-  transform: scaleX(-1);
-}
-
-/* --------------------------------
-   NOTES PANEL
--------------------------------- */
+/* NOTES */
 
 .notes-panel {
   position: absolute;
   right: 3.2vw;
-  top: 19vh;
-  width: 27vw;
-  max-width: 420px;
-  min-width: 285px;
-  height: 45vh;
-  min-height: 250px;
-  max-height: 360px;
-  padding: 20px 20px 16px;
+  top: 22vh;
+  width: 25vw;
+  max-width: 365px;
+  min-width: 265px;
+  height: 38vh;
+  min-height: 225px;
+  max-height: 310px;
+  padding: 17px 17px 14px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 17px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.025),
-      rgba(255, 255, 255, 0.008)
-    ),
-    rgba(8, 10, 13, 0.86);
+  border-radius: 15px;
+  background: rgba(8, 10, 13, 0.78);
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.4),
-    0 15px 35px rgba(0, 0, 0, 0.35);
-  z-index: 8;
+    0 15px 35px rgba(0, 0, 0, 0.3);
+  z-index: 15;
 }
 
 .notes-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 13px;
+  padding-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .notes-header h2 {
   margin: 0;
   font-family: "Roboto Mono", monospace;
-  font-size: clamp(17px, 1.4vw, 25px);
+  font-size: 17px;
   font-weight: 500;
-  letter-spacing: -1px;
 }
 
 .add-button {
-  width: 31px;
-  height: 31px;
+  width: 29px;
+  height: 29px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -729,14 +686,9 @@ button {
   border-radius: 50%;
   background: transparent;
   color: var(--red);
-  font-size: 25px;
-  font-weight: 300;
+  font-size: 23px;
   line-height: 1;
   cursor: pointer;
-}
-
-.add-button:active {
-  transform: scale(0.94);
 }
 
 .notes-list {
@@ -745,11 +697,11 @@ button {
 
 .note-item {
   width: 100%;
-  min-height: 43px;
+  min-height: 36px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 7px 3px;
+  gap: 10px;
+  padding: 5px 2px;
   border: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: transparent;
@@ -758,16 +710,15 @@ button {
 }
 
 .checkbox {
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid #70737a;
-  border-radius: 5px;
-  color: white;
-  font-size: 14px;
+  border-radius: 4px;
+  font-size: 11px;
 }
 
 .note-text {
@@ -775,7 +726,7 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #dddddf;
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .note-item.completed .checkbox {
@@ -790,12 +741,11 @@ button {
 
 .note-input-row {
   position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 16px;
-  height: 39px;
+  left: 17px;
+  right: 17px;
+  bottom: 14px;
+  height: 34px;
   display: flex;
-  align-items: center;
   border-radius: 8px;
   background: #191c21;
   overflow: hidden;
@@ -804,13 +754,12 @@ button {
 .note-input {
   min-width: 0;
   flex: 1;
-  height: 100%;
-  padding: 0 13px;
+  padding: 0 12px;
   border: 0;
   outline: none;
   background: transparent;
   color: #eeeeee;
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .note-input::placeholder {
@@ -818,145 +767,168 @@ button {
 }
 
 .note-submit {
-  width: 42px;
-  height: 100%;
+  width: 38px;
   border: 0;
   background: transparent;
   color: var(--red);
-  font-size: 25px;
+  font-size: 21px;
   cursor: pointer;
 }
 
-/* --------------------------------
-   BOTTOM DECORATION
--------------------------------- */
+/* BOTTOM */
 
 .bottom-message {
   position: absolute;
   right: 3.2vw;
-  bottom: 8vh;
+  bottom: 7vh;
   display: flex;
   flex-direction: column;
-  color: #6d7076;
-  font-size: 8px;
-  line-height: 1.9;
+  color: #696c72;
+  font-size: 7px;
+  line-height: 1.8;
   letter-spacing: 3px;
-  z-index: 3;
+  z-index: 4;
 }
 
 .race-mode-label {
   position: absolute;
   right: 15vw;
-  bottom: 5vh;
-  color: #7d8087;
-  font-family: "Roboto Mono", monospace;
-  font-size: 10px;
-  line-height: 1.25;
+  bottom: 4vh;
+  color: #777a80;
+  font-size: 8px;
+  line-height: 1.3;
   font-style: italic;
-  z-index: 3;
 }
 
 .race-mode-label span {
   color: var(--red);
-  font-style: normal;
-  font-size: 12px;
 }
 
-/* --------------------------------
-   PORTRAIT MESSAGE
--------------------------------- */
+/* PORTRAIT */
 
 .rotate-message {
   display: none;
 }
 
-/* --------------------------------
-   IPHONE LANDSCAPE
--------------------------------- */
+@media (orientation: portrait) {
+  .race-dashboard {
+    display: none;
+  }
+
+  .rotate-message {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #050608;
+    color: #777a80;
+    text-align: center;
+    font-family: "Roboto Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    line-height: 1.8;
+  }
+
+  .rotate-message::before {
+    content: "↔";
+    margin-bottom: 10px;
+    color: var(--red);
+    font-size: 38px;
+  }
+}
+
+/* IPHONE LANDSCAPE */
 
 @media (orientation: landscape) and (max-height: 600px) {
-
   .race-header {
-    top: 2.5vh;
+    top: 2.2vh;
   }
 
   .f1-mark {
-    width: 92px;
-    font-size: 34px;
+    width: 82px;
+    height: 35px;
   }
 
   .f1-mark::before {
-    width: 84px;
-    height: 22px;
+    width: 73px;
+    height: 20px;
+  }
+
+  .f1-mark::after {
+    left: 20px;
+    width: 52px;
+    height: 9px;
   }
 
   .brand-tagline {
-    font-size: 8px;
+    font-size: 7px;
     letter-spacing: 3px;
   }
 
   .driven {
-    font-size: 7px;
+    font-size: 6px;
   }
 
   .left-panel {
-    top: 18vh;
-    bottom: 5vh;
+    top: 17vh;
+    bottom: 3vh;
+    width: 27vw;
   }
 
   .big-day {
-    font-size: clamp(21px, 3.1vw, 34px);
+    font-size: clamp(21px, 3vw, 34px);
   }
 
   .red-date {
-    font-size: 12px;
-    margin-top: 5px;
+    margin-top: 4px;
+    font-size: 10px;
   }
 
   .quote {
-    top: 13vh;
-    font-size: 7px;
+    top: 12vh;
+    font-size: 6px;
     line-height: 1.8;
-    letter-spacing: 3px;
   }
 
   .track-decoration {
-    top: 11vh;
+    top: 10vh;
   }
 
   .weather {
-    bottom: 0;
-    gap: 10px;
+    bottom: 1vh;
+    gap: 9px;
   }
 
   .weather-icon {
-    width: 52px;
-    height: 52px;
-    font-size: 39px;
+    width: 43px;
+    height: 43px;
+    font-size: 33px;
   }
 
   .weather-temp {
-    font-size: clamp(25px, 3vw, 36px);
+    font-size: clamp(23px, 2.8vw, 34px);
   }
 
   .weather-condition {
     margin-top: 2px;
-    font-size: 10px;
+    font-size: 8px;
   }
 
   .weather-location {
-    margin-top: 6px;
-    font-size: 7px;
+    margin-top: 5px;
+    font-size: 6px;
   }
 
   .weather-range {
-    margin-top: 5px;
-    font-size: 9px;
-    gap: 12px;
+    margin-top: 4px;
+    font-size: 8px;
+    gap: 11px;
   }
 
   .clock-section {
-    width: min(40vw, 72vh);
+    width: min(40vw, 70vh);
   }
 
   .clock-outer-ring {
@@ -964,20 +936,31 @@ button {
   }
 
   .clock-number {
-    font-size: clamp(13px, 1.7vw, 22px);
+    width: 30px;
+    height: 30px;
+    font-size: clamp(12px, 1.65vw, 20px);
   }
 
   .clock-logo {
-    top: 26%;
+    top: 27%;
   }
 
   .mini-f1 {
-    font-size: clamp(20px, 2.7vw, 32px);
+    width: 48px;
+    height: 22px;
+  }
+
+  .mini-f1::before {
+    font-size: 23px;
+  }
+
+  .clock-logo-text {
+    font-size: 5px;
   }
 
   .digital-clock {
     top: 64%;
-    font-size: clamp(13px, 1.7vw, 22px);
+    font-size: clamp(12px, 1.65vw, 20px);
   }
 
   .clock-center {
@@ -1003,170 +986,107 @@ button {
   }
 
   .clock-bottom {
-    bottom: -7vh;
-    font-size: 6px;
-    gap: 10px;
+    bottom: -6vh;
+    font-size: 5px;
   }
 
   .clock-bottom strong {
-    top: 13px;
-    font-size: 8px;
+    top: 12px;
+    font-size: 7px;
   }
 
+  /* SMALLER NOTES */
+
   .notes-panel {
-    top: 18vh;
-    height: 48vh;
-    min-height: 220px;
-    padding: 13px 15px 12px;
-    border-radius: 12px;
+    top: 20vh;
+    width: 23vw;
+    min-width: 245px;
+    max-width: 325px;
+    height: 38vh;
+    min-height: 205px;
+    max-height: 265px;
+    padding: 12px 13px 11px;
+    border-radius: 11px;
   }
 
   .notes-header {
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
 
   .notes-header h2 {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .add-button {
-    width: 26px;
-    height: 26px;
-    font-size: 20px;
+    width: 23px;
+    height: 23px;
+    font-size: 18px;
   }
 
   .note-item {
-    min-height: 34px;
-    gap: 9px;
-    padding: 4px 2px;
+    min-height: 29px;
+    gap: 7px;
+    padding: 3px 1px;
   }
 
   .checkbox {
-    width: 19px;
-    height: 19px;
-    flex-basis: 19px;
-    border-radius: 4px;
-    font-size: 11px;
-  }
-
-  .note-text {
+    width: 17px;
+    height: 17px;
+    flex-basis: 17px;
     font-size: 9px;
   }
 
+  .note-text {
+    font-size: 7px;
+  }
+
   .note-input-row {
-    left: 15px;
-    right: 15px;
-    bottom: 12px;
-    height: 32px;
+    left: 13px;
+    right: 13px;
+    bottom: 11px;
+    height: 28px;
   }
 
   .note-input {
-    font-size: 8px;
+    padding: 0 9px;
+    font-size: 7px;
   }
 
   .note-submit {
-    width: 34px;
-    font-size: 20px;
+    width: 31px;
+    font-size: 18px;
   }
 
   .bottom-message {
-    bottom: 4vh;
-    font-size: 6px;
+    bottom: 3vh;
+    font-size: 5px;
   }
+}
 
+/* VERY SHORT PHONES */
+
+@media (orientation: landscape) and (max-height: 480px) {
+  .quote,
+  .track-decoration,
+  .bottom-message,
   .race-mode-label {
     display: none;
   }
-}
-
-/* --------------------------------
-   VERY SHORT LANDSCAPE SCREENS
--------------------------------- */
-
-@media (orientation: landscape) and (max-height: 480px) {
-
-  .race-header {
-    top: 1.5vh;
-  }
 
   .left-panel {
-    top: 16vh;
-  }
-
-  .clock-section {
-    width: min(37vw, 70vh);
-  }
-
-  .notes-panel {
-    top: 16vh;
-    height: 52vh;
-  }
-
-  .quote {
-    display: none;
-  }
-
-  .track-decoration {
-    display: none;
+    top: 15vh;
   }
 
   .weather {
-    bottom: -1vh;
+    bottom: 0;
   }
 
-  .weather-icon {
-    width: 44px;
-    height: 44px;
-    font-size: 33px;
-  }
-}
-
-/* --------------------------------
-   PORTRAIT
--------------------------------- */
-
-@media (orientation: portrait) {
-
-  .race-dashboard {
-    display: none;
+  .clock-section {
+    width: min(38vw, 68vh);
   }
 
-  .rotate-message {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 8px;
-    background: #050608;
-    color: #777a80;
-    text-align: center;
-    font-family: "Roboto Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    line-height: 1.8;
-  }
-
-  .rotate-message::before {
-    content: "↔";
-    color: var(--red);
-    font-size: 38px;
-    margin-bottom: 8px;
-  }
-}
-
-/* --------------------------------
-   TOUCH DEVICES
--------------------------------- */
-
-@media (hover: none) {
-
-  .note-item:active {
-    background: rgba(255, 255, 255, 0.04);
-  }
-
-  .note-submit:active {
-    background: rgba(225, 6, 0, 0.08);
+  .notes-panel {
+    top: 17vh;
+    height: 48vh;
   }
 }
