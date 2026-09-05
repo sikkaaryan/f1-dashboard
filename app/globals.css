@@ -1,0 +1,471 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg: #08090b;
+  --panel: #101216;
+  --panel-light: #17191f;
+  --text: #f4f4f5;
+  --muted: #858891;
+  --red: #e10600;
+  --line: #292c33;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: "Roboto Mono", monospace;
+  overflow: hidden;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+.dashboard {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100dvh;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(225, 6, 0, 0.08),
+      transparent 35%
+    ),
+    var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topbar {
+  height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(8, 9, 11, 0.94);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 8px;
+  height: 34px;
+  background: var(--red);
+  transform: skew(-18deg);
+}
+
+.brand-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.brand-subtitle {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a8abb2;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #37d67a;
+  box-shadow: 0 0 10px rgba(55, 214, 122, 0.7);
+}
+
+.main {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 0.9fr;
+  gap: 14px;
+  padding: 14px;
+}
+
+.card {
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, #111318, #0d0f13);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49.5%,
+      rgba(255, 255, 255, 0.025) 50%,
+      transparent 50.5%
+    );
+  opacity: 0.5;
+}
+
+.clock-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-label {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.clock {
+  width: min(31vw, 340px);
+  aspect-ratio: 1;
+  border: 2px solid #363941;
+  border-radius: 50%;
+  position: relative;
+  background:
+    radial-gradient(circle, #15171c 0%, #0b0c0f 68%, #08090b 100%);
+  box-shadow:
+    0 0 0 7px rgba(255, 255, 255, 0.015),
+    0 0 50px rgba(225, 6, 0, 0.08);
+}
+
+.clock::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.tick {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 10px;
+  background: #777a83;
+  transform-origin: 50% calc(min(15.5vw, 170px) - 10px);
+}
+
+.clock-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  background: var(--red);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform-origin: 50% 100%;
+  border-radius: 4px;
+  z-index: 3;
+}
+
+.hour-hand {
+  width: 5px;
+  height: 25%;
+  background: #eee;
+}
+
+.minute-hand {
+  width: 3px;
+  height: 34%;
+  background: #ccc;
+}
+
+.second-hand {
+  width: 1px;
+  height: 39%;
+  background: var(--red);
+}
+
+.digital-time {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 62px;
+  z-index: 8;
+  padding: 5px 9px;
+  background: rgba(8, 9, 11, 0.85);
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(14px, 2vw, 21px);
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.clock-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.date {
+  font-family: "Orbitron", sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.day {
+  margin-top: 5px;
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.weather-card {
+  flex: 1;
+  padding: 20px;
+}
+
+.weather-main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-icon {
+  font-size: 56px;
+  margin-bottom: 5px;
+}
+
+.temperature {
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 700;
+}
+
+.weather-description {
+  color: #b3b5bb;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.location {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 22px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.stat {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.stat-value {
+  margin-top: 5px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 14px;
+}
+
+.notes-card {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-title {
+  margin-top: 28px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.notes {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  resize: none;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  outline: none;
+  background: #090a0d;
+  color: #dddfe4;
+  line-height: 1.6;
+  font-size: 12px;
+}
+
+.notes:focus {
+  border-color: #454852;
+}
+
+.save-indicator {
+  margin-top: 8px;
+  color: #666a73;
+  font-size: 9px;
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+.side-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.side-heading {
+  margin-top: 28px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+.racing-line {
+  height: 2px;
+  margin: 18px 0;
+  background: linear-gradient(90deg, var(--red), transparent);
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.info-key {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.info-value {
+  font-family: "Orbitron", sans-serif;
+  font-size: 11px;
+  text-align: right;
+}
+
+.rotate-message {
+  display: none;
+}
+
+@media (orientation: portrait) {
+  .dashboard {
+    display: none;
+  }
+
+  .rotate-message {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #08090b;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    font-family: "Orbitron", sans-serif;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-height: 600px) {
+  .topbar {
+    height: 52px;
+    padding: 0 18px;
+  }
+
+  .main {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .clock {
+    width: min(28vw, 250px);
+  }
+
+  .clock-footer {
+    margin-top: 8px;
+  }
+
+  .stats {
+    margin-top: 12px;
+  }
+
+  .notes-title,
+  .side-heading {
+    margin-top: 20px;
+  }
+}
