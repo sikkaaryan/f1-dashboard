@@ -357,7 +357,6 @@ export default function Home() {
         const validSessions = sessionsData
           .filter(
             (session) =>
-              !session.is_cancelled &&
               session.country_name !== "Testing" &&
               !session.session_name
                 .toLowerCase()
