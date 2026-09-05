@@ -33,8 +33,16 @@ body {
   min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.035), transparent 30%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent 25%),
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(255, 255, 255, 0.035),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.025),
+      transparent 25%
+    ),
     repeating-linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.018) 0,
@@ -217,8 +225,6 @@ body {
   display: block;
 }
 
-/* FIX: explicit weather colors */
-
 .weather-sun circle {
   fill: #f1f2f3;
 }
@@ -340,12 +346,21 @@ body {
   height: 100%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 45%, rgba(255,255,255,0.045), transparent 42%),
-    radial-gradient(circle, #0d0f11 0%, #090a0c 72%, #060709 100%);
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(255,255,255,0.045),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle,
+      #0d0f11 0%,
+      #090a0c 72%,
+      #060709 100%
+    );
   border: 1px solid rgba(255,255,255,0.16);
   box-shadow:
-    0 0 0 4px rgba(225, 6, 0, 0.06),
-    0 0 40px rgba(0, 0, 0, 0.65),
+    0 0 0 4px rgba(225,6,0,0.06),
+    0 0 40px rgba(0,0,0,0.65),
     inset 0 0 30px rgba(0,0,0,0.8);
 }
 
@@ -357,7 +372,7 @@ body {
 
 .clock-ring-outer {
   inset: 6px;
-  border: 2px solid rgba(225, 6, 0, 0.85);
+  border: 2px solid rgba(225,6,0,0.85);
 }
 
 .clock-ring-inner {
@@ -450,7 +465,6 @@ body {
   margin-left: -2px;
   margin-top: -63px;
   background: #e7e8ea;
-  box-shadow: 0 0 5px rgba(255,255,255,0.12);
 }
 
 .clock-minute {
@@ -467,7 +481,6 @@ body {
   margin-left: -0.5px;
   margin-top: -105px;
   background: var(--red);
-  box-shadow: 0 0 5px rgba(225,6,0,0.55);
 }
 
 .clock-center {
@@ -479,7 +492,6 @@ body {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: var(--red);
-  box-shadow: 0 0 0 3px rgba(225,6,0,0.16);
 }
 
 .digital-time {
@@ -502,17 +514,18 @@ body {
 .clock-bottom {
   position: absolute;
   left: 50%;
-  bottom: -17%;
+  bottom: -20%;
   transform: translateX(-50%);
+  width: 125%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 100%;
   color: #85888d;
   font-family: "Barlow Condensed", sans-serif;
   white-space: nowrap;
+  text-align: center;
 }
 
 .clock-bottom-row {
@@ -551,12 +564,16 @@ body {
   width: 24%;
   max-width: 285px;
   min-width: 205px;
-  padding: 15px 17px 14px;
+  padding: 15px 17px 12px;
   border-left: 1px solid rgba(255,255,255,0.12);
   border-top: 1px solid rgba(255,255,255,0.06);
   border-bottom: 1px solid rgba(255,255,255,0.06);
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.025), transparent 55%),
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.025),
+      transparent 55%
+    ),
     rgba(8,9,11,0.72);
   z-index: 12;
 }
@@ -565,25 +582,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 8px;
+  padding-bottom: 7px;
   border-bottom: 1px solid rgba(255,255,255,0.11);
-  color: #c8c9cb;
+  color: #d1d2d4;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.8px;
 }
 
 .schedule-live-dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--red);
   box-shadow: 0 0 7px rgba(225,6,0,0.7);
 }
 
 .schedule-loading {
-  padding: 22px 0 10px;
+  padding: 18px 0 8px;
   color: #696d72;
   font-family: "Barlow Condensed", sans-serif;
   font-size: 9px;
@@ -591,25 +608,24 @@ body {
 }
 
 .schedule-round {
-  position: relative;
   display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 11px;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 9px;
 }
 
 .schedule-round span {
-  color: #70747a;
+  color: #777b80;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.4px;
 }
 
 .schedule-round strong {
-  color: #e4e5e7;
+  color: #f0f1f2;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 26px;
+  font-size: 29px;
   font-weight: 600;
   line-height: 0.8;
 }
@@ -617,12 +633,12 @@ body {
 .schedule-location {
   display: flex;
   align-items: center;
-  gap: 9px;
-  margin-top: 9px;
+  gap: 8px;
+  margin-top: 7px;
 }
 
 .schedule-flag {
-  font-size: 20px;
+  font-size: 19px;
   line-height: 1;
 }
 
@@ -632,34 +648,34 @@ body {
 }
 
 .schedule-location strong {
-  color: #e8e9eb;
+  color: #f0f1f2;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: 1px;
-  line-height: 0.95;
+  line-height: 0.9;
 }
 
 .schedule-location span {
   margin-top: 3px;
-  color: #777b80;
+  color: #85888d;
   font-family: "Barlow Condensed", sans-serif;
   font-size: 8px;
   font-weight: 600;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.4px;
 }
 
 .schedule-dates {
-  margin-top: 7px;
+  margin-top: 6px;
   color: var(--red);
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.3px;
 }
 
 .session-list {
-  margin-top: 12px;
+  margin-top: 9px;
   border-top: 1px solid rgba(255,255,255,0.07);
 }
 
@@ -667,7 +683,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 27px;
+  min-height: 25px;
   border-bottom: 1px solid rgba(255,255,255,0.055);
 }
 
@@ -683,7 +699,7 @@ body {
 }
 
 .session-time {
-  color: #a8aaad;
+  color: #b5b7ba;
   font-family: "Barlow Condensed", sans-serif;
   font-size: 9px;
   font-weight: 600;
@@ -691,7 +707,7 @@ body {
 }
 
 .session-live {
-  padding-left: 5px;
+  padding-left: 4px;
   background: rgba(225,6,0,0.08);
 }
 
@@ -704,11 +720,11 @@ body {
 }
 
 .session-done .session-name {
-  color: #5f6368;
+  color: #62666b;
 }
 
 .session-done .session-time {
-  color: #55595e;
+  color: #60646a;
 }
 
 .session-live-dot {
@@ -716,24 +732,29 @@ body {
   height: 4px;
   border-radius: 50%;
   background: var(--red);
-  box-shadow: 0 0 6px rgba(225,6,0,0.7);
 }
 
 .session-done {
-  color: #5d6166;
+  color: #62666b;
   font-size: 8px;
+}
+
+.session-next {
+  color: #8a8d91;
+  font-size: 11px;
+  line-height: 1;
 }
 
 .next-race {
   display: flex;
   flex-direction: column;
-  margin-top: 12px;
-  padding-top: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .next-race > span {
-  color: #65696e;
+  color: #696d72;
   font-family: "Barlow Condensed", sans-serif;
   font-size: 7px;
   font-weight: 700;
@@ -741,8 +762,8 @@ body {
 }
 
 .next-race strong {
-  margin-top: 4px;
-  color: #d8d9db;
+  margin-top: 3px;
+  color: #e0e1e3;
   font-family: "Barlow Condensed", sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -751,7 +772,7 @@ body {
 
 .next-race small {
   margin-top: 2px;
-  color: #70747a;
+  color: #777b80;
   font-family: "Barlow Condensed", sans-serif;
   font-size: 7px;
   font-weight: 600;
@@ -762,7 +783,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 7px;
 }
 
 .status-label {
@@ -945,11 +966,13 @@ body {
     font-size: 7px;
   }
 
-  /* Keep clock bottom text outside the clock */
+  /* =====================
+     CLOCK BOTTOM
+  ===================== */
 
   .clock-bottom {
-    bottom: -19%;
-    gap: 4px;
+    bottom: -20%;
+    width: 130%;
   }
 
   .clock-bottom-row {
@@ -961,7 +984,11 @@ body {
     font-size: 10px;
   }
 
-  /* Larger schedule */
+  /* =====================
+     SCHEDULE
+     Bigger text,
+     same compact footprint
+  ===================== */
 
   .schedule-panel {
     right: 4%;
@@ -969,31 +996,36 @@ body {
     width: 25%;
     max-width: 225px;
     min-width: 190px;
-    padding: 12px 13px 11px;
+    padding: 11px 12px 9px;
   }
 
   .schedule-header {
-    font-size: 8px;
+    font-size: 9px;
     letter-spacing: 1.5px;
-    padding-bottom: 7px;
+    padding-bottom: 6px;
+  }
+
+  .schedule-live-dot {
+    width: 5px;
+    height: 5px;
   }
 
   .schedule-round {
-    margin-top: 8px;
-    gap: 8px;
+    margin-top: 7px;
+    gap: 7px;
   }
 
   .schedule-round span {
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .schedule-round strong {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .schedule-location {
     gap: 7px;
-    margin-top: 7px;
+    margin-top: 6px;
   }
 
   .schedule-flag {
@@ -1001,7 +1033,7 @@ body {
   }
 
   .schedule-location strong {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .schedule-location span {
@@ -1010,16 +1042,16 @@ body {
   }
 
   .schedule-dates {
-    margin-top: 5px;
-    font-size: 7px;
+    margin-top: 4px;
+    font-size: 8px;
   }
 
   .session-list {
-    margin-top: 9px;
+    margin-top: 7px;
   }
 
   .session-row {
-    min-height: 23px;
+    min-height: 22px;
   }
 
   .session-name,
@@ -1031,9 +1063,13 @@ body {
     font-size: 7px;
   }
 
+  .session-next {
+    font-size: 10px;
+  }
+
   .next-race {
-    margin-top: 8px;
-    padding-top: 8px;
+    margin-top: 6px;
+    padding-top: 6px;
   }
 
   .next-race > span {
@@ -1041,7 +1077,7 @@ body {
   }
 
   .next-race strong {
-    margin-top: 3px;
+    margin-top: 2px;
     font-size: 10px;
   }
 
@@ -1050,7 +1086,7 @@ body {
   }
 
   .schedule-status {
-    margin-top: 7px;
+    margin-top: 5px;
   }
 
   .status-label,
@@ -1129,7 +1165,7 @@ body {
   }
 
   .clock-bottom {
-    bottom: -20%;
+    bottom: -21%;
   }
 
   .schedule-panel {
