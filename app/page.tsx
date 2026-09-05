@@ -16,14 +16,6 @@ type Note = {
   done: boolean;
 };
 
-const defaultNotes: Note[] = [
-  { id: 1, text: "Plan Goa trip", done: false },
-  { id: 2, text: "Order desk organiser", done: false },
-  { id: 3, text: "Finish performance review", done: false },
-  { id: 4, text: "Gym - upper body", done: false },
-  { id: 5, text: "Watch Italian GP highlights", done: false }
-];
-
 function weatherDescription(code: number) {
   if (code === 0) return "Clear";
   if ([1, 2, 3].includes(code)) return "Partly Cloudy";
@@ -49,10 +41,41 @@ function weatherIcon(code: number) {
   return "🌡️";
 }
 
+/* Reusable F1-style mark */
+function F1Logo({ small = false }: { small?: boolean }) {
+  return (
+    <svg
+      className={small ? "f1-svg f1-svg-small" : "f1-svg"}
+      viewBox="0 0 240 100"
+      aria-label="F1"
+      role="img"
+    >
+      <path
+        d="M8 76L36 18H70L57 42H145L174 18H232L208 76H151L169 48H51L38 76H8Z"
+        fill="currentColor"
+      />
+      <path
+        d="M72 18H112L96 47H57L72 18Z"
+        fill="#050608"
+      />
+      <path
+        d="M148 42H208L196 70H134L148 42Z"
+        fill="#050608"
+      />
+      <path
+        d="M174 18H232L219 42H162L174 18Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+const EMPTY_NOTES: Note[] = [];
+
 export default function Home() {
   const [time, setTime] = useState(new Date());
   const [weather, setWeather] = useState<Weather | null>(null);
-  const [notes, setNotes] = useState<Note[]>(defaultNotes);
+  const [notes, setNotes] = useState<Note[]>(EMPTY_NOTES);
   const [newNote, setNewNote] = useState("");
 
   /* CLOCK */
@@ -65,9 +88,22 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  /* NOTES */
+  /* NOTES
+     Clear the old demo notes once, then preserve
+     anything the user adds afterwards.
+  */
 
   useEffect(() => {
+    const migrationKey = "f1-dashboard-notes-v2-cleared";
+    const alreadyCleared = localStorage.getItem(migrationKey);
+
+    if (!alreadyCleared) {
+      localStorage.removeItem("f1-dashboard-notes");
+      localStorage.setItem(migrationKey, "true");
+      setNotes([]);
+      return;
+    }
+
     const savedNotes = localStorage.getItem("f1-dashboard-notes");
 
     if (savedNotes) {
@@ -78,7 +114,7 @@ export default function Home() {
           setNotes(parsed);
         }
       } catch {
-        setNotes(defaultNotes);
+        setNotes([]);
       }
     }
   }, []);
@@ -131,7 +167,7 @@ export default function Home() {
     return () => clearInterval(weatherTimer);
   }, []);
 
-  /* NOTES ACTIONS */
+  /* NOTES */
 
   function addNote() {
     const text = newNote.trim();
@@ -154,10 +190,7 @@ export default function Home() {
     setNotes((current) =>
       current.map((note) =>
         note.id === id
-          ? {
-              ...note,
-              done: !note.done
-            }
+          ? { ...note, done: !note.done }
           : note
       )
     );
@@ -198,14 +231,13 @@ export default function Home() {
   return (
     <>
       <div className="rotate-message">
+        <span className="rotate-icon">↔</span>
         ROTATE YOUR PHONE
         <br />
         FOR RACE MODE
       </div>
 
       <main className="race-dashboard">
-
-        {/* BACKGROUND */}
 
         <div className="carbon-overlay" />
         <div className="red-glow red-glow-left" />
@@ -218,10 +250,11 @@ export default function Home() {
 
           <div className="f1-brand">
 
-            <div className="f1-mark">
-              <span className="f1-mark-f">F</span>
-              <span className="f1-mark-one">1</span>
+            <div className="f1-logo-wrapper">
+              <F1Logo />
             </div>
+
+            <div className="brand-divider" />
 
             <div className="brand-tagline">
               <span>A HIGHER</span>
@@ -234,11 +267,15 @@ export default function Home() {
             <span>DRIVEN</span>
             <span>BY A DIFFERENT</span>
             <span>MINDSET</span>
+
+            <div className="driven-mark">
+              ◆◆
+            </div>
           </div>
 
         </header>
 
-        {/* LEFT */}
+        {/* LEFT INFORMATION */}
 
         <section className="left-panel">
 
@@ -296,7 +333,6 @@ export default function Home() {
                   </div>
 
                   <div className="weather-range">
-
                     <span className="weather-high">
                       ↑ {Math.round(
                         weather.apparentTemperature
@@ -309,7 +345,6 @@ export default function Home() {
                         Math.round(weather.temperature - 5)
                       )}°
                     </span>
-
                   </div>
 
                 </div>
@@ -324,7 +359,7 @@ export default function Home() {
 
         </section>
 
-        {/* CLOCK */}
+        {/* CENTRAL CLOCK */}
 
         <section className="clock-section">
 
@@ -332,7 +367,7 @@ export default function Home() {
 
             <div className="clock">
 
-              {/* 60 TICKS */}
+              {/* TICKS */}
 
               {Array.from({ length: 60 }).map(
                 (_, index) => (
@@ -350,7 +385,7 @@ export default function Home() {
                 )
               )}
 
-              {/* 12 NUMBERS */}
+              {/* NUMBERS */}
 
               {Array.from({ length: 12 }).map(
                 (_, index) => {
@@ -359,16 +394,7 @@ export default function Home() {
                     index === 0 ? 12 : index;
 
                   const angle = index * 30;
-
-                  /*
-                   * Put each number on a circular path.
-                   * 12 = top
-                   * 3  = right
-                   * 6  = bottom
-                   * 9  = left
-                   */
-
-                  const radius = 39;
+                  const radius = 40;
 
                   const x =
                     50 +
@@ -399,7 +425,7 @@ export default function Home() {
                 }
               )}
 
-              {/* HANDS */}
+              {/* CLOCK HANDS */}
 
               <div
                 className="hand hour-hand"
@@ -431,14 +457,11 @@ export default function Home() {
                 }}
               />
 
-              {/* F1 CENTER LOGO */}
+              {/* CENTER F1 */}
 
               <div className="clock-logo">
 
-                <div className="mini-f1">
-                  <span>F</span>
-                  <span>1</span>
-                </div>
+                <F1Logo small />
 
                 <div className="clock-logo-text">
                   TIME DRIVES
@@ -488,9 +511,7 @@ export default function Home() {
 
           <div className="notes-header">
 
-            <h2>
-              Notes
-            </h2>
+            <h2>Notes</h2>
 
             <button
               className="add-button"
@@ -514,15 +535,12 @@ export default function Home() {
               <button
                 key={note.id}
                 className={`note-item ${
-                  note.done
-                    ? "completed"
-                    : ""
+                  note.done ? "completed" : ""
                 }`}
                 onClick={() =>
                   toggleNote(note.id)
                 }
               >
-
                 <span className="checkbox">
                   {note.done ? "✓" : ""}
                 </span>
@@ -530,7 +548,6 @@ export default function Home() {
                 <span className="note-text">
                   {note.text}
                 </span>
-
               </button>
             ))}
 
