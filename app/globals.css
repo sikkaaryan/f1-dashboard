@@ -6,7 +6,7 @@
   --white: #f4f4f4;
   --muted: #777b82;
   --dark: #08090b;
-  --panel: rgba(12, 14, 17, 0.82);
+  --panel: rgba(12, 14, 17, 0.84);
 }
 
 * {
@@ -41,13 +41,12 @@ button {
   position: relative;
   width: 100vw;
   height: 100vh;
-  min-height: 600px;
   overflow: hidden;
   background:
     radial-gradient(
-      circle at 52% 50%,
-      rgba(80, 80, 80, 0.1),
-      transparent 35%
+      circle at 50% 48%,
+      rgba(90, 90, 90, 0.1),
+      transparent 36%
     ),
     linear-gradient(
       135deg,
@@ -57,7 +56,9 @@ button {
     );
 }
 
-/* Carbon fiber background */
+/* -------------------------------------------------
+   BACKGROUND
+------------------------------------------------- */
 
 .carbon-overlay {
   position: absolute;
@@ -124,7 +125,9 @@ button {
   pointer-events: none;
 }
 
-/* Header */
+/* -------------------------------------------------
+   HEADER
+------------------------------------------------- */
 
 .race-header {
   position: absolute;
@@ -206,13 +209,15 @@ button {
   transform: skewX(-18deg);
 }
 
-/* Left panel */
+/* -------------------------------------------------
+   LEFT SIDE
+------------------------------------------------- */
 
 .left-panel {
   position: absolute;
   left: 4.2%;
-  top: 18%;
-  bottom: 7%;
+  top: 16%;
+  bottom: 4%;
   width: 23%;
   z-index: 10;
 }
@@ -293,12 +298,14 @@ button {
   right: 0;
 }
 
-/* Weather */
+/* -------------------------------------------------
+   WEATHER
+------------------------------------------------- */
 
 .weather {
   position: absolute;
   left: 0;
-  bottom: 1%;
+  bottom: 0;
   display: flex;
   align-items: center;
   gap: 17px;
@@ -374,14 +381,16 @@ button {
   letter-spacing: 2px;
 }
 
-/* Clock */
+/* -------------------------------------------------
+   CLOCK
+------------------------------------------------- */
 
 .clock-section {
   position: absolute;
   left: 50%;
-  top: 51%;
-  width: min(68vh, 56vw);
-  aspect-ratio: 1;
+  top: 47%;
+  width: 292px;
+  height: 292px;
   transform: translate(-50%, -50%);
   z-index: 8;
 }
@@ -469,7 +478,7 @@ button {
   background: rgba(255, 255, 255, 0.82);
 }
 
-/* Clock numbers */
+/* Numbers */
 
 .clock-number {
   position: absolute;
@@ -518,7 +527,7 @@ button {
   box-shadow: 0 0 7px rgba(225, 6, 0, 0.7);
 }
 
-/* F1 logo inside clock */
+/* Logo inside clock */
 
 .clock-logo {
   position: absolute;
@@ -548,7 +557,7 @@ button {
   line-height: 1.4;
 }
 
-/* Digital clock */
+/* Digital time */
 
 .digital-clock {
   position: absolute;
@@ -575,7 +584,7 @@ button {
   height: 22px;
   transform: translate(-50%, -50%);
   z-index: 12;
-  border: 2px solid #e10600;
+  border: 2px solid var(--red);
   border-radius: 50%;
   background: #0b0c0e;
   box-shadow: 0 0 8px rgba(225, 6, 0, 0.4);
@@ -592,12 +601,12 @@ button {
   background: var(--red);
 }
 
-/* Bottom clock text */
+/* Clock bottom */
 
 .clock-bottom {
   position: absolute;
   left: 50%;
-  bottom: -8%;
+  bottom: -3%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
@@ -624,7 +633,9 @@ button {
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Notes */
+/* -------------------------------------------------
+   NOTES
+------------------------------------------------- */
 
 .notes-panel {
   position: absolute;
@@ -669,11 +680,6 @@ button {
   font-size: 20px;
   line-height: 28px;
   cursor: pointer;
-  transition: transform 0.15s ease;
-}
-
-.add-button:hover {
-  transform: scale(1.08);
 }
 
 .notes-list {
@@ -740,7 +746,6 @@ button {
   padding: 0 10px;
   outline: none;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0;
   color: #ddd;
   background: rgba(255, 255, 255, 0.035);
   font-size: 10px;
@@ -763,7 +768,9 @@ button {
   cursor: pointer;
 }
 
-/* Bottom message */
+/* -------------------------------------------------
+   BOTTOM RIGHT
+------------------------------------------------- */
 
 .bottom-message {
   position: absolute;
@@ -786,8 +793,6 @@ button {
   color: #c7c8ca;
 }
 
-/* Race mode decoration */
-
 .race-mode-label {
   position: absolute;
   right: 1.5%;
@@ -807,82 +812,13 @@ button {
   font-size: 11px;
 }
 
-/* Portrait */
+/* -------------------------------------------------
+   PORTRAIT
+------------------------------------------------- */
 
 .rotate-message {
   display: none;
 }
-
-/* Smaller landscape phones */
-
-@media (max-height: 700px) and (orientation: landscape) {
-  .race-header {
-    top: 2.5%;
-  }
-
-  .f1-brand {
-    height: 45px;
-  }
-
-  .f1-logo-wrapper {
-    width: 120px;
-  }
-
-  .f1-logo-image {
-    width: 120px;
-  }
-
-  .brand-divider {
-    height: 30px;
-    margin: 0 12px;
-  }
-
-  .left-panel {
-    top: 17%;
-  }
-
-  .big-day {
-    font-size: 40px;
-  }
-
-  .quote {
-    top: 26%;
-    font-size: 22px;
-  }
-
-  .weather-icon {
-    width: 50px;
-    font-size: 42px;
-  }
-
-  .weather-temp {
-    font-size: 34px;
-  }
-
-  .notes-panel {
-    top: 19%;
-    padding: 12px 15px;
-  }
-
-  .notes-header h2 {
-    font-size: 21px;
-  }
-
-  .note-item {
-    min-height: 29px;
-    padding: 4px 0;
-  }
-
-  .clock-section {
-    width: min(68vh, 52vw);
-  }
-
-  .clock-bottom {
-    bottom: -7%;
-  }
-}
-
-/* Portrait phone */
 
 @media (orientation: portrait) {
   .race-dashboard {
@@ -910,5 +846,236 @@ button {
     margin-bottom: 15px;
     color: var(--red);
     font-size: 40px;
+  }
+}
+
+/* -------------------------------------------------
+   iPHONE 11 PRO LANDSCAPE
+------------------------------------------------- */
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .race-dashboard {
+    min-height: 0;
+  }
+
+  .race-header {
+    top: 4%;
+    left: 4%;
+    right: 4%;
+  }
+
+  .f1-brand {
+    height: 42px;
+  }
+
+  .f1-logo-wrapper {
+    width: 110px;
+  }
+
+  .f1-logo-image {
+    width: 110px;
+  }
+
+  .brand-divider {
+    height: 27px;
+    margin: 0 10px;
+  }
+
+  .brand-tagline {
+    font-size: 7px;
+    letter-spacing: 1.3px;
+  }
+
+  .driven {
+    padding-right: 38px;
+    font-size: 7px;
+    letter-spacing: 1.1px;
+  }
+
+  .driven span:first-child {
+    font-size: 9px;
+  }
+
+  .driven-mark {
+    font-size: 17px;
+  }
+
+  .left-panel {
+    left: 4%;
+    top: 20%;
+    bottom: 5%;
+    width: 25%;
+  }
+
+  .big-day {
+    font-size: 34px;
+  }
+
+  .red-date {
+    margin-top: 5px;
+    font-size: 11px;
+    letter-spacing: 1.8px;
+  }
+
+  .quote {
+    top: 28%;
+    font-size: 19px;
+    letter-spacing: 0.6px;
+  }
+
+  .quote span:nth-child(3) {
+    margin-top: 5px;
+  }
+
+  .track-decoration {
+    bottom: 27%;
+  }
+
+  .weather {
+    bottom: 0;
+    gap: 8px;
+  }
+
+  .weather-icon {
+    width: 38px;
+    font-size: 34px;
+  }
+
+  .weather-temp {
+    font-size: 27px;
+  }
+
+  .weather-condition {
+    margin-top: 2px;
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .weather-location {
+    margin-top: 4px;
+    font-size: 6px;
+    letter-spacing: 0.8px;
+  }
+
+  .weather-range {
+    margin-top: 4px;
+    gap: 8px;
+    font-size: 7px;
+  }
+
+  /* Main 11 Pro clock */
+  .clock-section {
+    left: 50%;
+    top: 47%;
+    width: 292px;
+    height: 292px;
+  }
+
+  .clock-number {
+    width: 28px;
+    height: 28px;
+    font-size: 19px;
+  }
+
+  .f1-clock-logo {
+    width: 58px;
+  }
+
+  .clock-logo-text {
+    font-size: 6px;
+    letter-spacing: 1.4px;
+  }
+
+  .digital-clock {
+    bottom: 22%;
+    font-size: 27px;
+    letter-spacing: 2px;
+  }
+
+  .clock-bottom {
+    bottom: -3%;
+    gap: 6px;
+    font-size: 7px;
+  }
+
+  .clock-bottom strong {
+    font-size: 9px;
+  }
+
+  .bottom-line {
+    width: 20px;
+  }
+
+  .notes-panel {
+    right: 4%;
+    top: 21%;
+    width: 24%;
+    max-width: 210px;
+    padding: 10px 12px 9px;
+  }
+
+  .notes-header {
+    padding-bottom: 7px;
+  }
+
+  .notes-header h2 {
+    font-size: 17px;
+  }
+
+  .add-button {
+    width: 21px;
+    height: 21px;
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .note-item {
+    min-height: 25px;
+    padding: 4px 0;
+  }
+
+  .checkbox {
+    width: 11px;
+    height: 11px;
+    margin-right: 6px;
+    font-size: 7px;
+  }
+
+  .note-text {
+    font-size: 7px;
+  }
+
+  .note-input-row {
+    gap: 4px;
+    margin-top: 7px;
+  }
+
+  .note-input {
+    height: 21px;
+    padding: 0 6px;
+    font-size: 7px;
+  }
+
+  .note-submit {
+    width: 21px;
+    height: 21px;
+    font-size: 10px;
+  }
+
+  .bottom-message {
+    right: 4%;
+    bottom: 5%;
+    font-size: 7px;
+    letter-spacing: 1.1px;
+  }
+
+  .race-mode-label {
+    right: 1.5%;
+    bottom: 7%;
+    font-size: 5px;
+  }
+
+  .race-mode-label span {
+    font-size: 7px;
   }
 }
