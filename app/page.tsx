@@ -37,6 +37,27 @@ type F1Session = {
   session_type: string;
 };
 
+const ROUND_BY_COUNTRY: Record<string, number> = {
+  Australia: 1,
+  China: 2,
+  Japan: 3,
+  "United States": 4,
+  Canada: 5,
+  Monaco: 6,
+  Spain: 7,
+  Austria: 8,
+  "Great Britain": 9,
+  Belgium: 10,
+  Hungary: 11,
+  Netherlands: 12,
+  Italy: 13,
+  Azerbaijan: 15,
+  Singapore: 17,
+  Mexico: 19,
+  Brazil: 20,
+  Qatar: 22
+};
+
 const COUNTRY_FLAGS: Record<string, string> = {
   Australia: "🇦🇺",
   China: "🇨🇳",
@@ -122,21 +143,17 @@ function sessionStatus(
 function WeatherIcon({ code }: { code: number }) {
   if (code === 0) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="13" fill="#f1f2f3" />
-        <g
-          stroke="#f1f2f3"
-          strokeWidth="3"
-          strokeLinecap="round"
-        >
-          <path d="M32 5v9" />
-          <path d="M32 50v9" />
-          <path d="M5 32h9" />
-          <path d="M50 32h9" />
-          <path d="M13 13l6 6" />
-          <path d="M45 45l6 6" />
-          <path d="M51 13l-6 6" />
-          <path d="M19 45l-6 6" />
+      <svg className="weather-svg weather-sun" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="15" />
+        <g>
+          <path d="M40 5v12" />
+          <path d="M40 63v12" />
+          <path d="M5 40h12" />
+          <path d="M63 40h12" />
+          <path d="M15 15l9 9" />
+          <path d="M56 56l9 9" />
+          <path d="M65 15l-9 9" />
+          <path d="M24 56l-9 9" />
         </g>
       </svg>
     );
@@ -144,24 +161,20 @@ function WeatherIcon({ code }: { code: number }) {
 
   if (code === 1 || code === 2) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64">
-        <circle cx="25" cy="23" r="12" fill="#f1f2f3" />
-
-        <g
-          stroke="#f1f2f3"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        >
-          <path d="M25 5v7" />
-          <path d="M8 23h7" />
-          <path d="M13 11l5 5" />
+      <svg
+        className="weather-svg weather-partly"
+        viewBox="0 0 90 80"
+      >
+        <circle cx="30" cy="28" r="13" />
+        <g>
+          <path d="M30 5v9" />
+          <path d="M7 28h9" />
+          <path d="M14 12l6 6" />
         </g>
 
         <path
-          d="M17 45h31c6 0 10-4 10-9s-4-10-10-10c-1 0-3 0-4 .5C42 21 37 18 31 18c-8 0-14 6-14 14h0c-5 0-9 3-9 7s4 6 9 6Z"
-          fill="none"
-          stroke="#cfd1d4"
-          strokeWidth="3"
+          className="weather-cloud"
+          d="M25 59h42c7 0 12-5 12-11s-5-12-12-12c-2 0-4 .3-5.5 1C59 30 53 26 46 26c-9 0-16 7-16 16h-5c-6 0-11 4-11 9s5 8 11 8Z"
         />
       </svg>
     );
@@ -169,35 +182,28 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([3, 45, 48].includes(code)) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64">
+      <svg className="weather-svg weather-cloudy" viewBox="0 0 90 80">
         <path
-          d="M12 27h40M8 37h48M15 47h34"
-          stroke="#cfd1d4"
-          strokeWidth="4"
-          strokeLinecap="round"
+          className="weather-cloud"
+          d="M20 49h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 16 53 12 45 12c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
         />
+        <path d="M17 63h56" />
+        <path d="M26 71h38" />
       </svg>
     );
   }
 
   if ([51, 53, 55, 56, 57].includes(code)) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64">
+      <svg className="weather-svg weather-rain" viewBox="0 0 90 90">
         <path
-          d="M16 35h32c5 0 9-4 9-9s-4-9-9-9c-1 0-2 0-3 .4C42 12 37 9 31 9c-8 0-14 6-14 14-5 0-9 4-9 9s4 9 8 9Z"
-          fill="none"
-          stroke="#cfd1d4"
-          strokeWidth="3"
+          className="weather-cloud"
+          d="M20 43h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 10 53 6 45 6c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
         />
-
-        <g
-          stroke="#f1f2f3"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        >
-          <path d="M22 43v8" />
-          <path d="M32 43v8" />
-          <path d="M42 43v8" />
+        <g>
+          <path d="M28 55v12" />
+          <path d="M45 55v12" />
+          <path d="M62 55v12" />
         </g>
       </svg>
     );
@@ -205,39 +211,40 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64">
+      <svg className="weather-svg weather-heavy-rain" viewBox="0 0 90 90">
         <path
-          d="M16 33h32c5 0 9-4 9-9s-4-9-9-9c-1 0-2 0-3 .4C42 10 37 7 31 7c-8 0-14 6-14 14-5 0-9 4-9 9s4 9 8 9Z"
-          fill="none"
-          stroke="#cfd1d4"
-          strokeWidth="3"
+          className="weather-cloud"
+          d="M20 43h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 10 53 6 45 6c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
         />
-
-        <g
-          stroke="#f1f2f3"
-          strokeWidth="3"
-          strokeLinecap="round"
-        >
-          <path d="M20 42l-3 9" />
-          <path d="M32 42l-3 9" />
-          <path d="M44 42l-3 9" />
+        <g>
+          <path d="M25 54l-4 13" />
+          <path d="M43 54l-4 13" />
+          <path d="M61 54l-4 13" />
         </g>
       </svg>
     );
   }
 
-  return (
-    <svg className="weather-svg" viewBox="0 0 64 64">
-      <path
-        d="M16 33h32c5 0 9-4 9-9s-4-9-9-9c-1 0-2 0-3 .4C42 10 37 7 31 7c-8 0-14 6-14 14-5 0-9 4-9 9s4 9 8 9Z"
-        fill="none"
-        stroke="#cfd1d4"
-        strokeWidth="3"
-      />
+  if ([95, 96, 99].includes(code)) {
+    return (
+      <svg className="weather-svg weather-storm" viewBox="0 0 90 90">
+        <path
+          className="weather-cloud"
+          d="M20 43h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 10 53 6 45 6c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
+        />
+        <path
+          className="weather-lightning"
+          d="M48 49L34 70h11l-4 15 17-24H47Z"
+        />
+      </svg>
+    );
+  }
 
+  return (
+    <svg className="weather-svg weather-cloudy" viewBox="0 0 90 80">
       <path
-        d="M34 39l-8 12h7l-3 10 9-14h-7l8-8Z"
-        fill="#e10600"
+        className="weather-cloud"
+        d="M20 49h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 16 53 12 45 12c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
       />
     </svg>
   );
@@ -252,7 +259,6 @@ function weatherText(code: number) {
     return "RAIN";
   }
   if ([95, 96, 99].includes(code)) return "STORM";
-
   return "CLEAR";
 }
 
@@ -351,6 +357,7 @@ export default function Home() {
         const validSessions = sessionsData
           .filter(
             (session) =>
+              !session.is_cancelled &&
               session.country_name !== "Testing" &&
               !session.session_name
                 .toLowerCase()
@@ -431,14 +438,35 @@ export default function Home() {
 
     const currentTime = now.getTime();
 
-    const upcomingMeeting =
+    /*
+      Current event:
+      Find the meeting whose weekend has not completely ended.
+      This means that during Monza weekend, Italy stays visible
+      until the race weekend is finished.
+    */
+    const currentMeeting =
       meetings.find(
         (meeting) =>
+          new Date(meeting.date_start).getTime() <=
+            currentTime &&
           new Date(meeting.date_end).getTime() >=
+            currentTime
+      ) ?? null;
+
+    /*
+      If the weekend is over, show the next upcoming meeting.
+    */
+    const nextMeeting =
+      meetings.find(
+        (meeting) =>
+          new Date(meeting.date_start).getTime() >
           currentTime
       ) ?? null;
 
-    if (!upcomingMeeting) {
+    const activeMeeting =
+      currentMeeting ?? nextMeeting;
+
+    if (!activeMeeting) {
       return null;
     }
 
@@ -446,24 +474,27 @@ export default function Home() {
       .filter(
         (session) =>
           session.meeting_key ===
-          upcomingMeeting.meeting_key
+          activeMeeting.meeting_key
       )
+      .filter((session) => {
+        const name =
+          session.session_name.toLowerCase();
+
+        return (
+          name === "practice 1" ||
+          name === "practice 2" ||
+          name === "practice 3" ||
+          name === "sprint" ||
+          name === "sprint qualifying" ||
+          name === "qualifying" ||
+          name === "race"
+        );
+      })
       .sort(
         (a, b) =>
           new Date(a.date_start).getTime() -
           new Date(b.date_start).getTime()
       );
-
-    const meetingIndex = meetings.findIndex(
-      (meeting) =>
-        meeting.meeting_key ===
-        upcomingMeeting.meeting_key
-    );
-
-    const round =
-      meetingIndex >= 0
-        ? meetingIndex + 1
-        : null;
 
     const currentSession =
       meetingSessions.find((session) => {
@@ -504,8 +535,11 @@ export default function Home() {
       : null;
 
     return {
-      meeting: upcomingMeeting,
-      round,
+      meeting: activeMeeting,
+      round:
+        ROUND_BY_COUNTRY[
+          activeMeeting.country_name
+        ] ?? null,
       sessions: meetingSessions,
       currentSession,
       nextSession,
@@ -514,15 +548,15 @@ export default function Home() {
     };
   }, [meetings, sessions, now]);
 
-  const analogTicks = Array.from({ length: 60 });
+  const analogTicks = Array.from({
+    length: 60
+  });
 
   return (
     <main className="dashboard">
 
       <header className="top-header">
-
         <div className="brand">
-
           <Image
             src="/f1-logo.png"
             alt="F1"
@@ -538,11 +572,9 @@ export default function Home() {
             <span>A HIGHER</span>
             <span>GEAR EVERYDAY</span>
           </div>
-
         </div>
 
         <div className="header-right">
-
           <div className="header-right-copy">
             <span>DRIVEN</span>
             <span>BY A DIFFERENT</span>
@@ -554,9 +586,7 @@ export default function Home() {
             <span />
             <span />
           </div>
-
         </div>
-
       </header>
 
       <section className="left-panel">
@@ -575,7 +605,6 @@ export default function Home() {
         </div>
 
         <div className="weather">
-
           {weather ? (
             <>
               <div className="weather-icon">
@@ -585,7 +614,6 @@ export default function Home() {
               </div>
 
               <div className="weather-copy">
-
                 <div className="weather-temp">
                   {weather.temperature}°C
                 </div>
@@ -604,11 +632,11 @@ export default function Home() {
                   <span>
                     ↑ {weather.high}°
                   </span>
+
                   <span>
                     ↓ {weather.low}°
                   </span>
                 </div>
-
               </div>
             </>
           ) : (
@@ -616,20 +644,17 @@ export default function Home() {
               WEATHER UNAVAILABLE
             </div>
           )}
-
         </div>
 
       </section>
 
       <section className="clock-section">
-
         <div className="clock-face">
 
           <div className="clock-ring clock-ring-outer" />
           <div className="clock-ring clock-ring-inner" />
 
           {analogTicks.map((_, index) => {
-
             const angle = index * 6;
             const major = index % 5 === 0;
 
@@ -647,16 +672,23 @@ export default function Home() {
                 }}
               />
             );
-
           })}
 
           <div className="clock-numbers">
-
             {[
-              12, 1, 2, 3, 4, 5,
-              6, 7, 8, 9, 10, 11
+              12,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
             ].map((number) => {
-
               const angle = number * 30;
 
               return (
@@ -677,13 +709,10 @@ export default function Home() {
                   </b>
                 </span>
               );
-
             })}
-
           </div>
 
           <div className="clock-logo">
-
             <Image
               src="/f1-logo.png"
               alt=""
@@ -693,7 +722,6 @@ export default function Home() {
 
             <span>TIME DRIVES</span>
             <span>PASSION</span>
-
           </div>
 
           <div
@@ -727,7 +755,6 @@ export default function Home() {
           </div>
 
           <div className="clock-bottom">
-
             <div className="clock-bottom-row">
               <span className="bottom-line" />
               <span>LIFE IS BETTER IN</span>
@@ -735,35 +762,25 @@ export default function Home() {
             </div>
 
             <strong>RACE MODE</strong>
-
           </div>
 
         </div>
-
       </section>
 
       <aside className="schedule-panel">
 
         <div className="schedule-header">
-
           <span>F1 SCHEDULE</span>
-
           <span className="schedule-live-dot" />
-
         </div>
 
         {scheduleLoading ? (
-
           <div className="schedule-loading">
             LOADING SCHEDULE...
           </div>
-
         ) : schedule ? (
-
           <>
-
             <div className="schedule-round">
-
               <span>ROUND</span>
 
               <strong>
@@ -771,33 +788,40 @@ export default function Home() {
                   schedule.round ?? "--"
                 ).padStart(2, "0")}
               </strong>
-
             </div>
 
             <div className="schedule-location">
 
               <span className="schedule-flag">
-                {COUNTRY_FLAGS[
-                  schedule.meeting.country_name
-                ] ?? "🏁"}
+                {
+                  COUNTRY_FLAGS[
+                    schedule.meeting
+                      .country_name
+                  ] ?? "🏁"
+                }
               </span>
 
               <div>
-
                 <strong>
-                  {schedule.meeting.country_name.toUpperCase()}
+                  {
+                    schedule.meeting
+                      .country_name
+                      .toUpperCase()
+                  }
                 </strong>
 
                 <span>
-                  {schedule.meeting.circuit_short_name.toUpperCase()}
+                  {
+                    schedule.meeting
+                      .circuit_short_name
+                      .toUpperCase()
+                  }
                 </span>
-
               </div>
 
             </div>
 
             <div className="schedule-dates">
-
               {formatIndiaDate(
                 schedule.meeting.date_start
               )}
@@ -807,30 +831,12 @@ export default function Home() {
               {formatIndiaDate(
                 schedule.meeting.date_end
               )}
-
             </div>
 
             <div className="session-list">
 
-              {schedule.sessions
-                .filter((session) => {
-
-                  const name =
-                    session.session_name.toLowerCase();
-
-                  return (
-                    name === "practice 1" ||
-                    name === "practice 2" ||
-                    name === "practice 3" ||
-                    name === "sprint" ||
-                    name === "sprint qualifying" ||
-                    name === "qualifying" ||
-                    name === "race"
-                  );
-
-                })
-                .map((session) => {
-
+              {schedule.sessions.map(
+                (session) => {
                   const status =
                     sessionStatus(
                       session,
@@ -839,7 +845,9 @@ export default function Home() {
 
                   return (
                     <div
-                      key={session.session_key}
+                      key={
+                        session.session_key
+                      }
                       className={`session-row session-${status.toLowerCase()}`}
                     >
 
@@ -862,7 +870,9 @@ export default function Home() {
                         )}
 
                         <span>
-                          {sessionLabel(session)}
+                          {sessionLabel(
+                            session
+                          )}
                         </span>
 
                       </div>
@@ -875,8 +885,8 @@ export default function Home() {
 
                     </div>
                   );
-
-                })}
+                }
+              )}
 
             </div>
 
@@ -886,17 +896,35 @@ export default function Home() {
                 <span>NEXT RACE</span>
 
                 <strong>
-                  {COUNTRY_FLAGS[
-                    schedule.nextRaceMeeting.country_name
-                  ] ?? "🏁"}{" "}
-                  {schedule.nextRaceMeeting.country_name.toUpperCase()}
+                  {
+                    COUNTRY_FLAGS[
+                      schedule
+                        .nextRaceMeeting
+                        .country_name
+                    ] ?? "🏁"
+                  }{" "}
+                  {
+                    schedule
+                      .nextRaceMeeting
+                      .country_name
+                      .toUpperCase()
+                  }
                 </strong>
 
                 <small>
-                  {schedule.nextRaceMeeting.circuit_short_name.toUpperCase()}
+                  {
+                    schedule
+                      .nextRaceMeeting
+                      .circuit_short_name
+                      .toUpperCase()
+                  }
+
                   {" · "}
+
                   {formatIndiaDay(
-                    schedule.nextRaceMeeting.date_start
+                    schedule
+                      .nextRaceMeeting
+                      .date_start
                   )}
                 </small>
 
@@ -938,26 +966,20 @@ export default function Home() {
               )}
 
           </>
-
         ) : (
-
           <div className="schedule-loading">
             SCHEDULE UNAVAILABLE
           </div>
-
         )}
 
       </aside>
 
       <div className="bottom-message">
-
         <span>SOME PEOPLE</span>
         <span>WATCH RACES.</span>
-
         <span className="bottom-message-strong">
           WE FEEL THEM.
         </span>
-
       </div>
 
       <div className="race-mode-label">
