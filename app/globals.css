@@ -57,7 +57,7 @@ button {
     );
 }
 
-/* Carbon-fiber effect */
+/* Carbon fiber background */
 
 .carbon-overlay {
   position: absolute;
@@ -380,7 +380,7 @@ button {
   position: absolute;
   left: 50%;
   top: 51%;
-  width: min(59vh, 56vw);
+  width: min(68vh, 56vw);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   z-index: 8;
@@ -469,7 +469,7 @@ button {
   background: rgba(255, 255, 255, 0.82);
 }
 
-/* Numbers */
+/* Clock numbers */
 
 .clock-number {
   position: absolute;
@@ -518,7 +518,7 @@ button {
   box-shadow: 0 0 7px rgba(225, 6, 0, 0.7);
 }
 
-/* Clock logo */
+/* F1 logo inside clock */
 
 .clock-logo {
   position: absolute;
@@ -548,7 +548,7 @@ button {
   line-height: 1.4;
 }
 
-/* Digital time */
+/* Digital clock */
 
 .digital-clock {
   position: absolute;
@@ -578,8 +578,7 @@ button {
   border: 2px solid #e10600;
   border-radius: 50%;
   background: #0b0c0e;
-  box-shadow:
-    0 0 8px rgba(225, 6, 0, 0.4);
+  box-shadow: 0 0 8px rgba(225, 6, 0, 0.4);
 }
 
 .clock-center-dot {
