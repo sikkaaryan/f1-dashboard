@@ -16,6 +16,14 @@ type Note = {
   done: boolean;
 };
 
+const defaultNotes: Note[] = [
+  { id: 1, text: "Plan Goa trip", done: false },
+  { id: 2, text: "Order desk organiser", done: false },
+  { id: 3, text: "Finish performance review", done: false },
+  { id: 4, text: "Gym - upper body", done: false },
+  { id: 5, text: "Watch Italian GP highlights", done: false }
+];
+
 function weatherDescription(code: number) {
   if (code === 0) return "Clear";
   if ([1, 2, 3].includes(code)) return "Partly Cloudy";
@@ -29,29 +37,25 @@ function weatherDescription(code: number) {
 }
 
 function weatherIcon(code: number) {
-  if (code === 0) return "☀";
-  if ([1, 2].includes(code)) return "🌤";
-  if (code === 3) return "☁";
-  if ([45, 48].includes(code)) return "🌫";
-  if ([51, 53, 55, 56, 57].includes(code)) return "🌦";
-  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "🌧";
-  if ([95, 96, 99].includes(code)) return "⛈";
-  return "☀";
+  if (code === 0) return "☀️";
+  if ([1, 2].includes(code)) return "🌤️";
+  if (code === 3) return "☁️";
+  if ([45, 48].includes(code)) return "🌫️";
+  if ([51, 53, 55, 56, 57].includes(code)) return "🌦️";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+    return "🌧️";
+  }
+  if ([95, 96, 99].includes(code)) return "⛈️";
+  return "🌡️";
 }
-
-const defaultNotes: Note[] = [
-  { id: 1, text: "Plan Goa trip", done: false },
-  { id: 2, text: "Order desk organiser", done: false },
-  { id: 3, text: "Finish performance review", done: false },
-  { id: 4, text: "Gym - upper body", done: false },
-  { id: 5, text: "Watch Italian GP highlights", done: false }
-];
 
 export default function Home() {
   const [time, setTime] = useState(new Date());
   const [weather, setWeather] = useState<Weather | null>(null);
   const [notes, setNotes] = useState<Note[]>(defaultNotes);
   const [newNote, setNewNote] = useState("");
+
+  /* CLOCK */
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -61,12 +65,18 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  /* NOTES */
+
   useEffect(() => {
     const savedNotes = localStorage.getItem("f1-dashboard-notes");
 
     if (savedNotes) {
       try {
-        setNotes(JSON.parse(savedNotes));
+        const parsed = JSON.parse(savedNotes);
+
+        if (Array.isArray(parsed)) {
+          setNotes(parsed);
+        }
       } catch {
         setNotes(defaultNotes);
       }
@@ -74,8 +84,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("f1-dashboard-notes", JSON.stringify(notes));
+    localStorage.setItem(
+      "f1-dashboard-notes",
+      JSON.stringify(notes)
+    );
   }, [notes]);
+
+  /* WEATHER */
 
   useEffect(() => {
     async function loadWeather() {
@@ -92,10 +107,14 @@ export default function Home() {
 
         setWeather({
           temperature: data.current.temperature_2m,
-          apparentTemperature: data.current.apparent_temperature,
-          humidity: data.current.relative_humidity_2m,
-          windSpeed: data.current.wind_speed_10m,
-          weatherCode: data.current.weather_code
+          apparentTemperature:
+            data.current.apparent_temperature,
+          humidity:
+            data.current.relative_humidity_2m,
+          windSpeed:
+            data.current.wind_speed_10m,
+          weatherCode:
+            data.current.weather_code
         });
       } catch {
         setWeather(null);
@@ -111,6 +130,8 @@ export default function Home() {
 
     return () => clearInterval(weatherTimer);
   }, []);
+
+  /* NOTES ACTIONS */
 
   function addNote() {
     const text = newNote.trim();
@@ -133,11 +154,16 @@ export default function Home() {
     setNotes((current) =>
       current.map((note) =>
         note.id === id
-          ? { ...note, done: !note.done }
+          ? {
+              ...note,
+              done: !note.done
+            }
           : note
       )
     );
   }
+
+  /* TIME */
 
   const seconds = time.getSeconds();
   const minutes = time.getMinutes();
@@ -145,7 +171,8 @@ export default function Home() {
 
   const secondAngle = seconds * 6;
   const minuteAngle = minutes * 6 + seconds * 0.1;
-  const hourAngle = (hours % 12) * 30 + minutes * 0.5;
+  const hourAngle =
+    (hours % 12) * 30 + minutes * 0.5;
 
   const digitalTime = time.toLocaleTimeString("en-IN", {
     hour: "2-digit",
@@ -154,17 +181,13 @@ export default function Home() {
     hour12: true
   });
 
-  const date = time.toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric"
-  });
+  const day = time
+    .toLocaleDateString("en-IN", {
+      weekday: "long"
+    })
+    .toUpperCase();
 
-  const day = time.toLocaleDateString("en-IN", {
-    weekday: "long"
-  });
-
-  const shortDate = time
+  const date = time
     .toLocaleDateString("en-IN", {
       day: "2-digit",
       month: "short",
@@ -182,24 +205,29 @@ export default function Home() {
 
       <main className="race-dashboard">
 
-        {/* BACKGROUND DETAILS */}
+        {/* BACKGROUND */}
+
         <div className="carbon-overlay" />
         <div className="red-glow red-glow-left" />
         <div className="red-glow red-glow-right" />
         <div className="racing-line-bg" />
 
-        {/* TOP BRAND */}
+        {/* HEADER */}
+
         <header className="race-header">
 
           <div className="f1-brand">
+
             <div className="f1-mark">
-              F1
+              <span className="f1-mark-f">F</span>
+              <span className="f1-mark-one">1</span>
             </div>
 
             <div className="brand-tagline">
               <span>A HIGHER</span>
               <span>GEAR EVERYDAY</span>
             </div>
+
           </div>
 
           <div className="driven">
@@ -210,17 +238,20 @@ export default function Home() {
 
         </header>
 
-        {/* LEFT INFORMATION */}
+        {/* LEFT */}
+
         <section className="left-panel">
 
           <div className="date-block">
+
             <div className="big-day">
-              {day.toUpperCase()}
+              {day}
             </div>
 
             <div className="red-date">
-              {shortDate}
+              {date}
             </div>
+
           </div>
 
           <div className="quote">
@@ -236,6 +267,7 @@ export default function Home() {
           </div>
 
           {/* WEATHER */}
+
           <div className="weather">
 
             {weather ? (
@@ -247,7 +279,7 @@ export default function Home() {
                 <div className="weather-content">
 
                   <div className="weather-temp">
-                    {Math.round(weather.temperature)}°
+                    {Math.round(weather.temperature)}°C
                   </div>
 
                   <div className="weather-condition">
@@ -257,18 +289,27 @@ export default function Home() {
                   </div>
 
                   <div className="weather-location">
-                    <span className="location-pin">⌖</span>
+                    <span className="location-pin">
+                      ●
+                    </span>
                     NEW DELHI, INDIA
                   </div>
 
                   <div className="weather-range">
+
                     <span className="weather-high">
-                      ↑ {Math.round(weather.apparentTemperature)}°
+                      ↑ {Math.round(
+                        weather.apparentTemperature
+                      )}°
                     </span>
 
                     <span className="weather-low">
-                      ↓ {Math.round(weather.temperature - 5)}°
+                      ↓ {Math.max(
+                        0,
+                        Math.round(weather.temperature - 5)
+                      )}°
                     </span>
+
                   </div>
 
                 </div>
@@ -283,52 +324,82 @@ export default function Home() {
 
         </section>
 
-        {/* CENTRAL CLOCK */}
+        {/* CLOCK */}
+
         <section className="clock-section">
 
           <div className="clock-outer-ring">
 
             <div className="clock">
 
-              {/* TICKS */}
-              {Array.from({ length: 60 }).map((_, index) => (
-                <span
-                  key={index}
-                  className={
-                    index % 5 === 0
-                      ? "clock-tick major"
-                      : "clock-tick"
-                  }
-                  style={{
-                    transform: `rotate(${index * 6}deg)`
-                  }}
-                />
-              ))}
+              {/* 60 TICKS */}
 
-              {/* NUMBERS */}
-              {Array.from({ length: 12 }).map((_, index) => {
-                const number = index === 0 ? 12 : index;
-                const angle = index * 30;
-
-                return (
+              {Array.from({ length: 60 }).map(
+                (_, index) => (
                   <span
-                    key={number}
-                    className="clock-number"
+                    key={`tick-${index}`}
+                    className={
+                      index % 5 === 0
+                        ? "clock-tick major"
+                        : "clock-tick"
+                    }
                     style={{
-                      transform: `
-                        translate(-50%, -50%)
-                        rotate(${angle}deg)
-                        translateY(-41%)
-                        rotate(-${angle}deg)
-                      `
+                      transform: `rotate(${index * 6}deg)`
                     }}
-                  >
-                    {number}
-                  </span>
-                );
-              })}
+                  />
+                )
+              )}
 
-              {/* CLOCK HANDS */}
+              {/* 12 NUMBERS */}
+
+              {Array.from({ length: 12 }).map(
+                (_, index) => {
+
+                  const number =
+                    index === 0 ? 12 : index;
+
+                  const angle = index * 30;
+
+                  /*
+                   * Put each number on a circular path.
+                   * 12 = top
+                   * 3  = right
+                   * 6  = bottom
+                   * 9  = left
+                   */
+
+                  const radius = 39;
+
+                  const x =
+                    50 +
+                    radius *
+                      Math.sin(
+                        (angle * Math.PI) / 180
+                      );
+
+                  const y =
+                    50 -
+                    radius *
+                      Math.cos(
+                        (angle * Math.PI) / 180
+                      );
+
+                  return (
+                    <span
+                      key={`number-${number}`}
+                      className="clock-number"
+                      style={{
+                        left: `${x}%`,
+                        top: `${y}%`
+                      }}
+                    >
+                      {number}
+                    </span>
+                  );
+                }
+              )}
+
+              {/* HANDS */}
 
               <div
                 className="hand hour-hand"
@@ -360,17 +431,13 @@ export default function Home() {
                 }}
               />
 
-              {/* CENTER */}
-
-              <div className="clock-center">
-                <div className="clock-center-dot" />
-              </div>
-
-              {/* F1 LOGO */}
+              {/* F1 CENTER LOGO */}
 
               <div className="clock-logo">
+
                 <div className="mini-f1">
-                  F1
+                  <span>F</span>
+                  <span>1</span>
                 </div>
 
                 <div className="clock-logo-text">
@@ -378,12 +445,19 @@ export default function Home() {
                   <br />
                   PASSION
                 </div>
+
               </div>
 
               {/* DIGITAL TIME */}
 
               <div className="digital-clock">
                 {digitalTime}
+              </div>
+
+              {/* CENTER PIN */}
+
+              <div className="clock-center">
+                <div className="clock-center-dot" />
               </div>
 
             </div>
@@ -409,6 +483,7 @@ export default function Home() {
         </section>
 
         {/* NOTES */}
+
         <section className="notes-panel">
 
           <div className="notes-header">
@@ -439,9 +514,13 @@ export default function Home() {
               <button
                 key={note.id}
                 className={`note-item ${
-                  note.done ? "completed" : ""
+                  note.done
+                    ? "completed"
+                    : ""
                 }`}
-                onClick={() => toggleNote(note.id)}
+                onClick={() =>
+                  toggleNote(note.id)
+                }
               >
 
                 <span className="checkbox">
@@ -486,21 +565,12 @@ export default function Home() {
 
         </section>
 
-        {/* BOTTOM RIGHT DECORATION */}
+        {/* BOTTOM RIGHT */}
+
         <div className="bottom-message">
-
-          <span>
-            SOME PEOPLE
-          </span>
-
-          <span>
-            WATCH RACES.
-          </span>
-
-          <span>
-            WE FEEL THEM.
-          </span>
-
+          <span>SOME PEOPLE</span>
+          <span>WATCH RACES.</span>
+          <span>WE FEEL THEM.</span>
         </div>
 
         <div className="race-mode-label">
