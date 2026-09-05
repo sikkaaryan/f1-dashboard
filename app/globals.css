@@ -1,13 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto+Mono:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --bg: #050608;
-  --white: #f4f4f4;
-  --muted: #777a80;
-  --dim: #45484e;
   --red: #e10600;
-  --red-bright: #ff2118;
-  --blue: #258cff;
+  --red-bright: #ff160f;
+  --white: #f4f4f4;
+  --muted: #777b82;
+  --dark: #08090b;
+  --panel: rgba(12, 14, 17, 0.82);
 }
 
 * {
@@ -16,18 +15,17 @@
 
 html,
 body {
-  width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: var(--bg);
+  background: #08090b;
 }
 
 body {
+  font-family: "Inter", Arial, sans-serif;
   color: var(--white);
-  font-family: "Roboto Mono", monospace;
-  -webkit-font-smoothing: antialiased;
 }
 
 button,
@@ -36,298 +34,284 @@ input {
 }
 
 button {
-  color: inherit;
+  border: 0;
 }
-
-/* =========================================
-   MAIN
-========================================= */
 
 .race-dashboard {
   position: relative;
   width: 100vw;
-  height: 100dvh;
+  height: 100vh;
+  min-height: 600px;
   overflow: hidden;
-
   background:
     radial-gradient(
-      ellipse at 50% 45%,
-      rgba(255, 255, 255, 0.035),
-      transparent 40%
+      circle at 52% 50%,
+      rgba(80, 80, 80, 0.1),
+      transparent 35%
     ),
-    radial-gradient(
-      ellipse at 0% 100%,
-      rgba(225, 6, 0, 0.16),
-      transparent 30%
-    ),
-    radial-gradient(
-      ellipse at 100% 0%,
-      rgba(225, 6, 0, 0.13),
-      transparent 28%
-    ),
-    #050608;
+    linear-gradient(
+      135deg,
+      #0b0c0f 0%,
+      #050608 50%,
+      #0a0b0d 100%
+    );
 }
 
-/* =========================================
-   CARBON FIBER
-========================================= */
+/* Carbon-fiber effect */
 
 .carbon-overlay {
   position: absolute;
   inset: 0;
-  opacity: 0.48;
-  pointer-events: none;
-
+  opacity: 0.42;
   background:
-    repeating-linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.025) 0,
-      rgba(255, 255, 255, 0.025) 2px,
-      transparent 2px,
-      transparent 8px
-    );
-}
-
-.carbon-overlay::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background:
-    repeating-linear-gradient(
+    linear-gradient(
       45deg,
-      transparent 0,
-      transparent 48px,
-      rgba(255, 255, 255, 0.015) 49px,
-      transparent 51px
+      rgba(255, 255, 255, 0.025) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(255, 255, 255, 0.025) 75%
+    ),
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.02) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(255, 255, 255, 0.02) 75%
     );
+  background-size: 8px 8px;
+  background-position:
+    0 0,
+    4px 4px;
+  pointer-events: none;
 }
 
 .red-glow {
   position: absolute;
-  width: 38vw;
-  height: 38vw;
+  width: 40vw;
+  height: 40vw;
+  max-width: 600px;
+  max-height: 600px;
   border-radius: 50%;
   filter: blur(100px);
-  opacity: 0.1;
+  opacity: 0.07;
   background: var(--red);
   pointer-events: none;
 }
 
 .red-glow-left {
-  left: -28vw;
-  bottom: -30vw;
+  left: -25vw;
+  top: 30%;
 }
 
 .red-glow-right {
-  right: -28vw;
-  top: -30vw;
+  right: -25vw;
+  top: 10%;
 }
 
 .racing-line-bg {
   position: absolute;
-  width: 34vw;
+  left: -5%;
+  bottom: 13%;
+  width: 110%;
   height: 1px;
-  right: 10%;
-  top: 12%;
-  transform: rotate(-43deg);
-
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(225, 6, 0, 0.75),
+    rgba(225, 6, 0, 0.4),
     transparent
   );
+  transform: rotate(-4deg);
+  pointer-events: none;
 }
 
-/* =========================================
-   HEADER
-========================================= */
+/* Header */
 
 .race-header {
   position: absolute;
-  left: 3.1vw;
-  right: 3.1vw;
-  top: 4.5vh;
-
+  top: 3.5%;
+  left: 3.2%;
+  right: 3.2%;
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-
+  align-items: flex-start;
   z-index: 20;
 }
 
 .f1-brand {
   display: flex;
   align-items: center;
-  gap: 16px;
+  height: 58px;
 }
 
 .f1-logo-wrapper {
   width: 145px;
-  height: 55px;
   display: flex;
   align-items: center;
 }
 
-.f1-svg {
-  width: 100%;
-  height: auto;
+.f1-logo-image {
   display: block;
-  color: var(--red);
-  filter: drop-shadow(
-    0 0 8px rgba(225, 6, 0, 0.12)
-  );
-}
-
-.f1-svg-small {
-  width: 74px;
-  margin: 0 auto;
+  width: 145px;
+  height: auto;
+  object-fit: contain;
 }
 
 .brand-divider {
-  width: 2px;
-  height: 37px;
-  background: var(--red);
-  opacity: 0.85;
+  width: 1px;
+  height: 38px;
+  margin: 0 18px;
+  background: rgba(255, 255, 255, 0.24);
 }
 
 .brand-tagline {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-
-  color: #85888e;
-  font-size: 10px;
-  line-height: 1.25;
-  letter-spacing: 4px;
+  gap: 2px;
+  color: #a4a7ac;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1;
 }
 
 .driven {
+  position: relative;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  padding-right: 62px;
+  color: #c5c7ca;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 1.05;
+  text-align: right;
+}
 
-  color: #777a80;
-  font-size: 8px;
-  line-height: 1.5;
-  letter-spacing: 3px;
+.driven span:first-child {
+  color: #fff;
+  font-size: 14px;
 }
 
 .driven-mark {
-  align-self: flex-end;
-  margin-top: 2px;
+  position: absolute;
+  right: 0;
+  top: 3px;
   color: var(--red);
-  font-size: 13px;
-  letter-spacing: -5px;
+  font-size: 25px;
+  letter-spacing: -7px;
+  transform: skewX(-18deg);
 }
 
-/* =========================================
-   LEFT PANEL
-========================================= */
+/* Left panel */
 
 .left-panel {
   position: absolute;
+  left: 4.2%;
+  top: 18%;
+  bottom: 7%;
+  width: 23%;
+  z-index: 10;
+}
 
-  left: 3.1vw;
-  top: 23vh;
-  bottom: 6vh;
-
-  width: 27vw;
-
-  z-index: 8;
+.date-block {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .big-day {
-  font-family: "Orbitron", sans-serif;
-  font-size: clamp(27px, 3.1vw, 48px);
-  line-height: 1;
-  font-weight: 500;
+  color: #f0f0f0;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(42px, 4.4vw, 76px);
+  font-weight: 800;
   letter-spacing: -1px;
+  line-height: 0.85;
 }
 
 .red-date {
-  margin-top: 8px;
-
+  margin-top: 9px;
   color: var(--red);
-
-  font-family: "Orbitron", sans-serif;
-  font-size: clamp(13px, 1.25vw, 21px);
-  letter-spacing: 1px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(16px, 1.3vw, 22px);
+  font-weight: 700;
+  letter-spacing: 3px;
 }
 
 .quote {
   position: absolute;
   left: 0;
-  top: 16vh;
-
+  top: 28%;
   display: flex;
   flex-direction: column;
+  color: rgba(255, 255, 255, 0.92);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(24px, 2.1vw, 38px);
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 0.9;
+}
 
-  color: #777a80;
-  font-size: 8px;
-  line-height: 2.05;
-  letter-spacing: 4px;
+.quote span:nth-child(3) {
+  margin-top: 7px;
 }
 
 .track-decoration {
   position: absolute;
-
-  left: 9vw;
-  top: 14vh;
-
-  width: 14vw;
-  height: 8vw;
-
-  opacity: 0.4;
-  transform: rotate(-8deg);
+  left: 0;
+  bottom: 28%;
+  width: 160px;
 }
 
 .track-line {
+  position: relative;
+  width: 130px;
+  height: 1px;
+  background: var(--red);
+  transform: rotate(-18deg);
+}
+
+.track-line::before,
+.track-line::after {
+  content: "";
   position: absolute;
-  inset: 0;
-
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-left-color: transparent;
-  border-radius: 60% 40% 50% 70%;
-
-  transform: rotate(18deg) skewX(-15deg);
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
 }
 
 .track-line::before {
-  content: "";
-  position: absolute;
-
-  inset: 14px -20px 18px 30px;
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 60% 40% 50% 70%;
+  left: 0;
 }
 
-/* =========================================
-   WEATHER
-========================================= */
+.track-line::after {
+  right: 0;
+}
+
+/* Weather */
 
 .weather {
   position: absolute;
-
   left: 0;
-  bottom: 8vh;
-
+  bottom: 1%;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 17px;
 }
 
 .weather-icon {
-  width: 72px;
-  height: 72px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-family: sans-serif;
-  font-size: 51px;
+  width: 66px;
+  color: #e5e5e5;
+  font-family: Arial, sans-serif;
+  font-size: 55px;
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
 }
 
 .weather-content {
@@ -336,445 +320,326 @@ button {
 }
 
 .weather-temp {
-  font-family: "Orbitron", sans-serif;
-  font-size: clamp(30px, 3vw, 46px);
-  line-height: 0.95;
-  font-weight: 600;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(36px, 3vw, 52px);
+  font-weight: 700;
+  line-height: 0.9;
 }
 
 .weather-condition {
-  margin-top: 6px;
-  color: #e7e7e7;
-  font-size: 12px;
+  margin-top: 4px;
+  color: #d1d3d5;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .weather-location {
-  margin-top: 10px;
-
-  color: #898c92;
-  font-size: 8px;
-  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: #888c92;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
 }
 
 .location-pin {
-  color: #aaa;
-  margin-right: 5px;
-  font-size: 8px;
+  color: var(--red);
+  font-size: 7px;
 }
 
 .weather-range {
   display: flex;
-  gap: 18px;
-
-  margin-top: 9px;
-
-  font-size: 10px;
+  gap: 12px;
+  margin-top: 7px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .weather-high {
-  color: var(--red-bright);
+  color: var(--red);
 }
 
 .weather-low {
-  color: var(--blue);
+  color: #649bd7;
 }
 
 .weather-loading {
-  color: #777a80;
-  font-size: 9px;
+  color: #777;
+  font-size: 10px;
   letter-spacing: 2px;
 }
 
-/* =========================================
-   CLOCK
-========================================= */
+/* Clock */
 
 .clock-section {
   position: absolute;
-
   left: 50%;
-  top: 48%;
-
-  /*
-   * Larger than previous version.
-   * The height limit makes it fit iPhone landscape.
-   */
-  width: min(47vw, 77vh);
-
+  top: 51%;
+  width: min(59vh, 56vw);
   aspect-ratio: 1;
-
   transform: translate(-50%, -50%);
-
-  z-index: 5;
+  z-index: 8;
 }
 
 .clock-outer-ring {
-  position: absolute;
-  inset: 0;
-
+  position: relative;
+  width: 100%;
+  height: 100%;
   padding: 8px;
-
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 50%;
-
   background:
-    linear-gradient(
-      135deg,
-      #55585f,
-      #191b1f 22%,
-      #08090b 48%,
-      #5a5d63 76%,
-      #111316
+    radial-gradient(
+      circle,
+      transparent 70%,
+      rgba(225, 6, 0, 0.08) 71%,
+      transparent 73%
     );
-
   box-shadow:
-    0 0 0 2px #08090b,
-    0 0 0 4px rgba(255, 255, 255, 0.05),
-    0 0 30px rgba(0, 0, 0, 0.9),
-    0 0 32px rgba(225, 6, 0, 0.1);
+    0 0 0 3px rgba(225, 6, 0, 0.14),
+    0 0 35px rgba(0, 0, 0, 0.75),
+    inset 0 0 40px rgba(0, 0, 0, 0.65);
+}
+
+.clock-outer-ring::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 2px solid rgba(225, 6, 0, 0.75);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .clock {
   position: relative;
-
   width: 100%;
   height: 100%;
-
-  border-radius: 50%;
   overflow: hidden;
-
+  border-radius: 50%;
   background:
-    repeating-linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.02) 0,
-      rgba(255, 255, 255, 0.02) 2px,
-      transparent 2px,
-      transparent 7px
-    ),
-    #090b0e;
-
-  border: 2px solid #292c31;
-
+    radial-gradient(
+      circle at 50% 45%,
+      #16181b 0%,
+      #0c0e10 55%,
+      #07080a 100%
+    );
   box-shadow:
-    inset 0 0 0 3px #08090b,
-    inset 0 0 40px rgba(0, 0, 0, 0.9);
+    inset 0 0 35px rgba(0, 0, 0, 0.9),
+    inset 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
 .clock::before {
   content: "";
-
   position: absolute;
-  inset: 4.3%;
-
+  inset: 4%;
+  border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: 50%;
-
-  border: 1px solid rgba(225, 6, 0, 0.6);
-
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .clock::after {
   content: "";
-
   position: absolute;
-  inset: 8%;
-
+  inset: 10%;
+  border: 1px solid rgba(255, 255, 255, 0.035);
   border-radius: 50%;
-
-  border: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
-/* =========================================
-   CLOCK TICKS
-========================================= */
+/* Tick marks */
 
 .clock-tick {
   position: absolute;
-
-  left: 50%;
-  top: 50%;
-
+  left: calc(50% - 0.5px);
+  top: 2.5%;
   width: 1px;
-  height: 47%;
-
-  transform-origin: 50% 0;
-
-  pointer-events: none;
+  height: 4.5%;
+  transform-origin: 50% 1050%;
+  background: rgba(255, 255, 255, 0.38);
+  z-index: 2;
 }
 
-.clock-tick::after {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 50%;
-
-  width: 1px;
-  height: 6px;
-
-  transform: translateX(-50%);
-
-  background: #777a80;
-}
-
-.clock-tick.major::after {
+.clock-tick.major {
+  top: 2%;
   width: 2px;
-  height: 13px;
-  background: #eeeeee;
+  height: 6%;
+  background: rgba(255, 255, 255, 0.82);
 }
 
-/* =========================================
-   CLOCK NUMBERS
-========================================= */
+/* Numbers */
 
 .clock-number {
   position: absolute;
-
-  width: 44px;
-  height: 44px;
-
+  z-index: 3;
+  width: 38px;
+  height: 38px;
   transform: translate(-50%, -50%);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  color: #f3f3f3;
-
-  font-family: "Roboto Mono", monospace;
-  font-size: clamp(17px, 1.8vw, 29px);
-  font-weight: 400;
-
+  color: #e6e7e8;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(18px, 2vw, 31px);
+  font-weight: 600;
   line-height: 1;
-
-  z-index: 3;
 }
 
-/* =========================================
-   HANDS
-========================================= */
+/* Hands */
 
 .hand {
   position: absolute;
-
   left: 50%;
   bottom: 50%;
-
   transform-origin: 50% 100%;
-
   border-radius: 10px;
-
-  z-index: 8;
+  z-index: 7;
 }
 
 .hour-hand {
-  width: 6px;
+  width: 7px;
   height: 25%;
-
-  background: #f1f1f1;
-
-  box-shadow:
-    0 0 5px rgba(255, 255, 255, 0.18);
+  background: #f4f4f4;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
 }
 
 .minute-hand {
   width: 5px;
-  height: 35%;
-
-  background: #f1f1f1;
-
-  box-shadow:
-    0 0 5px rgba(255, 255, 255, 0.18);
+  height: 34%;
+  background: #fafafa;
 }
 
 .second-hand {
   width: 2px;
   height: 40%;
-
-  background: var(--red-bright);
-
-  box-shadow:
-    0 0 8px rgba(225, 6, 0, 0.55);
+  background: var(--red);
+  box-shadow: 0 0 7px rgba(225, 6, 0, 0.7);
 }
 
-/* =========================================
-   CLOCK CENTER
-========================================= */
+/* Clock logo */
+
+.clock-logo {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 120px;
+  text-align: center;
+}
+
+.f1-clock-logo {
+  display: block;
+  width: 72px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.clock-logo-text {
+  margin-top: 5px;
+  color: #74787d;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1.4;
+}
+
+/* Digital time */
+
+.digital-clock {
+  position: absolute;
+  left: 50%;
+  bottom: 23%;
+  transform: translateX(-50%);
+  z-index: 8;
+  color: #f1f1f1;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(28px, 3vw, 47px);
+  font-weight: 500;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.12);
+}
+
+/* Center hub */
 
 .clock-center {
   position: absolute;
-
   left: 50%;
   top: 50%;
-
-  width: 25px;
-  height: 25px;
-
+  width: 22px;
+  height: 22px;
   transform: translate(-50%, -50%);
-
-  border-radius: 50%;
-
-  background: #0d0f12;
-  border: 3px solid var(--red);
-
   z-index: 12;
+  border: 2px solid #e10600;
+  border-radius: 50%;
+  background: #0b0c0e;
+  box-shadow:
+    0 0 8px rgba(225, 6, 0, 0.4);
 }
 
 .clock-center-dot {
   position: absolute;
-
   left: 50%;
   top: 50%;
-
   width: 7px;
   height: 7px;
-
   transform: translate(-50%, -50%);
-
   border-radius: 50%;
-
-  background: white;
+  background: var(--red);
 }
 
-/* =========================================
-   CLOCK F1
-========================================= */
-
-.clock-logo {
-  position: absolute;
-
-  left: 50%;
-  top: 27%;
-
-  transform: translateX(-50%);
-
-  text-align: center;
-
-  z-index: 5;
-}
-
-.clock-logo-text {
-  margin-top: 2px;
-
-  color: #72757b;
-
-  font-size: 7px;
-  line-height: 1.6;
-  letter-spacing: 2px;
-}
-
-/* =========================================
-   DIGITAL TIME
-========================================= */
-
-.digital-clock {
-  position: absolute;
-
-  left: 50%;
-  top: 65%;
-
-  transform: translateX(-50%);
-
-  z-index: 9;
-
-  white-space: nowrap;
-
-  color: #eeeeee;
-
-  font-family: "Roboto Mono", monospace;
-  font-size: clamp(17px, 1.85vw, 29px);
-  font-weight: 400;
-
-  letter-spacing: -1px;
-}
-
-/* =========================================
-   CLOCK BOTTOM
-========================================= */
+/* Bottom clock text */
 
 .clock-bottom {
   position: absolute;
-
   left: 50%;
-  bottom: -6.5vh;
-
+  bottom: -8%;
   transform: translateX(-50%);
-
-  width: 380px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  gap: 14px;
-
-  color: #72757b;
-
-  font-size: 8px;
-  letter-spacing: 4px;
-
+  gap: 10px;
+  width: 80%;
+  color: #85888d;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
   white-space: nowrap;
 }
 
-.bottom-line {
-  width: 48px;
-  height: 1px;
-
-  background: #555960;
-}
-
 .clock-bottom strong {
-  position: absolute;
-
-  left: 50%;
-  top: 18px;
-
-  transform: translateX(-50%);
-
   color: var(--red);
-
-  font-family: "Orbitron", sans-serif;
-  font-size: 10px;
-  letter-spacing: 3px;
-  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 2px;
 }
 
-/* =========================================
-   NOTES
-========================================= */
+.bottom-line {
+  width: 35px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Notes */
 
 .notes-panel {
   position: absolute;
-
-  right: 2.8vw;
-  top: 21vh;
-
-  width: 26vw;
-  max-width: 405px;
-  min-width: 290px;
-
-  height: 42vh;
-  min-height: 255px;
-  max-height: 375px;
-
-  padding: 18px 18px 15px;
-
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.025),
-      rgba(255, 255, 255, 0.005)
-    ),
-    rgba(7, 9, 12, 0.82);
-
+  right: 4.2%;
+  top: 22%;
+  width: 21%;
+  max-width: 390px;
+  padding: 18px 20px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--panel);
+  backdrop-filter: blur(8px);
   box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.35),
-    0 15px 35px rgba(0, 0, 0, 0.4);
-
+    0 20px 45px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
   z-index: 15;
 }
 
@@ -782,98 +647,79 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding-bottom: 12px;
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .notes-header h2 {
   margin: 0;
-
-  color: #f1f1f1;
-
-  font-family: "Roboto Mono", monospace;
-  font-size: 18px;
-  font-weight: 500;
+  color: #ededed;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .add-button {
-  width: 31px;
-  height: 31px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid var(--red);
+  width: 28px;
+  height: 28px;
+  padding: 0;
   border-radius: 50%;
-
-  background: transparent;
-
-  color: var(--red);
-
-  font-size: 24px;
-  line-height: 1;
-
+  color: #fff;
+  background: var(--red);
+  font-size: 20px;
+  line-height: 28px;
   cursor: pointer;
+  transition: transform 0.15s ease;
 }
 
-.add-button:active {
-  transform: scale(0.94);
+.add-button:hover {
+  transform: scale(1.08);
 }
 
 .notes-list {
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .note-item {
-  width: 100%;
-  min-height: 39px;
-
   display: flex;
   align-items: center;
-
-  gap: 11px;
-
-  padding: 6px 2px;
-
-  border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  color: #c6c8ca;
   background: transparent;
-
   text-align: left;
-
   cursor: pointer;
 }
 
 .checkbox {
-  flex: 0 0 21px;
-
-  width: 21px;
-  height: 21px;
-
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-
-  border: 1px solid #6e7178;
-  border-radius: 5px;
-
-  font-size: 11px;
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+  border: 1px solid #686c71;
+  color: #fff;
+  font-size: 10px;
 }
 
 .note-text {
   overflow: hidden;
-
   text-overflow: ellipsis;
-
   white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+}
 
-  color: #dddddf;
-
-  font-size: 10px;
+.note-item.completed {
+  color: #666a70;
+  text-decoration: line-through;
 }
 
 .note-item.completed .checkbox {
@@ -881,114 +727,163 @@ button {
   background: var(--red);
 }
 
-.note-item.completed .note-text {
-  color: #686b72;
-  text-decoration: line-through;
-}
-
 .note-input-row {
-  position: absolute;
-
-  left: 18px;
-  right: 18px;
-  bottom: 15px;
-
-  height: 38px;
-
   display: flex;
-
-  border-radius: 9px;
-
-  background: #191c21;
-
-  overflow: hidden;
+  align-items: center;
+  gap: 7px;
+  margin-top: 13px;
 }
 
 .note-input {
   min-width: 0;
-
   flex: 1;
-
-  padding: 0 13px;
-
-  border: 0;
+  height: 30px;
+  padding: 0 10px;
   outline: none;
-
-  background: transparent;
-
-  color: #eeeeee;
-
-  font-size: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  color: #ddd;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 10px;
 }
 
 .note-input::placeholder {
-  color: #666970;
+  color: #62666b;
+}
+
+.note-input:focus {
+  border-color: rgba(225, 6, 0, 0.65);
 }
 
 .note-submit {
-  width: 42px;
-
-  border: 0;
-
-  background: transparent;
-
-  color: var(--red);
-
-  font-size: 23px;
-
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: #fff;
+  background: #25272a;
   cursor: pointer;
 }
 
-/* =========================================
-   BOTTOM DECORATION
-========================================= */
+/* Bottom message */
 
 .bottom-message {
   position: absolute;
-
-  right: 3.1vw;
-  bottom: 7vh;
-
+  right: 4.2%;
+  bottom: 7%;
   display: flex;
   flex-direction: column;
-
-  color: #696c72;
-
-  font-size: 7px;
-  line-height: 1.9;
-
-  letter-spacing: 3px;
-
-  z-index: 4;
+  align-items: flex-end;
+  color: #676b70;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1.05;
+  text-align: right;
+  z-index: 10;
 }
+
+.bottom-message span:last-child {
+  color: #c7c8ca;
+}
+
+/* Race mode decoration */
 
 .race-mode-label {
   position: absolute;
-
-  right: 14vw;
-  bottom: 4vh;
-
-  color: #777a80;
-
+  right: 1.5%;
+  bottom: 10%;
+  color: #70747a;
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
   line-height: 1.3;
-
-  font-style: italic;
-
-  z-index: 4;
+  text-align: left;
+  z-index: 10;
 }
 
 .race-mode-label span {
   color: var(--red);
+  font-size: 11px;
 }
 
-/* =========================================
-   PORTRAIT
-========================================= */
+/* Portrait */
 
 .rotate-message {
   display: none;
 }
+
+/* Smaller landscape phones */
+
+@media (max-height: 700px) and (orientation: landscape) {
+  .race-header {
+    top: 2.5%;
+  }
+
+  .f1-brand {
+    height: 45px;
+  }
+
+  .f1-logo-wrapper {
+    width: 120px;
+  }
+
+  .f1-logo-image {
+    width: 120px;
+  }
+
+  .brand-divider {
+    height: 30px;
+    margin: 0 12px;
+  }
+
+  .left-panel {
+    top: 17%;
+  }
+
+  .big-day {
+    font-size: 40px;
+  }
+
+  .quote {
+    top: 26%;
+    font-size: 22px;
+  }
+
+  .weather-icon {
+    width: 50px;
+    font-size: 42px;
+  }
+
+  .weather-temp {
+    font-size: 34px;
+  }
+
+  .notes-panel {
+    top: 19%;
+    padding: 12px 15px;
+  }
+
+  .notes-header h2 {
+    font-size: 21px;
+  }
+
+  .note-item {
+    min-height: 29px;
+    padding: 4px 0;
+  }
+
+  .clock-section {
+    width: min(68vh, 52vw);
+  }
+
+  .clock-bottom {
+    bottom: -7%;
+  }
+}
+
+/* Portrait phone */
 
 @media (orientation: portrait) {
   .race-dashboard {
@@ -998,302 +893,23 @@ button {
   .rotate-message {
     position: fixed;
     inset: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
-    background: #050608;
-
-    color: #777a80;
-
-    text-align: center;
-
-    font-family: "Roboto Mono", monospace;
-    font-size: 10px;
-
+    color: #fff;
+    background: #08090b;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
     letter-spacing: 3px;
-    line-height: 1.8;
+    line-height: 1.3;
+    text-align: center;
   }
 
   .rotate-icon {
-    margin-bottom: 10px;
-
+    margin-bottom: 15px;
     color: var(--red);
-
     font-size: 40px;
-  }
-}
-
-/* =========================================
-   IPHONE LANDSCAPE
-========================================= */
-
-@media (orientation: landscape) and (max-height: 600px) {
-
-  .race-header {
-    top: 3vh;
-  }
-
-  .f1-logo-wrapper {
-    width: 105px;
-    height: 40px;
-  }
-
-  .brand-divider {
-    height: 28px;
-  }
-
-  .brand-tagline {
-    font-size: 7px;
-    letter-spacing: 3px;
-  }
-
-  .driven {
-    font-size: 6px;
-  }
-
-  .left-panel {
-    top: 20vh;
-    bottom: 2vh;
-  }
-
-  .big-day {
-    font-size: clamp(22px, 3vw, 34px);
-  }
-
-  .red-date {
-    margin-top: 5px;
-    font-size: 10px;
-  }
-
-  .quote {
-    top: 13vh;
-    font-size: 6px;
-    line-height: 1.8;
-  }
-
-  .track-decoration {
-    top: 11vh;
-  }
-
-  .weather {
-    bottom: 2vh;
-    gap: 10px;
-  }
-
-  .weather-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 36px;
-  }
-
-  .weather-temp {
-    font-size: clamp(24px, 2.8vw, 35px);
-  }
-
-  .weather-condition {
-    font-size: 8px;
-  }
-
-  .weather-location {
-    margin-top: 5px;
-    font-size: 6px;
-  }
-
-  .weather-range {
-    margin-top: 5px;
-    font-size: 8px;
-  }
-
-  /*
-    Bigger clock than the previous version,
-    but still constrained by phone height.
-  */
-
-  .clock-section {
-    width: min(43vw, 73vh);
-    top: 47%;
-  }
-
-  .clock-outer-ring {
-    padding: 6px;
-  }
-
-  .clock-number {
-    width: 31px;
-    height: 31px;
-
-    font-size: clamp(13px, 1.7vw, 21px);
-  }
-
-  .f1-svg-small {
-    width: 55px;
-  }
-
-  .clock-logo-text {
-    font-size: 5px;
-  }
-
-  .digital-clock {
-    top: 65%;
-    font-size: clamp(13px, 1.7vw, 21px);
-  }
-
-  .clock-center {
-    width: 19px;
-    height: 19px;
-  }
-
-  .clock-center-dot {
-    width: 5px;
-    height: 5px;
-  }
-
-  .hour-hand {
-    width: 4px;
-  }
-
-  .minute-hand {
-    width: 4px;
-  }
-
-  .second-hand {
-    width: 2px;
-  }
-
-  .clock-bottom {
-    bottom: -6vh;
-    width: 280px;
-    font-size: 5px;
-    gap: 9px;
-  }
-
-  .clock-bottom strong {
-    top: 12px;
-    font-size: 7px;
-  }
-
-  /* NOTES */
-
-  .notes-panel {
-    right: 2.8vw;
-    top: 18vh;
-
-    width: 24vw;
-    min-width: 255px;
-    max-width: 330px;
-
-    height: 40vh;
-    min-height: 205px;
-    max-height: 275px;
-
-    padding: 13px 14px 11px;
-
-    border-radius: 12px;
-  }
-
-  .notes-header {
-    padding-bottom: 7px;
-  }
-
-  .notes-header h2 {
-    font-size: 14px;
-  }
-
-  .add-button {
-    width: 25px;
-    height: 25px;
-    font-size: 19px;
-  }
-
-  .note-item {
-    min-height: 31px;
-    gap: 8px;
-    padding: 4px 1px;
-  }
-
-  .checkbox {
-    width: 18px;
-    height: 18px;
-    flex-basis: 18px;
-    border-radius: 4px;
-    font-size: 9px;
-  }
-
-  .note-text {
-    font-size: 7.5px;
-  }
-
-  .note-input-row {
-    left: 14px;
-    right: 14px;
-    bottom: 11px;
-    height: 29px;
-  }
-
-  .note-input {
-    padding: 0 9px;
-    font-size: 7px;
-  }
-
-  .note-submit {
-    width: 32px;
-    font-size: 18px;
-  }
-
-  .bottom-message {
-    bottom: 3vh;
-    font-size: 5px;
-  }
-
-  .race-mode-label {
-    display: none;
-  }
-}
-
-/* =========================================
-   VERY SHORT LANDSCAPE
-========================================= */
-
-@media (orientation: landscape) and (max-height: 480px) {
-
-  .quote,
-  .track-decoration,
-  .bottom-message,
-  .race-mode-label {
-    display: none;
-  }
-
-  .left-panel {
-    top: 16vh;
-  }
-
-  .clock-section {
-    width: min(40vw, 69vh);
-  }
-
-  .weather {
-    bottom: 0;
-  }
-
-  .notes-panel {
-    top: 17vh;
-    height: 47vh;
-  }
-}
-
-/* =========================================
-   TOUCH
-========================================= */
-
-@media (hover: none) {
-  .note-item:active {
-    background: rgba(255, 255, 255, 0.04);
-  }
-
-  .note-submit:active {
-    background: rgba(225, 6, 0, 0.08);
   }
 }
