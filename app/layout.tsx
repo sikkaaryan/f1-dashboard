@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "F1 Dashboard",
   description: "F1-inspired personal dashboard for iPhone",
-  manifest: "/manifest.webmanifest",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    viewportFit: "cover"
-  }
+  manifest: "/manifest.webmanifest"
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover"
 };
 
 export default function RootLayout({
