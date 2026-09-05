@@ -217,6 +217,60 @@ body {
   display: block;
 }
 
+/* FIX: explicit weather colors */
+
+.weather-sun circle {
+  fill: #f1f2f3;
+}
+
+.weather-sun g {
+  stroke: #f1f2f3;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.weather-partly circle {
+  fill: #f1f2f3;
+}
+
+.weather-partly g {
+  stroke: #f1f2f3;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.weather-cloud,
+.weather-cloudy .weather-cloud,
+.weather-rain .weather-cloud,
+.weather-heavy-rain .weather-cloud,
+.weather-storm .weather-cloud {
+  fill: none;
+  stroke: #d7d9dc;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.weather-rain g,
+.weather-heavy-rain g {
+  fill: none;
+  stroke: #f1f2f3;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.weather-cloudy > path:not(.weather-cloud) {
+  fill: none;
+  stroke: #aeb2b6;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.weather-lightning {
+  fill: var(--red);
+  stroke: none;
+}
+
 .weather-copy {
   display: flex;
   flex-direction: column;
@@ -448,13 +502,13 @@ body {
 .clock-bottom {
   position: absolute;
   left: 50%;
-  bottom: -7%;
+  bottom: -17%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
   width: 100%;
   color: #85888d;
   font-family: "Barlow Condensed", sans-serif;
@@ -465,15 +519,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 9px;
   color: #85888d;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 1.5px;
 }
 
 .bottom-line {
-  width: 24px;
+  width: 28px;
   height: 1px;
   background: rgba(255,255,255,0.2);
 }
@@ -481,7 +535,7 @@ body {
 .clock-bottom strong {
   display: block;
   color: var(--red);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 2px;
 }
@@ -497,7 +551,7 @@ body {
   width: 24%;
   max-width: 285px;
   min-width: 205px;
-  padding: 14px 16px 13px;
+  padding: 15px 17px 14px;
   border-left: 1px solid rgba(255,255,255,0.12);
   border-top: 1px solid rgba(255,255,255,0.06);
   border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -511,11 +565,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 7px;
+  padding-bottom: 8px;
   border-bottom: 1px solid rgba(255,255,255,0.11);
   color: #c8c9cb;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.8px;
 }
@@ -532,7 +586,7 @@ body {
   padding: 22px 0 10px;
   color: #696d72;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 1.2px;
 }
 
@@ -540,14 +594,14 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 9px;
+  margin-top: 11px;
 }
 
 .schedule-round span {
   color: #70747a;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 1.2px;
 }
@@ -555,7 +609,7 @@ body {
 .schedule-round strong {
   color: #e4e5e7;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 600;
   line-height: 0.8;
 }
@@ -563,12 +617,12 @@ body {
 .schedule-location {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 9px;
+  margin-top: 9px;
 }
 
 .schedule-flag {
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1;
 }
 
@@ -580,7 +634,7 @@ body {
 .schedule-location strong {
   color: #e8e9eb;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: 1px;
   line-height: 0.95;
@@ -590,22 +644,22 @@ body {
   margin-top: 3px;
   color: #777b80;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 1.2px;
 }
 
 .schedule-dates {
-  margin-top: 6px;
+  margin-top: 7px;
   color: var(--red);
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 700;
   letter-spacing: 1.2px;
 }
 
 .session-list {
-  margin-top: 11px;
+  margin-top: 12px;
   border-top: 1px solid rgba(255,255,255,0.07);
 }
 
@@ -613,7 +667,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 24px;
+  min-height: 27px;
   border-bottom: 1px solid rgba(255,255,255,0.055);
 }
 
@@ -623,7 +677,7 @@ body {
   gap: 5px;
   color: #85888d;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -631,7 +685,7 @@ body {
 .session-time {
   color: #a8aaad;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.7px;
 }
@@ -667,21 +721,21 @@ body {
 
 .session-done {
   color: #5d6166;
-  font-size: 7px;
+  font-size: 8px;
 }
 
 .next-race {
   display: flex;
   flex-direction: column;
-  margin-top: 11px;
-  padding-top: 9px;
+  margin-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .next-race > span {
   color: #65696e;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 700;
   letter-spacing: 1.5px;
 }
@@ -690,7 +744,7 @@ body {
   margin-top: 4px;
   color: #d8d9db;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -699,7 +753,7 @@ body {
   margin-top: 2px;
   color: #70747a;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 600;
   letter-spacing: 1px;
 }
@@ -708,13 +762,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 9px;
+  margin-top: 10px;
 }
 
 .status-label {
   color: #55595e;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 700;
   letter-spacing: 1.3px;
 }
@@ -722,7 +776,7 @@ body {
 .schedule-status strong {
   color: var(--red);
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 700;
   letter-spacing: 1px;
 }
@@ -793,6 +847,7 @@ body {
 ========================= */
 
 @media (max-width: 900px) and (orientation: landscape) {
+
   .top-header {
     top: 5.5%;
     left: 4%;
@@ -869,9 +924,9 @@ body {
   }
 
   .weather-icon {
-    width: 55px;
-    height: 55px;
-    flex-basis: 55px;
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
   }
 
   .weather-temp {
@@ -890,101 +945,117 @@ body {
     font-size: 7px;
   }
 
-  .clock-section {
-    left: 50%;
-    top: 47%;
-    width: 292px;
-    height: 292px;
+  /* Keep clock bottom text outside the clock */
+
+  .clock-bottom {
+    bottom: -19%;
+    gap: 4px;
   }
+
+  .clock-bottom-row {
+    font-size: 8px;
+    gap: 9px;
+  }
+
+  .clock-bottom strong {
+    font-size: 10px;
+  }
+
+  /* Larger schedule */
 
   .schedule-panel {
     right: 4%;
-    top: 21%;
-    width: 24%;
-    max-width: 210px;
-    min-width: 175px;
-    padding: 10px 11px 9px;
+    top: 19%;
+    width: 25%;
+    max-width: 225px;
+    min-width: 190px;
+    padding: 12px 13px 11px;
   }
 
   .schedule-header {
-    font-size: 6px;
-    letter-spacing: 1.3px;
-    padding-bottom: 5px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    padding-bottom: 7px;
   }
 
   .schedule-round {
-    margin-top: 7px;
+    margin-top: 8px;
+    gap: 8px;
   }
 
   .schedule-round span {
-    font-size: 6px;
+    font-size: 7px;
   }
 
   .schedule-round strong {
-    font-size: 19px;
+    font-size: 22px;
   }
 
   .schedule-location {
-    gap: 6px;
-    margin-top: 5px;
+    gap: 7px;
+    margin-top: 7px;
   }
 
   .schedule-flag {
-    font-size: 14px;
+    font-size: 17px;
   }
 
   .schedule-location strong {
-    font-size: 11px;
+    font-size: 14px;
   }
 
   .schedule-location span {
-    font-size: 5px;
+    font-size: 7px;
     margin-top: 2px;
   }
 
   .schedule-dates {
-    margin-top: 4px;
-    font-size: 5px;
+    margin-top: 5px;
+    font-size: 7px;
   }
 
   .session-list {
-    margin-top: 7px;
+    margin-top: 9px;
   }
 
   .session-row {
-    min-height: 19px;
+    min-height: 23px;
   }
 
   .session-name,
   .session-time {
-    font-size: 6px;
+    font-size: 8px;
   }
 
-  .next-race {
-    margin-top: 6px;
-    padding-top: 6px;
-  }
-
-  .next-race > span {
-    font-size: 5px;
-  }
-
-  .next-race strong {
-    margin-top: 2px;
+  .session-done {
     font-size: 7px;
   }
 
+  .next-race {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .next-race > span {
+    font-size: 6px;
+  }
+
+  .next-race strong {
+    margin-top: 3px;
+    font-size: 10px;
+  }
+
   .next-race small {
-    font-size: 5px;
+    font-size: 6px;
   }
 
   .schedule-status {
-    margin-top: 5px;
+    margin-top: 7px;
   }
 
   .status-label,
   .schedule-status strong {
-    font-size: 5px;
+    font-size: 6px;
   }
 
   .bottom-message {
@@ -1015,6 +1086,7 @@ body {
 ========================= */
 
 @media (max-height: 500px) and (orientation: landscape) {
+
   .top-header {
     top: 4%;
   }
@@ -1054,6 +1126,10 @@ body {
   .clock-second {
     height: 92px;
     margin-top: -92px;
+  }
+
+  .clock-bottom {
+    bottom: -20%;
   }
 
   .schedule-panel {
