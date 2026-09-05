@@ -1,0 +1,18 @@
+{
+  "name": "F1 Dashboard",
+  "short_name": "F1 Dashboard",
+  "description": "Personal F1-inspired dashboard",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#08090b",
+  "theme_color": "#08090b",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
