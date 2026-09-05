@@ -973,19 +973,6 @@ export default function Home() {
 
       </aside>
 
-      <div className="bottom-message">
-        <span>SOME PEOPLE</span>
-        <span>WATCH RACES.</span>
-        <span className="bottom-message-strong">
-          WE FEEL THEM.
-        </span>
-      </div>
-
-      <div className="race-mode-label">
-        <span>///</span>
-        <span>STILL</span>
-        <span>WE RISE</span>
-      </div>
 
       <div className="home-indicator" />
 
