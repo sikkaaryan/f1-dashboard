@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type Weather = {
@@ -29,45 +30,14 @@ function weatherDescription(code: number) {
 }
 
 function weatherIcon(code: number) {
-  if (code === 0) return "☀️";
-  if ([1, 2].includes(code)) return "🌤️";
-  if (code === 3) return "☁️";
-  if ([45, 48].includes(code)) return "🌫️";
-  if ([51, 53, 55, 56, 57].includes(code)) return "🌦️";
-  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
-    return "🌧️";
-  }
-  if ([95, 96, 99].includes(code)) return "⛈️";
-  return "🌡️";
-}
-
-/* Reusable F1-style mark */
-function F1Logo({ small = false }: { small?: boolean }) {
-  return (
-    <svg
-      className={small ? "f1-svg f1-svg-small" : "f1-svg"}
-      viewBox="0 0 240 100"
-      aria-label="F1"
-      role="img"
-    >
-      <path
-        d="M8 76L36 18H70L57 42H145L174 18H232L208 76H151L169 48H51L38 76H8Z"
-        fill="currentColor"
-      />
-      <path
-        d="M72 18H112L96 47H57L72 18Z"
-        fill="#050608"
-      />
-      <path
-        d="M148 42H208L196 70H134L148 42Z"
-        fill="#050608"
-      />
-      <path
-        d="M174 18H232L219 42H162L174 18Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
+  if (code === 0) return "☀";
+  if ([1, 2].includes(code)) return "◐";
+  if (code === 3) return "☁";
+  if ([45, 48].includes(code)) return "≋";
+  if ([51, 53, 55, 56, 57].includes(code)) return "◌";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "☂";
+  if ([95, 96, 99].includes(code)) return "ϟ";
+  return "°";
 }
 
 const EMPTY_NOTES: Note[] = [];
@@ -78,8 +48,6 @@ export default function Home() {
   const [notes, setNotes] = useState<Note[]>(EMPTY_NOTES);
   const [newNote, setNewNote] = useState("");
 
-  /* CLOCK */
-
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date());
@@ -87,11 +55,6 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, []);
-
-  /* NOTES
-     Clear the old demo notes once, then preserve
-     anything the user adds afterwards.
-  */
 
   useEffect(() => {
     const migrationKey = "f1-dashboard-notes-v2-cleared";
@@ -125,8 +88,6 @@ export default function Home() {
       JSON.stringify(notes)
     );
   }, [notes]);
-
-  /* WEATHER */
 
   useEffect(() => {
     async function loadWeather() {
@@ -167,8 +128,6 @@ export default function Home() {
     return () => clearInterval(weatherTimer);
   }, []);
 
-  /* NOTES */
-
   function addNote() {
     const text = newNote.trim();
 
@@ -190,29 +149,34 @@ export default function Home() {
     setNotes((current) =>
       current.map((note) =>
         note.id === id
-          ? { ...note, done: !note.done }
+          ? {
+              ...note,
+              done: !note.done
+            }
           : note
       )
     );
   }
-
-  /* TIME */
 
   const seconds = time.getSeconds();
   const minutes = time.getMinutes();
   const hours = time.getHours();
 
   const secondAngle = seconds * 6;
-  const minuteAngle = minutes * 6 + seconds * 0.1;
+  const minuteAngle =
+    minutes * 6 + seconds * 0.1;
   const hourAngle =
     (hours % 12) * 30 + minutes * 0.5;
 
-  const digitalTime = time.toLocaleTimeString("en-IN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true
-  });
+  const digitalTime = time.toLocaleTimeString(
+    "en-IN",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    }
+  );
 
   const day = time
     .toLocaleDateString("en-IN", {
@@ -238,20 +202,22 @@ export default function Home() {
       </div>
 
       <main className="race-dashboard">
-
         <div className="carbon-overlay" />
         <div className="red-glow red-glow-left" />
         <div className="red-glow red-glow-right" />
         <div className="racing-line-bg" />
 
-        {/* HEADER */}
-
         <header className="race-header">
-
           <div className="f1-brand">
-
             <div className="f1-logo-wrapper">
-              <F1Logo />
+              <Image
+                src="/f1-logo.png"
+                alt="F1"
+                width={180}
+                height={75}
+                priority
+                className="f1-logo-image"
+              />
             </div>
 
             <div className="brand-divider" />
@@ -260,27 +226,20 @@ export default function Home() {
               <span>A HIGHER</span>
               <span>GEAR EVERYDAY</span>
             </div>
-
           </div>
 
           <div className="driven">
             <span>DRIVEN</span>
             <span>BY A DIFFERENT</span>
             <span>MINDSET</span>
-
             <div className="driven-mark">
               ◆◆
             </div>
           </div>
-
         </header>
 
-        {/* LEFT INFORMATION */}
-
         <section className="left-panel">
-
           <div className="date-block">
-
             <div className="big-day">
               {day}
             </div>
@@ -288,7 +247,6 @@ export default function Home() {
             <div className="red-date">
               {date}
             </div>
-
           </div>
 
           <div className="quote">
@@ -303,20 +261,21 @@ export default function Home() {
             <div className="track-line" />
           </div>
 
-          {/* WEATHER */}
-
           <div className="weather">
-
             {weather ? (
               <>
                 <div className="weather-icon">
-                  {weatherIcon(weather.weatherCode)}
+                  {weatherIcon(
+                    weather.weatherCode
+                  )}
                 </div>
 
                 <div className="weather-content">
-
                   <div className="weather-temp">
-                    {Math.round(weather.temperature)}°C
+                    {Math.round(
+                      weather.temperature
+                    )}
+                    °C
                   </div>
 
                   <div className="weather-condition">
@@ -334,19 +293,24 @@ export default function Home() {
 
                   <div className="weather-range">
                     <span className="weather-high">
-                      ↑ {Math.round(
+                      ↑{" "}
+                      {Math.round(
                         weather.apparentTemperature
-                      )}°
+                      )}
+                      °
                     </span>
 
                     <span className="weather-low">
-                      ↓ {Math.max(
+                      ↓{" "}
+                      {Math.max(
                         0,
-                        Math.round(weather.temperature - 5)
-                      )}°
+                        Math.round(
+                          weather.temperature - 5
+                        )
+                      )}
+                      °
                     </span>
                   </div>
-
                 </div>
               </>
             ) : (
@@ -354,78 +318,64 @@ export default function Home() {
                 LOADING WEATHER
               </div>
             )}
-
           </div>
-
         </section>
 
-        {/* CENTRAL CLOCK */}
-
         <section className="clock-section">
-
           <div className="clock-outer-ring">
-
             <div className="clock">
+              {Array.from({
+                length: 60
+              }).map((_, index) => (
+                <span
+                  key={`tick-${index}`}
+                  className={
+                    index % 5 === 0
+                      ? "clock-tick major"
+                      : "clock-tick"
+                  }
+                  style={{
+                    transform: `rotate(${index * 6}deg)`
+                  }}
+                />
+              ))}
 
-              {/* TICKS */}
+              {Array.from({
+                length: 12
+              }).map((_, index) => {
+                const number =
+                  index === 0 ? 12 : index;
 
-              {Array.from({ length: 60 }).map(
-                (_, index) => (
+                const angle = index * 30;
+                const radius = 40;
+
+                const x =
+                  50 +
+                  radius *
+                    Math.sin(
+                      (angle * Math.PI) / 180
+                    );
+
+                const y =
+                  50 -
+                  radius *
+                    Math.cos(
+                      (angle * Math.PI) / 180
+                    );
+
+                return (
                   <span
-                    key={`tick-${index}`}
-                    className={
-                      index % 5 === 0
-                        ? "clock-tick major"
-                        : "clock-tick"
-                    }
+                    key={`number-${number}`}
+                    className="clock-number"
                     style={{
-                      transform: `rotate(${index * 6}deg)`
+                      left: `${x}%`,
+                      top: `${y}%`
                     }}
-                  />
-                )
-              )}
-
-              {/* NUMBERS */}
-
-              {Array.from({ length: 12 }).map(
-                (_, index) => {
-
-                  const number =
-                    index === 0 ? 12 : index;
-
-                  const angle = index * 30;
-                  const radius = 40;
-
-                  const x =
-                    50 +
-                    radius *
-                      Math.sin(
-                        (angle * Math.PI) / 180
-                      );
-
-                  const y =
-                    50 -
-                    radius *
-                      Math.cos(
-                        (angle * Math.PI) / 180
-                      );
-
-                  return (
-                    <span
-                      key={`number-${number}`}
-                      className="clock-number"
-                      style={{
-                        left: `${x}%`,
-                        top: `${y}%`
-                      }}
-                    >
-                      {number}
-                    </span>
-                  );
-                }
-              )}
-
-              {/* CLOCK HANDS */}
+                  >
+                    {number}
+                  </span>
+                );
+              })}
 
               <div
                 className="hand hour-hand"
@@ -457,38 +407,34 @@ export default function Home() {
                 }}
               />
 
-              {/* CENTER F1 */}
-
               <div className="clock-logo">
-
-                <F1Logo small />
+                <Image
+                  src="/f1-logo.png"
+                  alt="F1"
+                  width={82}
+                  height={35}
+                  priority
+                  className="f1-clock-logo"
+                />
 
                 <div className="clock-logo-text">
                   TIME DRIVES
                   <br />
                   PASSION
                 </div>
-
               </div>
-
-              {/* DIGITAL TIME */}
 
               <div className="digital-clock">
                 {digitalTime}
               </div>
 
-              {/* CENTER PIN */}
-
               <div className="clock-center">
                 <div className="clock-center-dot" />
               </div>
-
             </div>
-
           </div>
 
           <div className="clock-bottom">
-
             <span className="bottom-line" />
 
             <span>
@@ -500,17 +446,11 @@ export default function Home() {
             </strong>
 
             <span className="bottom-line" />
-
           </div>
-
         </section>
 
-        {/* NOTES */}
-
         <section className="notes-panel">
-
           <div className="notes-header">
-
             <h2>Notes</h2>
 
             <button
@@ -526,16 +466,16 @@ export default function Home() {
             >
               +
             </button>
-
           </div>
 
           <div className="notes-list">
-
             {notes.map((note) => (
               <button
                 key={note.id}
                 className={`note-item ${
-                  note.done ? "completed" : ""
+                  note.done
+                    ? "completed"
+                    : ""
                 }`}
                 onClick={() =>
                   toggleNote(note.id)
@@ -550,16 +490,16 @@ export default function Home() {
                 </span>
               </button>
             ))}
-
           </div>
 
           <div className="note-input-row">
-
             <input
               className="note-input"
               value={newNote}
               onChange={(event) =>
-                setNewNote(event.target.value)
+                setNewNote(
+                  event.target.value
+                )
               }
               onKeyDown={(event) => {
                 if (event.key === "Enter") {
@@ -577,12 +517,8 @@ export default function Home() {
             >
               →
             </button>
-
           </div>
-
         </section>
-
-        {/* BOTTOM RIGHT */}
 
         <div className="bottom-message">
           <span>SOME PEOPLE</span>
@@ -596,7 +532,6 @@ export default function Home() {
           <br />
           WE RISE
         </div>
-
       </main>
     </>
   );
