@@ -10,6 +10,19 @@ type WeatherData = {
   low: number;
 };
 
+type F1Meeting = {
+  meeting_key: number;
+  meeting_name: string;
+  circuit_short_name: string;
+  country_name: string;
+  country_code: string;
+  location: string;
+  date_start: string;
+  date_end: string;
+  gmt_offset: string;
+  is_cancelled: boolean;
+};
+
 type F1Session = {
   session_key: number;
   meeting_key: number;
@@ -19,6 +32,7 @@ type F1Session = {
   location: string;
   date_start: string;
   date_end: string;
+  gmt_offset: string;
   session_name: string;
   session_type: string;
 };
@@ -29,7 +43,7 @@ const COUNTRY_FLAGS: Record<string, string> = {
   Japan: "🇯🇵",
   Bahrain: "🇧🇭",
   "Saudi Arabia": "🇸🇦",
-  Miami: "🇺🇸",
+  "United States": "🇺🇸",
   Canada: "🇨🇦",
   Monaco: "🇲🇨",
   Spain: "🇪🇸",
@@ -41,40 +55,13 @@ const COUNTRY_FLAGS: Record<string, string> = {
   Italy: "🇮🇹",
   Azerbaijan: "🇦🇿",
   Singapore: "🇸🇬",
-  "United States": "🇺🇸",
   Mexico: "🇲🇽",
   Brazil: "🇧🇷",
   Qatar: "🇶🇦",
   "Abu Dhabi": "🇦🇪"
 };
 
-const ROUND_BY_COUNTRY: Record<string, number> = {
-  Australia: 1,
-  China: 2,
-  Japan: 3,
-  Bahrain: 4,
-  "Saudi Arabia": 5,
-  Miami: 6,
-  Canada: 7,
-  Monaco: 8,
-  Spain: 9,
-  Austria: 10,
-  "Great Britain": 11,
-  Belgium: 12,
-  Hungary: 13,
-  Netherlands: 14,
-  Italy: 15,
-  Azerbaijan: 16,
-  Singapore: 17,
-  "United States": 18,
-  Mexico: 19,
-  Brazil: 20,
-  "Las Vegas": 21,
-  Qatar: 22,
-  "Abu Dhabi": 23
-};
-
-function formatTime(dateString: string) {
+function formatIndiaTime(dateString: string) {
   return new Intl.DateTimeFormat("en-IN", {
     timeZone: "Asia/Kolkata",
     hour: "2-digit",
@@ -83,7 +70,15 @@ function formatTime(dateString: string) {
   }).format(new Date(dateString));
 }
 
-function formatDay(dateString: string) {
+function formatIndiaDate(dateString: string) {
+  return new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "short"
+  }).format(new Date(dateString));
+}
+
+function formatIndiaDay(dateString: string) {
   return new Intl.DateTimeFormat("en-IN", {
     timeZone: "Asia/Kolkata",
     weekday: "short",
@@ -92,35 +87,48 @@ function formatDay(dateString: string) {
   }).format(new Date(dateString));
 }
 
-function getSessionLabel(session: F1Session) {
+function sessionLabel(session: F1Session) {
   const name = session.session_name.toLowerCase();
 
-  if (name.includes("practice 1")) return "FP1";
-  if (name.includes("practice 2")) return "FP2";
-  if (name.includes("practice 3")) return "FP3";
-  if (name.includes("sprint qualifying")) return "SPRINT QUALI";
+  if (name === "practice 1") return "FP1";
+  if (name === "practice 2") return "FP2";
+  if (name === "practice 3") return "FP3";
+  if (name === "sprint qualifying") return "SPRINT QUALI";
   if (name === "sprint") return "SPRINT";
-  if (name.includes("qualifying")) return "QUALIFYING";
+  if (name === "qualifying") return "QUALIFYING";
   if (name === "race") return "RACE";
 
   return session.session_name.toUpperCase();
 }
 
-function getSessionStatus(session: F1Session, now: number) {
+function sessionStatus(
+  session: F1Session,
+  currentTime: number
+): "DONE" | "LIVE" | "NEXT" {
   const start = new Date(session.date_start).getTime();
   const end = new Date(session.date_end).getTime();
 
-  if (now >= start && now <= end) return "LIVE";
-  if (now > end) return "DONE";
+  if (currentTime >= start && currentTime <= end) {
+    return "LIVE";
+  }
+
+  if (currentTime > end) {
+    return "DONE";
+  }
+
   return "NEXT";
 }
 
 function WeatherIcon({ code }: { code: number }) {
   if (code === 0) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64" aria-hidden="true">
+      <svg className="weather-svg" viewBox="0 0 64 64">
         <circle cx="32" cy="32" r="13" fill="#f1f2f3" />
-        <g stroke="#f1f2f3" strokeWidth="3" strokeLinecap="round">
+        <g
+          stroke="#f1f2f3"
+          strokeWidth="3"
+          strokeLinecap="round"
+        >
           <path d="M32 5v9" />
           <path d="M32 50v9" />
           <path d="M5 32h9" />
@@ -136,13 +144,19 @@ function WeatherIcon({ code }: { code: number }) {
 
   if (code === 1 || code === 2) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64" aria-hidden="true">
+      <svg className="weather-svg" viewBox="0 0 64 64">
         <circle cx="25" cy="23" r="12" fill="#f1f2f3" />
-        <g stroke="#f1f2f3" strokeWidth="2.5" strokeLinecap="round">
+
+        <g
+          stroke="#f1f2f3"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        >
           <path d="M25 5v7" />
           <path d="M8 23h7" />
           <path d="M13 11l5 5" />
         </g>
+
         <path
           d="M17 45h31c6 0 10-4 10-9s-4-10-10-10c-1 0-3 0-4 .5C42 21 37 18 31 18c-8 0-14 6-14 14h0c-5 0-9 3-9 7s4 6 9 6Z"
           fill="none"
@@ -155,7 +169,7 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([3, 45, 48].includes(code)) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64" aria-hidden="true">
+      <svg className="weather-svg" viewBox="0 0 64 64">
         <path
           d="M12 27h40M8 37h48M15 47h34"
           stroke="#cfd1d4"
@@ -168,14 +182,19 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([51, 53, 55, 56, 57].includes(code)) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64" aria-hidden="true">
+      <svg className="weather-svg" viewBox="0 0 64 64">
         <path
           d="M16 35h32c5 0 9-4 9-9s-4-9-9-9c-1 0-2 0-3 .4C42 12 37 9 31 9c-8 0-14 6-14 14-5 0-9 4-9 9s4 9 8 9Z"
           fill="none"
           stroke="#cfd1d4"
           strokeWidth="3"
         />
-        <g stroke="#f1f2f3" strokeWidth="2.5" strokeLinecap="round">
+
+        <g
+          stroke="#f1f2f3"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        >
           <path d="M22 43v8" />
           <path d="M32 43v8" />
           <path d="M42 43v8" />
@@ -186,14 +205,19 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
     return (
-      <svg className="weather-svg" viewBox="0 0 64 64" aria-hidden="true">
+      <svg className="weather-svg" viewBox="0 0 64 64">
         <path
           d="M16 33h32c5 0 9-4 9-9s-4-9-9-9c-1 0-2 0-3 .4C42 10 37 7 31 7c-8 0-14 6-14 14-5 0-9 4-9 9s4 9 8 9Z"
           fill="none"
           stroke="#cfd1d4"
           strokeWidth="3"
         />
-        <g stroke="#f1f2f3" strokeWidth="3" strokeLinecap="round">
+
+        <g
+          stroke="#f1f2f3"
+          strokeWidth="3"
+          strokeLinecap="round"
+        >
           <path d="M20 42l-3 9" />
           <path d="M32 42l-3 9" />
           <path d="M44 42l-3 9" />
@@ -203,13 +227,14 @@ function WeatherIcon({ code }: { code: number }) {
   }
 
   return (
-    <svg className="weather-svg" viewBox="0 0 64 64" aria-hidden="true">
+    <svg className="weather-svg" viewBox="0 0 64 64">
       <path
         d="M16 33h32c5 0 9-4 9-9s-4-9-9-9c-1 0-2 0-3 .4C42 10 37 7 31 7c-8 0-14 6-14 14-5 0-9 4-9 9s4 9 8 9Z"
         fill="none"
         stroke="#cfd1d4"
         strokeWidth="3"
       />
+
       <path
         d="M34 39l-8 12h7l-3 10 9-14h-7l8-8Z"
         fill="#e10600"
@@ -218,19 +243,23 @@ function WeatherIcon({ code }: { code: number }) {
   );
 }
 
-function getWeatherText(code: number) {
+function weatherText(code: number) {
   if (code === 0) return "CLEAR";
   if ([1, 2].includes(code)) return "PARTLY CLOUDY";
   if ([3, 45, 48].includes(code)) return "CLOUDY";
   if ([51, 53, 55, 56, 57].includes(code)) return "DRIZZLE";
-  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "RAIN";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+    return "RAIN";
+  }
   if ([95, 96, 99].includes(code)) return "STORM";
+
   return "CLEAR";
 }
 
 export default function Home() {
   const [now, setNow] = useState(new Date());
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [meetings, setMeetings] = useState<F1Meeting[]>([]);
   const [sessions, setSessions] = useState<F1Session[]>([]);
   const [scheduleLoading, setScheduleLoading] = useState(true);
 
@@ -250,7 +279,9 @@ export default function Home() {
           { cache: "no-store" }
         );
 
-        if (!response.ok) throw new Error("Weather request failed");
+        if (!response.ok) {
+          throw new Error("Weather request failed");
+        }
 
         const data = await response.json();
 
@@ -267,51 +298,88 @@ export default function Home() {
 
     loadWeather();
 
-    const weatherTimer = window.setInterval(loadWeather, 15 * 60 * 1000);
+    const timer = window.setInterval(
+      loadWeather,
+      15 * 60 * 1000
+    );
 
-    return () => window.clearInterval(weatherTimer);
+    return () => window.clearInterval(timer);
   }, []);
 
   useEffect(() => {
-    async function loadF1Schedule() {
+    async function loadF1() {
       try {
         setScheduleLoading(true);
 
-        const response = await fetch(
-          "https://api.openf1.org/v1/sessions?year=2026",
-          { cache: "no-store" }
-        );
+        const [meetingsResponse, sessionsResponse] =
+          await Promise.all([
+            fetch(
+              "https://api.openf1.org/v1/meetings?year=2026",
+              { cache: "no-store" }
+            ),
+            fetch(
+              "https://api.openf1.org/v1/sessions?year=2026",
+              { cache: "no-store" }
+            )
+          ]);
 
-        if (!response.ok) {
-          throw new Error("F1 schedule request failed");
+        if (
+          !meetingsResponse.ok ||
+          !sessionsResponse.ok
+        ) {
+          throw new Error("F1 API request failed");
         }
 
-        const data = await response.json();
+        const meetingsData =
+          (await meetingsResponse.json()) as F1Meeting[];
 
-        const cleaned: F1Session[] = data
-          .filter((session: F1Session) => !session.session_name.toLowerCase().includes("testing"))
+        const sessionsData =
+          (await sessionsResponse.json()) as F1Session[];
+
+        const validMeetings = meetingsData
+          .filter(
+            (meeting) =>
+              !meeting.is_cancelled &&
+              meeting.country_name !== "Testing"
+          )
           .sort(
-            (a: F1Session, b: F1Session) =>
+            (a, b) =>
               new Date(a.date_start).getTime() -
               new Date(b.date_start).getTime()
           );
 
-        setSessions(cleaned);
+        const validSessions = sessionsData
+          .filter(
+            (session) =>
+              session.country_name !== "Testing" &&
+              !session.session_name
+                .toLowerCase()
+                .includes("testing")
+          )
+          .sort(
+            (a, b) =>
+              new Date(a.date_start).getTime() -
+              new Date(b.date_start).getTime()
+          );
+
+        setMeetings(validMeetings);
+        setSessions(validSessions);
       } catch {
+        setMeetings([]);
         setSessions([]);
       } finally {
         setScheduleLoading(false);
       }
     }
 
-    loadF1Schedule();
+    loadF1();
 
-    const scheduleTimer = window.setInterval(
-      loadF1Schedule,
+    const timer = window.setInterval(
+      loadF1,
       15 * 60 * 1000
     );
 
-    return () => window.clearInterval(scheduleTimer);
+    return () => window.clearInterval(timer);
   }, []);
 
   const clock = useMemo(() => {
@@ -320,12 +388,15 @@ export default function Home() {
     const seconds = now.getSeconds();
 
     return {
-      hours,
-      minutes,
-      seconds,
-      hourAngle: ((hours % 12) + minutes / 60) * 30,
-      minuteAngle: (minutes + seconds / 60) * 6,
-      secondAngle: seconds * 6,
+      hourAngle:
+        ((hours % 12) + minutes / 60) * 30,
+
+      minuteAngle:
+        (minutes + seconds / 60) * 6,
+
+      secondAngle:
+        seconds * 6,
+
       digital: now.toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit",
@@ -337,83 +408,121 @@ export default function Home() {
 
   const dateInfo = useMemo(() => {
     return {
-      day: now.toLocaleDateString("en-IN", {
-        weekday: "long"
-      }).toUpperCase(),
-      date: now.toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric"
-      }).toUpperCase()
+      day: now
+        .toLocaleDateString("en-IN", {
+          weekday: "long"
+        })
+        .toUpperCase(),
+
+      date: now
+        .toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        })
+        .toUpperCase()
     };
   }, [now]);
 
   const schedule = useMemo(() => {
-    if (!sessions.length) return null;
+    if (!meetings.length || !sessions.length) {
+      return null;
+    }
 
     const currentTime = now.getTime();
 
-    const futureOrLive = sessions.find(
-      (session) =>
-        currentTime <= new Date(session.date_end).getTime()
+    const upcomingMeeting =
+      meetings.find(
+        (meeting) =>
+          new Date(meeting.date_end).getTime() >=
+          currentTime
+      ) ?? null;
+
+    if (!upcomingMeeting) {
+      return null;
+    }
+
+    const meetingSessions = sessions
+      .filter(
+        (session) =>
+          session.meeting_key ===
+          upcomingMeeting.meeting_key
+      )
+      .sort(
+        (a, b) =>
+          new Date(a.date_start).getTime() -
+          new Date(b.date_start).getTime()
+      );
+
+    const meetingIndex = meetings.findIndex(
+      (meeting) =>
+        meeting.meeting_key ===
+        upcomingMeeting.meeting_key
     );
 
-    if (!futureOrLive) return null;
-
-    const currentMeetingKey = futureOrLive.meeting_key;
-
-    const meetingSessions = sessions.filter(
-      (session) => session.meeting_key === currentMeetingKey
-    );
+    const round =
+      meetingIndex >= 0
+        ? meetingIndex + 1
+        : null;
 
     const currentSession =
       meetingSessions.find((session) => {
-        const start = new Date(session.date_start).getTime();
-        const end = new Date(session.date_end).getTime();
+        const start =
+          new Date(session.date_start).getTime();
 
-        return currentTime >= start && currentTime <= end;
+        const end =
+          new Date(session.date_end).getTime();
+
+        return (
+          currentTime >= start &&
+          currentTime <= end
+        );
       }) ?? null;
 
     const nextSession =
       meetingSessions.find(
         (session) =>
-          new Date(session.date_start).getTime() > currentTime
+          new Date(session.date_start).getTime() >
+          currentTime
       ) ?? null;
-
-    const upcomingMeeting = sessions.find(
-      (session) =>
-        session.meeting_key !== currentMeetingKey &&
-        new Date(session.date_start).getTime() > currentTime
-    );
-
-    const nextMeetingKey = upcomingMeeting?.meeting_key;
 
     const nextRace =
       sessions.find(
         (session) =>
-          session.session_name.toLowerCase() === "race" &&
-          new Date(session.date_start).getTime() > currentTime
+          session.session_name.toLowerCase() ===
+            "race" &&
+          new Date(session.date_start).getTime() >
+            currentTime
       ) ?? null;
 
-    const round = ROUND_BY_COUNTRY[futureOrLive.country_name] ?? null;
+    const nextRaceMeeting = nextRace
+      ? meetings.find(
+          (meeting) =>
+            meeting.meeting_key ===
+            nextRace.meeting_key
+        )
+      : null;
 
     return {
-      meeting: futureOrLive,
+      meeting: upcomingMeeting,
       round,
       sessions: meetingSessions,
       currentSession,
       nextSession,
       nextRace,
-      nextMeetingKey
+      nextRaceMeeting
     };
-  }, [sessions, now]);
+  }, [meetings, sessions, now]);
 
   const analogTicks = Array.from({ length: 60 });
 
   return (
     <main className="dashboard">
+
       <header className="top-header">
+
         <div className="brand">
+
           <Image
             src="/f1-logo.png"
             alt="F1"
@@ -429,9 +538,11 @@ export default function Home() {
             <span>A HIGHER</span>
             <span>GEAR EVERYDAY</span>
           </div>
+
         </div>
 
         <div className="header-right">
+
           <div className="header-right-copy">
             <span>DRIVEN</span>
             <span>BY A DIFFERENT</span>
@@ -443,10 +554,13 @@ export default function Home() {
             <span />
             <span />
           </div>
+
         </div>
+
       </header>
 
       <section className="left-panel">
+
         <div className="day-block">
           <h1>{dateInfo.day}</h1>
           <div>{dateInfo.date}</div>
@@ -461,19 +575,25 @@ export default function Home() {
         </div>
 
         <div className="weather">
+
           {weather ? (
             <>
               <div className="weather-icon">
-                <WeatherIcon code={weather.weatherCode} />
+                <WeatherIcon
+                  code={weather.weatherCode}
+                />
               </div>
 
               <div className="weather-copy">
+
                 <div className="weather-temp">
                   {weather.temperature}°C
                 </div>
 
                 <div className="weather-condition">
-                  {getWeatherText(weather.weatherCode)}
+                  {weatherText(
+                    weather.weatherCode
+                  )}
                 </div>
 
                 <div className="weather-location">
@@ -481,9 +601,14 @@ export default function Home() {
                 </div>
 
                 <div className="weather-range">
-                  <span>↑ {weather.high}°</span>
-                  <span>↓ {weather.low}°</span>
+                  <span>
+                    ↑ {weather.high}°
+                  </span>
+                  <span>
+                    ↓ {weather.low}°
+                  </span>
                 </div>
+
               </div>
             </>
           ) : (
@@ -491,15 +616,20 @@ export default function Home() {
               WEATHER UNAVAILABLE
             </div>
           )}
+
         </div>
+
       </section>
 
       <section className="clock-section">
+
         <div className="clock-face">
+
           <div className="clock-ring clock-ring-outer" />
           <div className="clock-ring clock-ring-inner" />
 
           {analogTicks.map((_, index) => {
+
             const angle = index * 6;
             const major = index % 5 === 0;
 
@@ -507,69 +637,86 @@ export default function Home() {
               <span
                 key={index}
                 className={`clock-tick ${
-                  major ? "clock-tick-major" : ""
+                  major
+                    ? "clock-tick-major"
+                    : ""
                 }`}
                 style={{
-                  transform: `rotate(${angle}deg)`
+                  transform:
+                    `rotate(${angle}deg)`
                 }}
               />
             );
+
           })}
 
           <div className="clock-numbers">
-            {[12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(
-              (number) => {
-                const angle = number * 30;
 
-                return (
-                  <span
-                    key={number}
+            {[
+              12, 1, 2, 3, 4, 5,
+              6, 7, 8, 9, 10, 11
+            ].map((number) => {
+
+              const angle = number * 30;
+
+              return (
+                <span
+                  key={number}
+                  style={{
+                    transform:
+                      `rotate(${angle}deg)`
+                  }}
+                >
+                  <b
                     style={{
-                      transform: `rotate(${angle}deg)`
+                      transform:
+                        `rotate(-${angle}deg)`
                     }}
                   >
-                    <b
-                      style={{
-                        transform: `rotate(-${angle}deg)`
-                      }}
-                    >
-                      {number}
-                    </b>
-                  </span>
-                );
-              }
-            )}
+                    {number}
+                  </b>
+                </span>
+              );
+
+            })}
+
           </div>
 
           <div className="clock-logo">
+
             <Image
               src="/f1-logo.png"
               alt=""
               width={82}
               height={34}
             />
+
             <span>TIME DRIVES</span>
             <span>PASSION</span>
+
           </div>
 
           <div
             className="clock-hand clock-hour"
             style={{
-              transform: `rotate(${clock.hourAngle}deg)`
+              transform:
+                `rotate(${clock.hourAngle}deg)`
             }}
           />
 
           <div
             className="clock-hand clock-minute"
             style={{
-              transform: `rotate(${clock.minuteAngle}deg)`
+              transform:
+                `rotate(${clock.minuteAngle}deg)`
             }}
           />
 
           <div
             className="clock-hand clock-second"
             style={{
-              transform: `rotate(${clock.secondAngle}deg)`
+              transform:
+                `rotate(${clock.secondAngle}deg)`
             }}
           />
 
@@ -580,6 +727,7 @@ export default function Home() {
           </div>
 
           <div className="clock-bottom">
+
             <div className="clock-bottom-row">
               <span className="bottom-line" />
               <span>LIFE IS BETTER IN</span>
@@ -587,80 +735,116 @@ export default function Home() {
             </div>
 
             <strong>RACE MODE</strong>
+
           </div>
+
         </div>
+
       </section>
 
       <aside className="schedule-panel">
+
         <div className="schedule-header">
+
           <span>F1 SCHEDULE</span>
+
           <span className="schedule-live-dot" />
+
         </div>
 
         {scheduleLoading ? (
+
           <div className="schedule-loading">
             LOADING SCHEDULE...
           </div>
+
         ) : schedule ? (
+
           <>
+
             <div className="schedule-round">
+
               <span>ROUND</span>
+
               <strong>
-                {schedule.round
-                  ? String(schedule.round).padStart(2, "0")
-                  : "--"}
+                {String(
+                  schedule.round ?? "--"
+                ).padStart(2, "0")}
               </strong>
+
             </div>
 
             <div className="schedule-location">
+
               <span className="schedule-flag">
-                {COUNTRY_FLAGS[schedule.meeting.country_name] ?? "🏁"}
+                {COUNTRY_FLAGS[
+                  schedule.meeting.country_name
+                ] ?? "🏁"}
               </span>
 
               <div>
+
                 <strong>
                   {schedule.meeting.country_name.toUpperCase()}
                 </strong>
+
                 <span>
                   {schedule.meeting.circuit_short_name.toUpperCase()}
                 </span>
+
               </div>
+
             </div>
 
             <div className="schedule-dates">
-              {formatDay(schedule.meeting.date_start)}
+
+              {formatIndiaDate(
+                schedule.meeting.date_start
+              )}
+
               {" — "}
-              {new Intl.DateTimeFormat("en-IN", {
-                timeZone: "Asia/Kolkata",
-                day: "2-digit",
-                month: "short"
-              }).format(new Date(schedule.meeting.date_end))}
+
+              {formatIndiaDate(
+                schedule.meeting.date_end
+              )}
+
             </div>
 
             <div className="session-list">
+
               {schedule.sessions
                 .filter((session) => {
-                  const name = session.session_name.toLowerCase();
+
+                  const name =
+                    session.session_name.toLowerCase();
 
                   return (
-                    name.includes("practice") ||
-                    name.includes("qualifying") ||
+                    name === "practice 1" ||
+                    name === "practice 2" ||
+                    name === "practice 3" ||
                     name === "sprint" ||
+                    name === "sprint qualifying" ||
+                    name === "qualifying" ||
                     name === "race"
                   );
+
                 })
                 .map((session) => {
-                  const status = getSessionStatus(
-                    session,
-                    now.getTime()
-                  );
+
+                  const status =
+                    sessionStatus(
+                      session,
+                      now.getTime()
+                    );
 
                   return (
                     <div
-                      className={`session-row session-${status.toLowerCase()}`}
                       key={session.session_key}
+                      className={`session-row session-${status.toLowerCase()}`}
                     >
+
                       <div className="session-name">
+
                         {status === "LIVE" && (
                           <span className="session-live-dot" />
                         )}
@@ -671,63 +855,109 @@ export default function Home() {
                           </span>
                         )}
 
+                        {status === "NEXT" && (
+                          <span className="session-next">
+                            ›
+                          </span>
+                        )}
+
                         <span>
-                          {getSessionLabel(session)}
+                          {sessionLabel(session)}
                         </span>
+
                       </div>
 
                       <div className="session-time">
-                        {formatTime(session.date_start)}
+                        {formatIndiaTime(
+                          session.date_start
+                        )}
                       </div>
+
                     </div>
                   );
+
                 })}
+
             </div>
 
-            {schedule.nextRace &&
-              schedule.nextRace.meeting_key !==
-                schedule.meeting.meeting_key && (
-                <div className="next-race">
-                  <span>NEXT RACE</span>
+            {schedule.nextRaceMeeting && (
+              <div className="next-race">
 
-                  <strong>
-                    {COUNTRY_FLAGS[
-                      schedule.nextRace.country_name
-                    ] ?? "🏁"}{" "}
-                    {schedule.nextRace.country_name.toUpperCase()}
-                  </strong>
+                <span>NEXT RACE</span>
 
-                  <small>
-                    {schedule.nextRace.circuit_short_name.toUpperCase()}
-                    {" · "}
-                    {formatDay(schedule.nextRace.date_start)}
-                  </small>
-                </div>
-              )}
+                <strong>
+                  {COUNTRY_FLAGS[
+                    schedule.nextRaceMeeting.country_name
+                  ] ?? "🏁"}{" "}
+                  {schedule.nextRaceMeeting.country_name.toUpperCase()}
+                </strong>
+
+                <small>
+                  {schedule.nextRaceMeeting.circuit_short_name.toUpperCase()}
+                  {" · "}
+                  {formatIndiaDay(
+                    schedule.nextRaceMeeting.date_start
+                  )}
+                </small>
+
+              </div>
+            )}
 
             {schedule.currentSession && (
               <div className="schedule-status">
-                <span className="status-label">STATUS</span>
+
+                <span className="status-label">
+                  LIVE NOW
+                </span>
 
                 <strong>
-                  ● {getSessionLabel(schedule.currentSession)}
+                  ●{" "}
+                  {sessionLabel(
+                    schedule.currentSession
+                  )}
                 </strong>
+
               </div>
             )}
+
+            {!schedule.currentSession &&
+              schedule.nextSession && (
+                <div className="schedule-status">
+
+                  <span className="status-label">
+                    NEXT
+                  </span>
+
+                  <strong>
+                    {sessionLabel(
+                      schedule.nextSession
+                    )}
+                  </strong>
+
+                </div>
+              )}
+
           </>
+
         ) : (
+
           <div className="schedule-loading">
             SCHEDULE UNAVAILABLE
           </div>
+
         )}
+
       </aside>
 
       <div className="bottom-message">
+
         <span>SOME PEOPLE</span>
         <span>WATCH RACES.</span>
+
         <span className="bottom-message-strong">
           WE FEEL THEM.
         </span>
+
       </div>
 
       <div className="race-mode-label">
@@ -737,6 +967,7 @@ export default function Home() {
       </div>
 
       <div className="home-indicator" />
+
     </main>
   );
 }
