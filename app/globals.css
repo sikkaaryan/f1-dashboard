@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
   --red: #e10600;
-  --white: #f4f4f4;
+  --white: #f1f2f3;
+  --muted: #85888d;
   --dark: #08090b;
-  --panel: rgba(12, 14, 17, 0.84);
 }
 
 * {
@@ -18,192 +18,128 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #08090b;
+  background: var(--dark);
 }
 
 body {
-  font-family: "Inter", Arial, sans-serif;
+  font-family: "Inter", sans-serif;
   color: var(--white);
 }
 
-button,
-input {
-  font: inherit;
-}
-
-button {
-  border: 0;
-}
-
-.race-dashboard {
+.dashboard {
   position: relative;
   width: 100vw;
   height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 50% 48%,
-      rgba(90, 90, 90, 0.1),
-      transparent 36%
-    ),
-    linear-gradient(
+    radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.035), transparent 30%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent 25%),
+    repeating-linear-gradient(
       135deg,
-      #0b0c0f 0%,
-      #050608 50%,
-      #0a0b0d 100%
-    );
-}
-
-/* BACKGROUND */
-
-.carbon-overlay {
-  position: absolute;
-  inset: 0;
-  opacity: 0.42;
-  background:
-    linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.025) 25%,
-      transparent 25%,
-      transparent 75%,
-      rgba(255, 255, 255, 0.025) 75%
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 4px
     ),
-    linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.02) 25%,
-      transparent 25%,
-      transparent 75%,
-      rgba(255, 255, 255, 0.02) 75%
-    );
-  background-size: 8px 8px;
-  background-position:
-    0 0,
-    4px 4px;
-  pointer-events: none;
+    #08090b;
 }
 
-.red-glow {
+/* =========================
+   TOP HEADER
+========================= */
+
+.top-header {
   position: absolute;
-  width: 40vw;
-  height: 40vw;
-  max-width: 600px;
-  max-height: 600px;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.07;
-  background: var(--red);
-  pointer-events: none;
-}
-
-.red-glow-left {
-  left: -25vw;
-  top: 30%;
-}
-
-.red-glow-right {
-  right: -25vw;
-  top: 10%;
-}
-
-.racing-line-bg {
-  position: absolute;
-  left: -5%;
-  bottom: 13%;
-  width: 110%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(225, 6, 0, 0.4),
-    transparent
-  );
-  transform: rotate(-4deg);
-  pointer-events: none;
-}
-
-/* HEADER */
-
-.race-header {
-  position: absolute;
-  top: 3.5%;
-  left: 3.2%;
-  right: 3.2%;
+  top: 7%;
+  left: 4.2%;
+  right: 4.2%;
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
   z-index: 20;
 }
 
-.f1-brand {
+.brand {
   display: flex;
   align-items: center;
-  height: 58px;
+  gap: 15px;
 }
 
-.f1-logo-wrapper {
-  width: 145px;
-  display: flex;
-  align-items: center;
-}
-
-.f1-logo-image {
-  display: block;
-  width: 145px;
+.f1-logo {
+  width: 112px;
   height: auto;
   object-fit: contain;
 }
 
-.brand-divider {
+.header-divider {
   width: 1px;
-  height: 38px;
-  margin: 0 18px;
-  background: rgba(255, 255, 255, 0.24);
+  height: 32px;
+  background: rgba(255, 255, 255, 0.18);
 }
 
-.brand-tagline {
+.header-copy {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  color: #a4a7ac;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 11px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 2px;
-  line-height: 1;
+  line-height: 1.25;
+  color: #a4a7ab;
 }
 
-.driven {
-  position: relative;
+.header-right {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.header-right-copy {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 1px;
-  padding-right: 62px;
-  color: #c5c7ca;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 8px;
+  font-weight: 600;
   letter-spacing: 2px;
-  line-height: 1.05;
+  line-height: 1.25;
+  color: #a4a7ab;
   text-align: right;
 }
 
-.driven span:first-child {
-  color: #fff;
-  font-size: 14px;
+.header-mark {
+  position: relative;
+  width: 36px;
+  height: 32px;
 }
 
-.driven-mark {
+.header-mark span {
   position: absolute;
   right: 0;
-  top: 3px;
-  color: var(--red);
-  font-size: 25px;
-  letter-spacing: -7px;
-  transform: skewX(-18deg);
+  height: 3px;
+  background: var(--red);
+  transform: skewX(-28deg);
 }
 
-/* LEFT */
+.header-mark span:nth-child(1) {
+  top: 2px;
+  width: 30px;
+}
+
+.header-mark span:nth-child(2) {
+  top: 11px;
+  width: 22px;
+}
+
+.header-mark span:nth-child(3) {
+  top: 20px;
+  width: 14px;
+}
+
+/* =========================
+   LEFT PANEL
+========================= */
 
 .left-panel {
   position: absolute;
@@ -214,83 +150,48 @@ button {
   z-index: 10;
 }
 
-.date-block {
-  position: absolute;
-  top: 0;
-  left: 0;
+.day-block {
+  font-family: "Barlow Condensed", sans-serif;
 }
 
-.big-day {
-  color: #f0f0f0;
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: clamp(42px, 4.4vw, 76px);
-  font-weight: 800;
+.day-block h1 {
+  margin: 0;
+  color: #eeeeef;
+  font-size: clamp(34px, 4vw, 58px);
+  font-weight: 600;
   letter-spacing: -1px;
-  line-height: 0.85;
+  line-height: 0.9;
 }
 
-.red-date {
-  margin-top: 9px;
+.day-block > div {
+  margin-top: 7px;
   color: var(--red);
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: clamp(16px, 1.3vw, 22px);
-  font-weight: 700;
-  letter-spacing: 3px;
+  font-size: clamp(18px, 1.8vw, 27px);
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .quote {
   position: absolute;
+  top: 27%;
   left: 0;
-  top: 28%;
   display: flex;
   flex-direction: column;
-  color: rgba(255, 255, 255, 0.92);
+  color: #85888d;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: clamp(24px, 2.1vw, 38px);
-  font-weight: 800;
+  font-size: clamp(17px, 1.55vw, 25px);
+  font-weight: 500;
   letter-spacing: 1px;
   line-height: 0.9;
 }
 
-.quote span:nth-child(3) {
-  margin-top: 7px;
+.quote span:nth-child(5) {
+  color: #d1d2d4;
 }
 
-.track-decoration {
-  position: absolute;
-  left: 0;
-  bottom: 28%;
-  width: 160px;
-}
-
-.track-line {
-  position: relative;
-  width: 130px;
-  height: 1px;
-  background: var(--red);
-  transform: rotate(-18deg);
-}
-
-.track-line::before,
-.track-line::after {
-  content: "";
-  position: absolute;
-  top: -3px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--red);
-}
-
-.track-line::before {
-  left: 0;
-}
-
-.track-line::after {
-  right: 0;
-}
-
-/* WEATHER */
+/* =========================
+   WEATHER
+========================= */
 
 .weather {
   position: absolute;
@@ -316,67 +217,58 @@ button {
   display: block;
 }
 
-.weather-content {
+.weather-copy {
   display: flex;
   flex-direction: column;
 }
 
 .weather-temp {
+  color: #e9eaec;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: clamp(36px, 3vw, 52px);
-  font-weight: 700;
+  font-size: 27px;
+  font-weight: 500;
   line-height: 0.9;
 }
 
 .weather-condition {
   margin-top: 4px;
-  color: #d1d3d5;
-  font-size: 11px;
+  color: #b0b2b5;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  letter-spacing: 1.3px;
 }
 
 .weather-location {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  color: #888c92;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.4px;
-}
-
-.location-pin {
-  color: var(--red);
+  margin-top: 3px;
+  color: #777b80;
+  font-family: "Barlow Condensed", sans-serif;
   font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .weather-range {
   display: flex;
-  gap: 12px;
-  margin-top: 7px;
+  gap: 9px;
+  margin-top: 5px;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
 }
 
-.weather-high {
+.weather-range span:first-child {
   color: var(--red);
 }
 
-.weather-low {
-  color: #649bd7;
+.weather-range span:last-child {
+  color: #6f8da7;
 }
 
-.weather-loading {
-  color: #777;
-  font-size: 10px;
-  letter-spacing: 2px;
-}
-
-/* CLOCK */
+/* =========================
+   CLOCK
+========================= */
 
 .clock-section {
   position: absolute;
@@ -388,217 +280,170 @@ button {
   z-index: 8;
 }
 
-.clock-outer-ring {
+.clock-face {
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 50%;
   background:
-    radial-gradient(
-      circle,
-      transparent 70%,
-      rgba(225, 6, 0, 0.08) 71%,
-      transparent 73%
-    );
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,0.045), transparent 42%),
+    radial-gradient(circle, #0d0f11 0%, #090a0c 72%, #060709 100%);
+  border: 1px solid rgba(255,255,255,0.16);
   box-shadow:
-    0 0 0 3px rgba(225, 6, 0, 0.14),
-    0 0 35px rgba(0, 0, 0, 0.75),
-    inset 0 0 40px rgba(0, 0, 0, 0.65);
+    0 0 0 4px rgba(225, 6, 0, 0.06),
+    0 0 40px rgba(0, 0, 0, 0.65),
+    inset 0 0 30px rgba(0,0,0,0.8);
 }
 
-.clock-outer-ring::before {
-  content: "";
+.clock-ring {
   position: absolute;
-  inset: 3px;
-  border: 2px solid rgba(225, 6, 0, 0.75);
   border-radius: 50%;
   pointer-events: none;
 }
 
-.clock {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 50%;
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      #16181b 0%,
-      #0c0e10 55%,
-      #07080a 100%
-    );
-  box-shadow:
-    inset 0 0 35px rgba(0, 0, 0, 0.9),
-    inset 0 0 3px rgba(255, 255, 255, 0.2);
+.clock-ring-outer {
+  inset: 6px;
+  border: 2px solid rgba(225, 6, 0, 0.85);
 }
 
-.clock::before {
-  content: "";
-  position: absolute;
-  inset: 4%;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 50%;
+.clock-ring-inner {
+  inset: 17px;
+  border: 1px solid rgba(255,255,255,0.16);
 }
-
-.clock::after {
-  content: "";
-  position: absolute;
-  inset: 10%;
-  border: 1px solid rgba(255, 255, 255, 0.035);
-  border-radius: 50%;
-}
-
-/* TICKS */
 
 .clock-tick {
   position: absolute;
-  left: calc(50% - 0.5px);
-  top: 2.5%;
+  left: 50%;
+  top: 50%;
   width: 1px;
-  height: 4.5%;
-  transform-origin: 50% 1050%;
-  background: rgba(255, 255, 255, 0.38);
-  z-index: 2;
+  height: 7px;
+  margin-left: -0.5px;
+  margin-top: -126px;
+  transform-origin: 0.5px 126px;
+  background: rgba(255,255,255,0.38);
 }
 
-.clock-tick.major {
-  top: 2%;
+.clock-tick-major {
   width: 2px;
-  height: 6%;
-  background: rgba(255, 255, 255, 0.82);
+  margin-left: -1px;
+  height: 12px;
+  margin-top: -126px;
+  background: rgba(255,255,255,0.9);
 }
 
-/* NUMBERS */
-
-.clock-number {
+.clock-numbers {
   position: absolute;
-  z-index: 3;
-  width: 28px;
-  height: 28px;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #e6e7e8;
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 1;
+  inset: 29px;
+  border-radius: 50%;
 }
 
-/* HANDS */
-
-.hand {
+.clock-numbers > span {
   position: absolute;
   left: 50%;
-  bottom: 50%;
-  transform-origin: 50% 100%;
-  border-radius: 10px;
-  z-index: 7;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
 }
 
-.hour-hand {
-  width: 7px;
-  height: 25%;
-  background: #f4f4f4;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+.clock-numbers > span b {
+  position: absolute;
+  left: -10px;
+  top: -103px;
+  display: block;
+  width: 20px;
+  color: #e5e6e8;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
 }
-
-.minute-hand {
-  width: 5px;
-  height: 34%;
-  background: #fafafa;
-}
-
-.second-hand {
-  width: 2px;
-  height: 40%;
-  background: var(--red);
-  box-shadow: 0 0 7px rgba(225, 6, 0, 0.7);
-}
-
-/* CLOCK LOGO */
 
 .clock-logo {
   position: absolute;
   left: 50%;
-  top: 25%;
+  top: 31%;
   transform: translateX(-50%);
-  z-index: 5;
-  width: 120px;
-  text-align: center;
-}
-
-.f1-clock-logo {
-  display: block;
-  width: 58px;
-  height: auto;
-  margin: 0 auto;
-  object-fit: contain;
-}
-
-.clock-logo-text {
-  margin-top: 5px;
-  color: #74787d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #777b80;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 6px;
+  font-size: 5px;
   font-weight: 600;
-  letter-spacing: 1.4px;
-  line-height: 1.4;
+  letter-spacing: 1.2px;
+  line-height: 1.25;
 }
 
-/* DIGITAL TIME */
+.clock-logo img {
+  width: 60px;
+  height: auto;
+  margin-bottom: 4px;
+}
 
-.digital-clock {
+.clock-hand {
   position: absolute;
   left: 50%;
-  bottom: 22%;
-  transform: translateX(-50%);
-  z-index: 8;
-  color: #f1f1f1;
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 27px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  white-space: nowrap;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.12);
+  top: 50%;
+  transform-origin: 50% 100%;
+  border-radius: 999px;
 }
 
-/* CENTER */
+.clock-hour {
+  width: 4px;
+  height: 63px;
+  margin-left: -2px;
+  margin-top: -63px;
+  background: #e7e8ea;
+  box-shadow: 0 0 5px rgba(255,255,255,0.12);
+}
+
+.clock-minute {
+  width: 3px;
+  height: 87px;
+  margin-left: -1.5px;
+  margin-top: -87px;
+  background: #f0f1f2;
+}
+
+.clock-second {
+  width: 1px;
+  height: 105px;
+  margin-left: -0.5px;
+  margin-top: -105px;
+  background: var(--red);
+  box-shadow: 0 0 5px rgba(225,6,0,0.55);
+}
 
 .clock-center {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 22px;
-  height: 22px;
-  transform: translate(-50%, -50%);
-  z-index: 12;
-  border: 2px solid var(--red);
-  border-radius: 50%;
-  background: #0b0c0e;
-  box-shadow: 0 0 8px rgba(225, 6, 0, 0.4);
-}
-
-.clock-center-dot {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 7px;
-  height: 7px;
+  width: 10px;
+  height: 10px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: var(--red);
+  box-shadow: 0 0 0 3px rgba(225,6,0,0.16);
 }
 
-/* -------------------------------------------------
-   FIX 2:
-   LIFE IS BETTER IN
-   RACE MODE UNDER IT
-------------------------------------------------- */
+.digital-time {
+  position: absolute;
+  left: 50%;
+  bottom: 24%;
+  transform: translateX(-50%);
+  color: #e5e6e8;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+/* =========================
+   CLOCK BOTTOM
+========================= */
 
 .clock-bottom {
   position: absolute;
@@ -627,6 +472,12 @@ button {
   letter-spacing: 1.5px;
 }
 
+.bottom-line {
+  width: 24px;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+
 .clock-bottom strong {
   display: block;
   color: var(--red);
@@ -635,146 +486,250 @@ button {
   letter-spacing: 2px;
 }
 
-.bottom-line {
-  width: 20px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-}
+/* =========================
+   F1 SCHEDULE
+========================= */
 
-/* NOTES */
-
-.notes-panel {
+.schedule-panel {
   position: absolute;
-  right: 4%;
-  top: 21%;
+  right: 4.2%;
+  top: 20%;
   width: 24%;
-  max-width: 210px;
-  padding: 10px 12px 9px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: var(--panel);
-  backdrop-filter: blur(8px);
-  box-shadow:
-    0 20px 45px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  z-index: 15;
+  max-width: 285px;
+  min-width: 205px;
+  padding: 14px 16px 13px;
+  border-left: 1px solid rgba(255,255,255,0.12);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.025), transparent 55%),
+    rgba(8,9,11,0.72);
+  z-index: 12;
 }
 
-.notes-header {
+.schedule-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 7px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.11);
+  color: #c8c9cb;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
 }
 
-.notes-header h2 {
-  margin: 0;
-  color: #ededed;
+.schedule-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 7px rgba(225,6,0,0.7);
+}
+
+.schedule-loading {
+  padding: 22px 0 10px;
+  color: #696d72;
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 17px;
+  font-size: 8px;
+  letter-spacing: 1.2px;
+}
+
+.schedule-round {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.schedule-round span {
+  color: #70747a;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.schedule-round strong {
+  color: #e4e5e7;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 0.8;
+}
+
+.schedule-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.schedule-flag {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.schedule-location div {
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-location strong {
+  color: #e8e9eb;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 0.95;
+}
+
+.schedule-location span {
+  margin-top: 3px;
+  color: #777b80;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.schedule-dates {
+  margin-top: 6px;
+  color: var(--red);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.session-list {
+  margin-top: 11px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.session-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.055);
+}
+
+.session-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #85888d;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.session-time {
+  color: #a8aaad;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+}
+
+.session-live {
+  padding-left: 5px;
+  background: rgba(225,6,0,0.08);
+}
+
+.session-live .session-name {
+  color: #f0f1f2;
+}
+
+.session-live .session-time {
+  color: var(--red);
+}
+
+.session-done .session-name {
+  color: #5f6368;
+}
+
+.session-done .session-time {
+  color: #55595e;
+}
+
+.session-live-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 6px rgba(225,6,0,0.7);
+}
+
+.session-done {
+  color: #5d6166;
+  font-size: 7px;
+}
+
+.next-race {
+  display: flex;
+  flex-direction: column;
+  margin-top: 11px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.next-race > span {
+  color: #65696e;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.next-race strong {
+  margin-top: 4px;
+  color: #d8d9db;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.next-race small {
+  margin-top: 2px;
+  color: #70747a;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 6px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.schedule-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 9px;
+}
+
+.status-label {
+  color: #55595e;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.schedule-status strong {
+  color: var(--red);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 7px;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
-.add-button {
-  width: 21px;
-  height: 21px;
-  padding: 0;
-  border-radius: 50%;
-  color: #fff;
-  background: var(--red);
-  font-size: 15px;
-  line-height: 21px;
-  cursor: pointer;
-}
-
-.notes-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.note-item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-height: 25px;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  color: #c6c8ca;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-}
-
-.checkbox {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 11px;
-  height: 11px;
-  margin-right: 6px;
-  border: 1px solid #686c71;
-  color: #fff;
-  font-size: 7px;
-}
-
-.note-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 7px;
-  letter-spacing: 0.2px;
-}
-
-.note-item.completed {
-  color: #666a70;
-  text-decoration: line-through;
-}
-
-.note-item.completed .checkbox {
-  border-color: var(--red);
-  background: var(--red);
-}
-
-.note-input-row {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 7px;
-}
-
-.note-input {
-  min-width: 0;
-  flex: 1;
-  height: 21px;
-  padding: 0 6px;
-  outline: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ddd;
-  background: rgba(255, 255, 255, 0.035);
-  font-size: 7px;
-}
-
-.note-input::placeholder {
-  color: #62666b;
-}
-
-.note-submit {
-  width: 21px;
-  height: 21px;
-  padding: 0;
-  color: #fff;
-  background: #25272a;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-/* -------------------------------------------------
-   FIX 3:
-   CLEAN BOTTOM RIGHT
-------------------------------------------------- */
+/* =========================
+   BOTTOM RIGHT
+========================= */
 
 .bottom-message {
   position: absolute;
@@ -821,37 +776,287 @@ button {
   margin-bottom: 2px;
 }
 
-/* PORTRAIT */
-
-.rotate-message {
-  display: none;
+.home-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  width: 92px;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 99px;
+  background: rgba(255,255,255,0.75);
+  z-index: 30;
 }
 
-@media (orientation: portrait) {
-  .race-dashboard {
-    display: none;
+/* =========================
+   IPHONE 11 PRO LANDSCAPE
+========================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .top-header {
+    top: 5.5%;
+    left: 4%;
+    right: 4%;
   }
 
-  .rotate-message {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: #fff;
-    background: #08090b;
-    font-family: "Barlow Condensed", sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    line-height: 1.3;
-    text-align: center;
+  .f1-logo {
+    width: 82px;
   }
 
-  .rotate-icon {
-    margin-bottom: 15px;
-    color: var(--red);
-    font-size: 40px;
+  .brand {
+    gap: 10px;
+  }
+
+  .header-divider {
+    height: 23px;
+  }
+
+  .header-copy,
+  .header-right-copy {
+    font-size: 6px;
+    letter-spacing: 1.5px;
+  }
+
+  .header-right {
+    gap: 12px;
+  }
+
+  .header-mark {
+    width: 27px;
+    height: 25px;
+  }
+
+  .header-mark span {
+    height: 2px;
+  }
+
+  .header-mark span:nth-child(1) {
+    width: 24px;
+  }
+
+  .header-mark span:nth-child(2) {
+    width: 17px;
+    top: 8px;
+  }
+
+  .header-mark span:nth-child(3) {
+    width: 11px;
+    top: 15px;
+  }
+
+  .left-panel {
+    left: 4%;
+    top: 20%;
+    bottom: 5%;
+    width: 25%;
+  }
+
+  .day-block h1 {
+    font-size: 34px;
+  }
+
+  .day-block > div {
+    font-size: 16px;
+  }
+
+  .quote {
+    top: 28%;
+    font-size: 19px;
+  }
+
+  .weather {
+    gap: 8px;
+  }
+
+  .weather-icon {
+    width: 55px;
+    height: 55px;
+    flex-basis: 55px;
+  }
+
+  .weather-temp {
+    font-size: 27px;
+  }
+
+  .weather-condition {
+    font-size: 8px;
+  }
+
+  .weather-location {
+    font-size: 6px;
+  }
+
+  .weather-range {
+    font-size: 7px;
+  }
+
+  .clock-section {
+    left: 50%;
+    top: 47%;
+    width: 292px;
+    height: 292px;
+  }
+
+  .schedule-panel {
+    right: 4%;
+    top: 21%;
+    width: 24%;
+    max-width: 210px;
+    min-width: 175px;
+    padding: 10px 11px 9px;
+  }
+
+  .schedule-header {
+    font-size: 6px;
+    letter-spacing: 1.3px;
+    padding-bottom: 5px;
+  }
+
+  .schedule-round {
+    margin-top: 7px;
+  }
+
+  .schedule-round span {
+    font-size: 6px;
+  }
+
+  .schedule-round strong {
+    font-size: 19px;
+  }
+
+  .schedule-location {
+    gap: 6px;
+    margin-top: 5px;
+  }
+
+  .schedule-flag {
+    font-size: 14px;
+  }
+
+  .schedule-location strong {
+    font-size: 11px;
+  }
+
+  .schedule-location span {
+    font-size: 5px;
+    margin-top: 2px;
+  }
+
+  .schedule-dates {
+    margin-top: 4px;
+    font-size: 5px;
+  }
+
+  .session-list {
+    margin-top: 7px;
+  }
+
+  .session-row {
+    min-height: 19px;
+  }
+
+  .session-name,
+  .session-time {
+    font-size: 6px;
+  }
+
+  .next-race {
+    margin-top: 6px;
+    padding-top: 6px;
+  }
+
+  .next-race > span {
+    font-size: 5px;
+  }
+
+  .next-race strong {
+    margin-top: 2px;
+    font-size: 7px;
+  }
+
+  .next-race small {
+    font-size: 5px;
+  }
+
+  .schedule-status {
+    margin-top: 5px;
+  }
+
+  .status-label,
+  .schedule-status strong {
+    font-size: 5px;
+  }
+
+  .bottom-message {
+    right: 10%;
+    bottom: 5%;
+    font-size: 6px;
+  }
+
+  .race-mode-label {
+    right: 3%;
+    bottom: 5%;
+    font-size: 5px;
+  }
+
+  .race-mode-label span:first-child {
+    font-size: 7px;
+  }
+
+  .home-indicator {
+    width: 80px;
+    height: 3px;
+    bottom: 5px;
+  }
+}
+
+/* =========================
+   SHORT LANDSCAPE SCREENS
+========================= */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .top-header {
+    top: 4%;
+  }
+
+  .left-panel {
+    top: 17%;
+  }
+
+  .clock-section {
+    width: 260px;
+    height: 260px;
+  }
+
+  .clock-tick {
+    margin-top: -112px;
+    transform-origin: 0.5px 112px;
+  }
+
+  .clock-tick-major {
+    margin-top: -112px;
+  }
+
+  .clock-numbers > span b {
+    top: -91px;
+  }
+
+  .clock-hour {
+    height: 55px;
+    margin-top: -55px;
+  }
+
+  .clock-minute {
+    height: 76px;
+    margin-top: -76px;
+  }
+
+  .clock-second {
+    height: 92px;
+    margin-top: -92px;
+  }
+
+  .schedule-panel {
+    top: 17%;
   }
 }
