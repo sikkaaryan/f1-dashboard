@@ -10,6 +10,12 @@ type Weather = {
   weatherCode: number;
 };
 
+type Note = {
+  id: number;
+  text: string;
+  done: boolean;
+};
+
 function weatherDescription(code: number) {
   if (code === 0) return "Clear";
   if ([1, 2, 3].includes(code)) return "Partly Cloudy";
@@ -23,20 +29,29 @@ function weatherDescription(code: number) {
 }
 
 function weatherIcon(code: number) {
-  if (code === 0) return "☀️";
-  if ([1, 2].includes(code)) return "🌤️";
-  if (code === 3) return "☁️";
-  if ([45, 48].includes(code)) return "🌫️";
-  if ([51, 53, 55, 56, 57].includes(code)) return "🌦️";
-  if ([61, 63, 65, 80, 81, 82].includes(code)) return "🌧️";
-  if ([95, 96, 99].includes(code)) return "⛈️";
-  return "🌡️";
+  if (code === 0) return "☀";
+  if ([1, 2].includes(code)) return "🌤";
+  if (code === 3) return "☁";
+  if ([45, 48].includes(code)) return "🌫";
+  if ([51, 53, 55, 56, 57].includes(code)) return "🌦";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "🌧";
+  if ([95, 96, 99].includes(code)) return "⛈";
+  return "☀";
 }
+
+const defaultNotes: Note[] = [
+  { id: 1, text: "Plan Goa trip", done: false },
+  { id: 2, text: "Order desk organiser", done: false },
+  { id: 3, text: "Finish performance review", done: false },
+  { id: 4, text: "Gym - upper body", done: false },
+  { id: 5, text: "Watch Italian GP highlights", done: false }
+];
 
 export default function Home() {
   const [time, setTime] = useState(new Date());
   const [weather, setWeather] = useState<Weather | null>(null);
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState<Note[]>(defaultNotes);
+  const [newNote, setNewNote] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -50,12 +65,16 @@ export default function Home() {
     const savedNotes = localStorage.getItem("f1-dashboard-notes");
 
     if (savedNotes) {
-      setNotes(savedNotes);
+      try {
+        setNotes(JSON.parse(savedNotes));
+      } catch {
+        setNotes(defaultNotes);
+      }
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("f1-dashboard-notes", notes);
+    localStorage.setItem("f1-dashboard-notes", JSON.stringify(notes));
   }, [notes]);
 
   useEffect(() => {
@@ -85,10 +104,40 @@ export default function Home() {
 
     loadWeather();
 
-    const weatherTimer = setInterval(loadWeather, 15 * 60 * 1000);
+    const weatherTimer = setInterval(
+      loadWeather,
+      15 * 60 * 1000
+    );
 
     return () => clearInterval(weatherTimer);
   }, []);
+
+  function addNote() {
+    const text = newNote.trim();
+
+    if (!text) return;
+
+    setNotes((current) => [
+      ...current,
+      {
+        id: Date.now(),
+        text,
+        done: false
+      }
+    ]);
+
+    setNewNote("");
+  }
+
+  function toggleNote(id: number) {
+    setNotes((current) =>
+      current.map((note) =>
+        note.id === id
+          ? { ...note, done: !note.done }
+          : note
+      )
+    );
+  }
 
   const seconds = time.getSeconds();
   const minutes = time.getMinutes();
@@ -102,7 +151,7 @@ export default function Home() {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hour12: false
+    hour12: true
   });
 
   const date = time.toLocaleDateString("en-IN", {
@@ -115,199 +164,352 @@ export default function Home() {
     weekday: "long"
   });
 
+  const shortDate = time
+    .toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    })
+    .toUpperCase();
+
   return (
     <>
       <div className="rotate-message">
-        ROTATE YOUR PHONE<br />
-        FOR THE FULL F1 DASHBOARD
+        ROTATE YOUR PHONE
+        <br />
+        FOR RACE MODE
       </div>
 
-      <main className="dashboard">
-        <header className="topbar">
-          <div className="brand">
-            <div className="brand-mark" />
+      <main className="race-dashboard">
 
-            <div>
-              <div className="brand-title">F1 DASHBOARD</div>
-              <div className="brand-subtitle">
-                PERSONAL RACE CONTROL
-              </div>
+        {/* BACKGROUND DETAILS */}
+        <div className="carbon-overlay" />
+        <div className="red-glow red-glow-left" />
+        <div className="red-glow red-glow-right" />
+        <div className="racing-line-bg" />
+
+        {/* TOP BRAND */}
+        <header className="race-header">
+
+          <div className="f1-brand">
+            <div className="f1-mark">
+              F1
+            </div>
+
+            <div className="brand-tagline">
+              <span>A HIGHER</span>
+              <span>GEAR EVERYDAY</span>
             </div>
           </div>
 
-          <div className="status">
-            <span className="status-dot" />
-            SYSTEM ONLINE
+          <div className="driven">
+            <span>DRIVEN</span>
+            <span>BY A DIFFERENT</span>
+            <span>MINDSET</span>
           </div>
+
         </header>
 
-        <section className="main">
-          <section className="card clock-card">
-            <div className="section-label">LOCAL TIME</div>
+        {/* LEFT INFORMATION */}
+        <section className="left-panel">
+
+          <div className="date-block">
+            <div className="big-day">
+              {day.toUpperCase()}
+            </div>
+
+            <div className="red-date">
+              {shortDate}
+            </div>
+          </div>
+
+          <div className="quote">
+            <span>BETTER</span>
+            <span>DRIVERS</span>
+            <span>MAKE A</span>
+            <span>BETTER</span>
+            <span>TOMORROW</span>
+          </div>
+
+          <div className="track-decoration">
+            <div className="track-line" />
+          </div>
+
+          {/* WEATHER */}
+          <div className="weather">
+
+            {weather ? (
+              <>
+                <div className="weather-icon">
+                  {weatherIcon(weather.weatherCode)}
+                </div>
+
+                <div className="weather-content">
+
+                  <div className="weather-temp">
+                    {Math.round(weather.temperature)}°
+                  </div>
+
+                  <div className="weather-condition">
+                    {weatherDescription(
+                      weather.weatherCode
+                    )}
+                  </div>
+
+                  <div className="weather-location">
+                    <span className="location-pin">⌖</span>
+                    NEW DELHI, INDIA
+                  </div>
+
+                  <div className="weather-range">
+                    <span className="weather-high">
+                      ↑ {Math.round(weather.apparentTemperature)}°
+                    </span>
+
+                    <span className="weather-low">
+                      ↓ {Math.round(weather.temperature - 5)}°
+                    </span>
+                  </div>
+
+                </div>
+              </>
+            ) : (
+              <div className="weather-loading">
+                LOADING WEATHER
+              </div>
+            )}
+
+          </div>
+
+        </section>
+
+        {/* CENTRAL CLOCK */}
+        <section className="clock-section">
+
+          <div className="clock-outer-ring">
 
             <div className="clock">
-              {Array.from({ length: 12 }).map((_, index) => (
+
+              {/* TICKS */}
+              {Array.from({ length: 60 }).map((_, index) => (
                 <span
                   key={index}
-                  className="tick"
+                  className={
+                    index % 5 === 0
+                      ? "clock-tick major"
+                      : "clock-tick"
+                  }
                   style={{
-                    transform: `translate(-50%, -50%) rotate(${
-                      index * 30
-                    }deg)`
+                    transform: `rotate(${index * 6}deg)`
                   }}
                 />
               ))}
 
+              {/* NUMBERS */}
+              {Array.from({ length: 12 }).map((_, index) => {
+                const number = index === 0 ? 12 : index;
+                const angle = index * 30;
+
+                return (
+                  <span
+                    key={number}
+                    className="clock-number"
+                    style={{
+                      transform: `
+                        translate(-50%, -50%)
+                        rotate(${angle}deg)
+                        translateY(-41%)
+                        rotate(-${angle}deg)
+                      `
+                    }}
+                  >
+                    {number}
+                  </span>
+                );
+              })}
+
+              {/* CLOCK HANDS */}
+
               <div
                 className="hand hour-hand"
                 style={{
-                  transform: `translateX(-50%) rotate(${hourAngle}deg)`
+                  transform: `
+                    translateX(-50%)
+                    rotate(${hourAngle}deg)
+                  `
                 }}
               />
 
               <div
                 className="hand minute-hand"
                 style={{
-                  transform: `translateX(-50%) rotate(${minuteAngle}deg)`
+                  transform: `
+                    translateX(-50%)
+                    rotate(${minuteAngle}deg)
+                  `
                 }}
               />
 
               <div
                 className="hand second-hand"
                 style={{
-                  transform: `translateX(-50%) rotate(${secondAngle}deg)`
+                  transform: `
+                    translateX(-50%)
+                    rotate(${secondAngle}deg)
+                  `
                 }}
               />
 
-              <div className="digital-time">{digitalTime}</div>
+              {/* CENTER */}
 
-              <div className="clock-center" />
-            </div>
-
-            <div className="clock-footer">
-              <div className="date">{date}</div>
-              <div className="day">{day.toUpperCase()}</div>
-            </div>
-          </section>
-
-          <section className="middle">
-            <section className="card weather-card">
-              <div className="section-label">LIVE WEATHER</div>
-
-              <div className="weather-main">
-                {weather ? (
-                  <>
-                    <div className="weather-icon">
-                      {weatherIcon(weather.weatherCode)}
-                    </div>
-
-                    <div className="temperature">
-                      {Math.round(weather.temperature)}°
-                    </div>
-
-                    <div className="weather-description">
-                      {weatherDescription(weather.weatherCode)}
-                    </div>
-
-                    <div className="location">
-                      NEW DELHI • INDIA
-                    </div>
-
-                    <div className="stats">
-                      <div className="stat">
-                        <div className="stat-label">FEELS LIKE</div>
-                        <div className="stat-value">
-                          {Math.round(weather.apparentTemperature)}°
-                        </div>
-                      </div>
-
-                      <div className="stat">
-                        <div className="stat-label">HUMIDITY</div>
-                        <div className="stat-value">
-                          {weather.humidity}%
-                        </div>
-                      </div>
-
-                      <div className="stat">
-                        <div className="stat-label">WIND</div>
-                        <div className="stat-value">
-                          {Math.round(weather.windSpeed)} KM/H
-                        </div>
-                      </div>
-
-                      <div className="stat">
-                        <div className="stat-label">UPDATED</div>
-                        <div className="stat-value">LIVE</div>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="weather-icon">🌡️</div>
-                    <div className="weather-description">
-                      LOADING WEATHER
-                    </div>
-                  </>
-                )}
+              <div className="clock-center">
+                <div className="clock-center-dot" />
               </div>
-            </section>
 
-            <section className="card notes-card">
-              <div className="section-label">PERSONAL</div>
+              {/* F1 LOGO */}
 
-              <div className="notes-title">NOTES</div>
+              <div className="clock-logo">
+                <div className="mini-f1">
+                  F1
+                </div>
 
-              <textarea
-                className="notes"
-                value={notes}
-                onChange={(event) => setNotes(event.target.value)}
-                placeholder="Write something..."
-                aria-label="Personal notes"
-              />
-
-              <div className="save-indicator">
-                AUTO-SAVED LOCALLY
+                <div className="clock-logo-text">
+                  TIME DRIVES
+                  <br />
+                  PASSION
+                </div>
               </div>
-            </section>
-          </section>
 
-          <section className="card side-card">
-            <div className="section-label">RACE CONTROL</div>
+              {/* DIGITAL TIME */}
 
-            <div className="side-heading">STATUS</div>
+              <div className="digital-clock">
+                {digitalTime}
+              </div>
 
-            <div className="racing-line" />
-
-            <div className="info-row">
-              <span className="info-key">MODE</span>
-              <span className="info-value">HOME</span>
             </div>
 
-            <div className="info-row">
-              <span className="info-key">CLOCK</span>
-              <span className="info-value">SYNCED</span>
-            </div>
+          </div>
 
-            <div className="info-row">
-              <span className="info-key">WEATHER</span>
-              <span className="info-value">
-                {weather ? "LIVE" : "LOADING"}
-              </span>
-            </div>
+          <div className="clock-bottom">
 
-            <div className="info-row">
-              <span className="info-key">NOTES</span>
-              <span className="info-value">
-                {notes.trim() ? "ACTIVE" : "EMPTY"}
-              </span>
-            </div>
+            <span className="bottom-line" />
 
-            <div className="info-row">
-              <span className="info-key">SYSTEM</span>
-              <span className="info-value">READY</span>
-            </div>
-          </section>
+            <span>
+              LIFE IS BETTER IN
+            </span>
+
+            <strong>
+              RACE MODE
+            </strong>
+
+            <span className="bottom-line" />
+
+          </div>
+
         </section>
+
+        {/* NOTES */}
+        <section className="notes-panel">
+
+          <div className="notes-header">
+
+            <h2>
+              Notes
+            </h2>
+
+            <button
+              className="add-button"
+              onClick={() => {
+                document
+                  .querySelector<HTMLInputElement>(
+                    ".note-input"
+                  )
+                  ?.focus();
+              }}
+              aria-label="Add note"
+            >
+              +
+            </button>
+
+          </div>
+
+          <div className="notes-list">
+
+            {notes.map((note) => (
+              <button
+                key={note.id}
+                className={`note-item ${
+                  note.done ? "completed" : ""
+                }`}
+                onClick={() => toggleNote(note.id)}
+              >
+
+                <span className="checkbox">
+                  {note.done ? "✓" : ""}
+                </span>
+
+                <span className="note-text">
+                  {note.text}
+                </span>
+
+              </button>
+            ))}
+
+          </div>
+
+          <div className="note-input-row">
+
+            <input
+              className="note-input"
+              value={newNote}
+              onChange={(event) =>
+                setNewNote(event.target.value)
+              }
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  addNote();
+                }
+              }}
+              placeholder="Add a note..."
+              aria-label="Add a note"
+            />
+
+            <button
+              className="note-submit"
+              onClick={addNote}
+              aria-label="Add note"
+            >
+              →
+            </button>
+
+          </div>
+
+        </section>
+
+        {/* BOTTOM RIGHT DECORATION */}
+        <div className="bottom-message">
+
+          <span>
+            SOME PEOPLE
+          </span>
+
+          <span>
+            WATCH RACES.
+          </span>
+
+          <span>
+            WE FEEL THEM.
+          </span>
+
+        </div>
+
+        <div className="race-mode-label">
+          <span>///</span>
+          STILL
+          <br />
+          WE RISE
+        </div>
+
       </main>
     </>
   );
