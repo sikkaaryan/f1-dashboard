@@ -37,6 +37,22 @@ type F1Session = {
   session_type: string;
 };
 
+type F1Driver = {
+  driver_number: number;
+  full_name: string;
+  first_name: string;
+  last_name: string;
+  name_acronym: string;
+  team_name: string;
+  team_colour: string;
+};
+
+type F1Championship = {
+  driver_number: number;
+  position_current: number;
+  points_current: number;
+};
+
 const ROUND_BY_COUNTRY: Record<string, number> = {
   Australia: 1,
   China: 2,
@@ -52,10 +68,12 @@ const ROUND_BY_COUNTRY: Record<string, number> = {
   Netherlands: 12,
   Italy: 13,
   Azerbaijan: 15,
+  Bahrain: 16,
   Singapore: 17,
   Mexico: 19,
   Brazil: 20,
-  Qatar: 22
+  Qatar: 22,
+  "Abu Dhabi": 23
 };
 
 const COUNTRY_FLAGS: Record<string, string> = {
@@ -166,6 +184,7 @@ function WeatherIcon({ code }: { code: number }) {
         viewBox="0 0 90 80"
       >
         <circle cx="30" cy="28" r="13" />
+
         <g>
           <path d="M30 5v9" />
           <path d="M7 28h9" />
@@ -182,11 +201,15 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([3, 45, 48].includes(code)) {
     return (
-      <svg className="weather-svg weather-cloudy" viewBox="0 0 90 80">
+      <svg
+        className="weather-svg weather-cloudy"
+        viewBox="0 0 90 80"
+      >
         <path
           className="weather-cloud"
           d="M20 49h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 16 53 12 45 12c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
         />
+
         <path d="M17 63h56" />
         <path d="M26 71h38" />
       </svg>
@@ -195,11 +218,15 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([51, 53, 55, 56, 57].includes(code)) {
     return (
-      <svg className="weather-svg weather-rain" viewBox="0 0 90 90">
+      <svg
+        className="weather-svg weather-rain"
+        viewBox="0 0 90 90"
+      >
         <path
           className="weather-cloud"
           d="M20 43h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 10 53 6 45 6c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
         />
+
         <g>
           <path d="M28 55v12" />
           <path d="M45 55v12" />
@@ -209,13 +236,19 @@ function WeatherIcon({ code }: { code: number }) {
     );
   }
 
-  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
+  if (
+    [61, 63, 65, 66, 67, 80, 81, 82].includes(code)
+  ) {
     return (
-      <svg className="weather-svg weather-heavy-rain" viewBox="0 0 90 90">
+      <svg
+        className="weather-svg weather-heavy-rain"
+        viewBox="0 0 90 90"
+      >
         <path
           className="weather-cloud"
           d="M20 43h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 10 53 6 45 6c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
         />
+
         <g>
           <path d="M25 54l-4 13" />
           <path d="M43 54l-4 13" />
@@ -227,11 +260,15 @@ function WeatherIcon({ code }: { code: number }) {
 
   if ([95, 96, 99].includes(code)) {
     return (
-      <svg className="weather-svg weather-storm" viewBox="0 0 90 90">
+      <svg
+        className="weather-svg weather-storm"
+        viewBox="0 0 90 90"
+      >
         <path
           className="weather-cloud"
           d="M20 43h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 10 53 6 45 6c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
         />
+
         <path
           className="weather-lightning"
           d="M48 49L34 70h11l-4 15 17-24H47Z"
@@ -241,7 +278,10 @@ function WeatherIcon({ code }: { code: number }) {
   }
 
   return (
-    <svg className="weather-svg weather-cloudy" viewBox="0 0 90 80">
+    <svg
+      className="weather-svg weather-cloudy"
+      viewBox="0 0 90 80"
+    >
       <path
         className="weather-cloud"
         d="M20 49h48c8 0 14-6 14-13s-6-14-14-14c-2 0-4 .3-6 1C59 16 53 12 45 12c-10 0-18 8-18 18h-7c-7 0-12 5-12 10s5 9 12 9Z"
@@ -252,22 +292,54 @@ function WeatherIcon({ code }: { code: number }) {
 
 function weatherText(code: number) {
   if (code === 0) return "CLEAR";
-  if ([1, 2].includes(code)) return "PARTLY CLOUDY";
-  if ([3, 45, 48].includes(code)) return "CLOUDY";
-  if ([51, 53, 55, 56, 57].includes(code)) return "DRIZZLE";
+
+  if ([1, 2].includes(code)) {
+    return "PARTLY CLOUDY";
+  }
+
+  if ([3, 45, 48].includes(code)) {
+    return "CLOUDY";
+  }
+
+  if ([51, 53, 55, 56, 57].includes(code)) {
+    return "DRIZZLE";
+  }
+
   if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) {
     return "RAIN";
   }
-  if ([95, 96, 99].includes(code)) return "STORM";
+
+  if ([95, 96, 99].includes(code)) {
+    return "STORM";
+  }
+
   return "CLEAR";
 }
 
 export default function Home() {
   const [now, setNow] = useState(new Date());
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [meetings, setMeetings] = useState<F1Meeting[]>([]);
-  const [sessions, setSessions] = useState<F1Session[]>([]);
-  const [scheduleLoading, setScheduleLoading] = useState(true);
+
+  const [weather, setWeather] =
+    useState<WeatherData | null>(null);
+
+  const [meetings, setMeetings] =
+    useState<F1Meeting[]>([]);
+
+  const [sessions, setSessions] =
+    useState<F1Session[]>([]);
+
+  const [scheduleLoading, setScheduleLoading] =
+    useState(true);
+
+  const [drivers, setDrivers] =
+    useState<F1Driver[]>([]);
+
+  const [championship, setChampionship] =
+    useState<F1Championship[]>([]);
+
+  /* =========================
+     CLOCK
+  ========================= */
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -277,12 +349,18 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, []);
 
+  /* =========================
+     WEATHER
+  ========================= */
+
   useEffect(() => {
     async function loadWeather() {
       try {
         const response = await fetch(
           "https://api.open-meteo.com/v1/forecast?latitude=28.6139&longitude=77.2090&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata",
-          { cache: "no-store" }
+          {
+            cache: "no-store"
+          }
         );
 
         if (!response.ok) {
@@ -292,10 +370,16 @@ export default function Home() {
         const data = await response.json();
 
         setWeather({
-          temperature: Math.round(data.current.temperature_2m),
+          temperature: Math.round(
+            data.current.temperature_2m
+          ),
           weatherCode: data.current.weather_code,
-          high: Math.round(data.daily.temperature_2m_max[0]),
-          low: Math.round(data.daily.temperature_2m_min[0])
+          high: Math.round(
+            data.daily.temperature_2m_max[0]
+          ),
+          low: Math.round(
+            data.daily.temperature_2m_min[0]
+          )
         });
       } catch {
         setWeather(null);
@@ -312,28 +396,41 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, []);
 
+  /* =========================
+     F1 SCHEDULE
+  ========================= */
+
   useEffect(() => {
     async function loadF1() {
       try {
         setScheduleLoading(true);
 
-        const [meetingsResponse, sessionsResponse] =
-          await Promise.all([
-            fetch(
-              "https://api.openf1.org/v1/meetings?year=2026",
-              { cache: "no-store" }
-            ),
-            fetch(
-              "https://api.openf1.org/v1/sessions?year=2026",
-              { cache: "no-store" }
-            )
-          ]);
+        const [
+          meetingsResponse,
+          sessionsResponse
+        ] = await Promise.all([
+          fetch(
+            "https://api.openf1.org/v1/meetings?year=2026",
+            {
+              cache: "no-store"
+            }
+          ),
+
+          fetch(
+            "https://api.openf1.org/v1/sessions?year=2026",
+            {
+              cache: "no-store"
+            }
+          )
+        ]);
 
         if (
           !meetingsResponse.ok ||
           !sessionsResponse.ok
         ) {
-          throw new Error("F1 API request failed");
+          throw new Error(
+            "F1 API request failed"
+          );
         }
 
         const meetingsData =
@@ -388,6 +485,115 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, []);
 
+  /* =========================
+     LIVE CHAMPIONSHIP
+  ========================= */
+
+  useEffect(() => {
+    async function loadChampionship() {
+      try {
+        const response = await fetch(
+          "https://api.openf1.org/v1/sessions?year=2026",
+          {
+            cache: "no-store"
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "Sessions request failed"
+          );
+        }
+
+        const sessionsData =
+          (await response.json()) as F1Session[];
+
+        const completedRaces = sessionsData
+          .filter(
+            (session) =>
+              session.session_name.toLowerCase() ===
+                "race" &&
+              new Date(session.date_end).getTime() <=
+                Date.now()
+          )
+          .sort(
+            (a, b) =>
+              new Date(b.date_end).getTime() -
+              new Date(a.date_end).getTime()
+          );
+
+        const latestRace = completedRaces[0];
+
+        if (!latestRace) {
+          setDrivers([]);
+          setChampionship([]);
+          return;
+        }
+
+        const [
+          championshipResponse,
+          driversResponse
+        ] = await Promise.all([
+          fetch(
+            `https://api.openf1.org/v1/championship_drivers?session_key=${latestRace.session_key}`,
+            {
+              cache: "no-store"
+            }
+          ),
+
+          fetch(
+            `https://api.openf1.org/v1/drivers?session_key=${latestRace.session_key}`,
+            {
+              cache: "no-store"
+            }
+          )
+        ]);
+
+        if (
+          !championshipResponse.ok ||
+          !driversResponse.ok
+        ) {
+          throw new Error(
+            "Championship request failed"
+          );
+        }
+
+        const championshipData =
+          (await championshipResponse.json()) as F1Championship[];
+
+        const driversData =
+          (await driversResponse.json()) as F1Driver[];
+
+        const topFive = championshipData
+          .sort(
+            (a, b) =>
+              a.position_current -
+              b.position_current
+          )
+          .slice(0, 5);
+
+        setChampionship(topFive);
+        setDrivers(driversData);
+      } catch {
+        setChampionship([]);
+        setDrivers([]);
+      }
+    }
+
+    loadChampionship();
+
+    const timer = window.setInterval(
+      loadChampionship,
+      15 * 60 * 1000
+    );
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  /* =========================
+     CLOCK CALCULATIONS
+  ========================= */
+
   const clock = useMemo(() => {
     const hours = now.getHours();
     const minutes = now.getMinutes();
@@ -403,12 +609,15 @@ export default function Home() {
       secondAngle:
         seconds * 6,
 
-      digital: now.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      })
+      digital: now.toLocaleTimeString(
+        "en-IN",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false
+        }
+      )
     };
   }, [now]);
 
@@ -430,6 +639,10 @@ export default function Home() {
     };
   }, [now]);
 
+  /* =========================
+     SCHEDULE CALCULATIONS
+  ========================= */
+
   const schedule = useMemo(() => {
     if (!meetings.length || !sessions.length) {
       return null;
@@ -437,12 +650,6 @@ export default function Home() {
 
     const currentTime = now.getTime();
 
-    /*
-      Current event:
-      Find the meeting whose weekend has not completely ended.
-      This means that during Monza weekend, Italy stays visible
-      until the race weekend is finished.
-    */
     const currentMeeting =
       meetings.find(
         (meeting) =>
@@ -452,9 +659,6 @@ export default function Home() {
             currentTime
       ) ?? null;
 
-    /*
-      If the weekend is over, show the next upcoming meeting.
-    */
     const nextMeeting =
       meetings.find(
         (meeting) =>
@@ -535,14 +739,20 @@ export default function Home() {
 
     return {
       meeting: activeMeeting,
+
       round:
         ROUND_BY_COUNTRY[
           activeMeeting.country_name
         ] ?? null,
+
       sessions: meetingSessions,
+
       currentSession,
+
       nextSession,
+
       nextRace,
+
       nextRaceMeeting
     };
   }, [meetings, sessions, now]);
@@ -554,8 +764,14 @@ export default function Home() {
   return (
     <main className="dashboard">
 
+      {/* =========================
+          HEADER
+      ========================= */}
+
       <header className="top-header">
+
         <div className="brand">
+
           <Image
             src="/f1-logo.png"
             alt="F1"
@@ -571,9 +787,11 @@ export default function Home() {
             <span>A HIGHER</span>
             <span>GEAR EVERYDAY</span>
           </div>
+
         </div>
 
         <div className="header-right">
+
           <div className="header-right-copy">
             <span>DRIVEN</span>
             <span>BY A DIFFERENT</span>
@@ -585,14 +803,27 @@ export default function Home() {
             <span />
             <span />
           </div>
+
         </div>
+
       </header>
+
+      {/* =========================
+          LEFT PANEL
+      ========================= */}
 
       <section className="left-panel">
 
         <div className="day-block">
-          <h1>{dateInfo.day}</h1>
-          <div>{dateInfo.date}</div>
+
+          <h1>
+            {dateInfo.day}
+          </h1>
+
+          <div>
+            {dateInfo.date}
+          </div>
+
         </div>
 
         <div className="quote">
@@ -604,15 +835,19 @@ export default function Home() {
         </div>
 
         <div className="weather">
+
           {weather ? (
             <>
               <div className="weather-icon">
+
                 <WeatherIcon
                   code={weather.weatherCode}
                 />
+
               </div>
 
               <div className="weather-copy">
+
                 <div className="weather-temp">
                   {weather.temperature}°C
                 </div>
@@ -628,6 +863,7 @@ export default function Home() {
                 </div>
 
                 <div className="weather-range">
+
                   <span>
                     ↑ {weather.high}°
                   </span>
@@ -635,7 +871,9 @@ export default function Home() {
                   <span>
                     ↓ {weather.low}°
                   </span>
+
                 </div>
+
               </div>
             </>
           ) : (
@@ -643,19 +881,29 @@ export default function Home() {
               WEATHER UNAVAILABLE
             </div>
           )}
+
         </div>
 
       </section>
 
+      {/* =========================
+          CLOCK
+      ========================= */}
+
       <section className="clock-section">
+
         <div className="clock-face">
 
           <div className="clock-ring clock-ring-outer" />
+
           <div className="clock-ring clock-ring-inner" />
 
           {analogTicks.map((_, index) => {
+
             const angle = index * 6;
-            const major = index % 5 === 0;
+
+            const major =
+              index % 5 === 0;
 
             return (
               <span
@@ -671,9 +919,11 @@ export default function Home() {
                 }}
               />
             );
+
           })}
 
           <div className="clock-numbers">
+
             {[
               12,
               1,
@@ -688,7 +938,9 @@ export default function Home() {
               10,
               11
             ].map((number) => {
-              const angle = number * 30;
+
+              const angle =
+                number * 30;
 
               return (
                 <span
@@ -698,6 +950,7 @@ export default function Home() {
                       `rotate(${angle}deg)`
                   }}
                 >
+
                   <b
                     style={{
                       transform:
@@ -706,12 +959,16 @@ export default function Home() {
                   >
                     {number}
                   </b>
+
                 </span>
               );
+
             })}
+
           </div>
 
           <div className="clock-logo">
+
             <Image
               src="/f1-logo.png"
               alt=""
@@ -721,6 +978,7 @@ export default function Home() {
 
             <span>TIME DRIVES</span>
             <span>PASSION</span>
+
           </div>
 
           <div
@@ -754,57 +1012,86 @@ export default function Home() {
           </div>
 
           <div className="clock-bottom">
+
             <div className="clock-bottom-row">
+
               <span className="bottom-line" />
-              <span>LIFE IS BETTER IN</span>
+
+              <span>
+                LIFE IS BETTER IN
+              </span>
+
               <span className="bottom-line" />
+
             </div>
 
-            <strong>RACE MODE</strong>
+            <strong>
+              RACE MODE
+            </strong>
+
           </div>
 
         </div>
+
       </section>
+
+      {/* =========================
+          F1 SCHEDULE + CHAMPIONSHIP
+      ========================= */}
 
       <aside className="schedule-panel">
 
         <div className="schedule-header">
-          <span>F1 SCHEDULE</span>
+
+          <span>
+            F1 SCHEDULE
+          </span>
+
           <span className="schedule-live-dot" />
+
         </div>
 
         {scheduleLoading ? (
+
           <div className="schedule-loading">
             LOADING SCHEDULE...
           </div>
+
         ) : schedule ? (
+
           <>
+
             <div className="schedule-round">
-              <span>ROUND</span>
+
+              <span>
+                ROUND
+              </span>
 
               <strong>
                 {String(
                   schedule.round ?? "--"
                 ).padStart(2, "0")}
               </strong>
+
             </div>
 
             <div className="schedule-location">
 
               <span className="schedule-flag">
+
                 {
                   COUNTRY_FLAGS[
-                    schedule.meeting
-                      .country_name
+                    schedule.meeting.country_name
                   ] ?? "🏁"
                 }
+
               </span>
 
               <div>
+
                 <strong>
                   {
-                    schedule.meeting
-                      .country_name
+                    schedule.meeting.country_name
                       .toUpperCase()
                   }
                 </strong>
@@ -816,11 +1103,13 @@ export default function Home() {
                       .toUpperCase()
                   }
                 </span>
+
               </div>
 
             </div>
 
             <div className="schedule-dates">
+
               {formatIndiaDate(
                 schedule.meeting.date_start
               )}
@@ -830,12 +1119,14 @@ export default function Home() {
               {formatIndiaDate(
                 schedule.meeting.date_end
               )}
+
             </div>
 
             <div className="session-list">
 
               {schedule.sessions.map(
                 (session) => {
+
                   const status =
                     sessionStatus(
                       session,
@@ -877,24 +1168,31 @@ export default function Home() {
                       </div>
 
                       <div className="session-time">
+
                         {formatIndiaTime(
                           session.date_start
                         )}
+
                       </div>
 
                     </div>
                   );
+
                 }
               )}
 
             </div>
 
             {schedule.nextRaceMeeting && (
+
               <div className="next-race">
 
-                <span>NEXT RACE</span>
+                <span>
+                  NEXT RACE
+                </span>
 
                 <strong>
+
                   {
                     COUNTRY_FLAGS[
                       schedule
@@ -902,15 +1200,18 @@ export default function Home() {
                         .country_name
                     ] ?? "🏁"
                   }{" "}
+
                   {
                     schedule
                       .nextRaceMeeting
                       .country_name
                       .toUpperCase()
                   }
+
                 </strong>
 
                 <small>
+
                   {
                     schedule
                       .nextRaceMeeting
@@ -925,12 +1226,15 @@ export default function Home() {
                       .nextRaceMeeting
                       .date_start
                   )}
+
                 </small>
 
               </div>
+
             )}
 
             {schedule.currentSession && (
+
               <div className="schedule-status">
 
                 <span className="status-label">
@@ -938,17 +1242,22 @@ export default function Home() {
                 </span>
 
                 <strong>
+
                   ●{" "}
+
                   {sessionLabel(
                     schedule.currentSession
                   )}
+
                 </strong>
 
               </div>
+
             )}
 
             {!schedule.currentSession &&
               schedule.nextSession && (
+
                 <div className="schedule-status">
 
                   <span className="status-label">
@@ -956,23 +1265,122 @@ export default function Home() {
                   </span>
 
                   <strong>
+
                     {sessionLabel(
                       schedule.nextSession
                     )}
+
                   </strong>
 
                 </div>
+
               )}
 
+            {/* =========================
+                DRIVERS' CHAMPIONSHIP
+            ========================= */}
+
+            <div className="championship-panel">
+
+              <div className="championship-header">
+
+                <span>
+                  DRIVERS' CHAMPIONSHIP
+                </span>
+
+                <span>
+                  TOP 5
+                </span>
+
+              </div>
+
+              {championship.length > 0 ? (
+
+                <div className="championship-list">
+
+                  {championship.map(
+                    (standing) => {
+
+                      const driver =
+                        drivers.find(
+                          (item) =>
+                            item.driver_number ===
+                            standing.driver_number
+                        );
+
+                      if (!driver) {
+                        return null;
+                      }
+
+                      return (
+                        <div
+                          key={
+                            standing.driver_number
+                          }
+                          className="championship-row"
+                        >
+
+                          <span className="championship-position">
+
+                            {String(
+                              standing.position_current
+                            ).padStart(2, "0")}
+
+                          </span>
+
+                          <span
+                            className="driver-accent"
+                            style={{
+                              backgroundColor:
+                                `#${driver.team_colour}`
+                            }}
+                          />
+
+                          <span className="championship-name">
+
+                            {driver.last_name.toUpperCase()}
+
+                          </span>
+
+                          <strong className="championship-points">
+
+                            {standing.points_current}
+
+                            <small>
+                              {" "}PTS
+                            </small>
+
+                          </strong>
+
+                        </div>
+                      );
+
+                    }
+                  )}
+
+                </div>
+
+              ) : (
+
+                <div className="championship-loading">
+                  LOADING STANDINGS...
+                </div>
+
+              )}
+
+            </div>
+
           </>
+
         ) : (
+
           <div className="schedule-loading">
             SCHEDULE UNAVAILABLE
           </div>
+
         )}
 
       </aside>
-
 
       <div className="home-indicator" />
 
