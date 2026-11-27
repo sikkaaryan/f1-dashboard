@@ -2,14 +2,15 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "F1 Dashboard",
-    short_name: "F1 Dashboard",
-    description: "Personal F1-inspired dashboard",
+    name: "F1 Cockpit",
+    short_name: "F1 Cockpit",
+    description: "Technical Formula One dashboard for iPhone.",
     start_url: "/",
+    scope: "/",
     display: "standalone",
     orientation: "landscape",
-    background_color: "#08090b",
-    theme_color: "#08090b",
+    background_color: "#07090c",
+    theme_color: "#07090c",
     icons: [
       {
         src: "/icon.svg",
