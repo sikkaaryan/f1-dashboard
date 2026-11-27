@@ -51,3 +51,19 @@
   .mini-driver>span{font-size:9px}
   .app-footer{padding-top:5px;font-size:6px}
 }
+
+
+/* iOS landscape safe-area: keep cockpit controls clear of the notch and rounded corners. */
+@media (orientation:landscape) and (max-height:500px) {
+  .cockpit-shell {
+    padding-left: max(18px, env(safe-area-inset-left));
+    padding-right: max(18px, env(safe-area-inset-right));
+  }
+  .app-header,.tab-nav,.view-stage,.app-footer {
+    min-width:0;
+  }
+  .home-layout {
+    padding-left: clamp(8px, 1.2vw, 18px);
+    padding-right: clamp(8px, 1.2vw, 18px);
+  }
+}
