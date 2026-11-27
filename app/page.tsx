@@ -370,7 +370,7 @@ export default function Home() {
       return;
     }
     try {
-      const lock = await (navigator as Navigator & { wakeLock: { request: (type: "screen") => Promise<{ release: () => Promise<void> }> } }).wakeLock.request("screen");
+      const lock = await (navigator as Navigator & { wakeLock: { request: (type: "screen") => Promise<{ release: () => Promise<void>; addEventListener?: (type: "release", listener: () => void) => void }> } }).wakeLock.request("screen");
       setWakeActive(true);
       lock.addEventListener?.("release", () => setWakeActive(false));
     } catch {
